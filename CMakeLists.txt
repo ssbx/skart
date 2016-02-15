@@ -8,6 +8,7 @@ project (FEDERATION)
 #
 # external dependencies
 #
+set (FEDERATION_DEPS_INSTALL ${CMAKE_BINARY_DIR}/install)
 add_subdirectory (deps)
 
 
@@ -39,6 +40,9 @@ add_executable (federation
   code/main.c
   code/federation.h
   code/fed_screen.c)
+
+add_dependencies (federation GLFW)
+add_dependencies (federation OpenGL)
 
 target_link_libraries (federation
   ${OPENGL_LIBRARY})
