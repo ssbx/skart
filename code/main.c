@@ -6,5 +6,6 @@ main(int argc, char* argv) {
 
   fedJojo();
   printf("Hello World");
+  return 0;
 
 }
