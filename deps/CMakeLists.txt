@@ -24,6 +24,6 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 
 #
-# TODO libsurround
-#
-# add_subdirectory (libsurround)
+# GLM is an header only library, nothing to do
+# 
+

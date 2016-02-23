@@ -31,7 +31,9 @@ find_package(OpenGL REQUIRED)
 # dependencies build
 #
 add_subdirectory (deps)
-include_directories (deps/glfw/include/)
+include_directories (
+  deps/glfw/include/
+  deps/glm/)
 
 
 #
