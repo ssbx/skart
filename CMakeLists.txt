@@ -42,8 +42,7 @@ add_executable (federation
   code/federation.h
   code/fed_screen.c)
 
-add_dependencies (federation OpenGL)
-add_dependencies (federation GLFW)
+add_dependencies (federation glfw)
 
 target_link_libraries (federation ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw)
 
