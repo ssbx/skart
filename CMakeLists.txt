@@ -5,20 +5,34 @@ cmake_minimum_required (VERSION 2.8)
 project (FEDERATION)
 
 
-#
-# external dependencies install
-#
-set (FEDERATION_DEPS_INSTALL ${CMAKE_BINARY_DIR}/install)
-add_subdirectory (deps)
+if (CMAKE_SOURCE_DIR MATCHES " ")
+  message (FATAL_ERROR "Your Source Directory contains spaces.")
+endif()
 
-include_directories (${FEDERATION_DEPS_INSTALL}/include/)
-set (GLFW_LIBRARY glfw ${FEDERATION_DEPS_INSTALL}/lib/libglfw3.a)
+if (CMAKE_BINARY_DIR MATCHES " ")
+  message (FATAL_ERROR "Your Build Directory contains spaces.")
+endif()
+
+
+#
+# preprocessor definitions
+#
+add_definitions(
+  -D_CRT_SECURE_NO_WARNINGS)
+
 
 #
 # shared dependencies
 #
 find_package(OpenGL REQUIRED)
-MESSAGE (${OPENGL_LIBRARY})
+
+
+#
+# dependencies build
+#
+add_subdirectory (deps)
+include_directories (deps/glfw/include/)
+
 
 #
 # "federation" executable
@@ -31,7 +45,7 @@ add_executable (federation
 add_dependencies (federation OpenGL)
 add_dependencies (federation GLFW)
 
-target_link_libraries (federation ${OPENGL_LIBRARY})
+target_link_libraries (federation ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw)
 
 
 #
