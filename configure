@@ -1,6 +1,13 @@
 #!/bin/sh
 
-rm -rf build
+# update dependencies
 git submodule init
 git submodule update
-mkdir build && cd build && cmake ..
+
+# cleanup build dir if exist
+rm -rf build
+mkdir  build && 
+
+# create Unix Makefiles project
+cd build && cmake ..
+
