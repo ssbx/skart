@@ -1,8 +1,8 @@
 #ifndef FEDERATION_H
 #define FEDERATION_H
 
+#include <GLFW/glfw3.h>
 
-// fed_screen.h
-int fedJojo();
+extern int fedJojo();
 
 #endif

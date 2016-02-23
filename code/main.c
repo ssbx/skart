@@ -1,70 +1,66 @@
 // Include standard headers
-#include <stdio.h>
 #include "federation.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-#include <GL/glew.h>
-#include <GL/glfw.h>
+static void error_callback(int error, const char* description)
+{
+    fputs(description, stderr);
+}
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
 
-main(int argc, char* argv) {
+int main(int argc, char* argv) {
 
+    GLFWwindow* window;
+    glfwSetErrorCallback(error_callback);
 
-  if ( !glfwInit() )
-  {
+    if (!glfwInit())
+        exit(EXIT_FAILURE);
 
-    fprintf( stderr, "Failed to initialize GLFW\n" );
-    return -1;
+    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
+    glfwSetKeyCallback(window, key_callback);
+    while (!glfwWindowShouldClose(window))
+    {
+        float ratio;
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float) height;
+        glViewport(0, 0, width, height);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+        glBegin(GL_TRIANGLES);
+        glColor3f(1.f, 0.f, 0.f);
+        glVertex3f(-0.6f, -0.4f, 0.f);
+        glColor3f(0.f, 1.f, 0.f);
+        glVertex3f(0.6f, -0.4f, 0.f);
+        glColor3f(0.f, 0.f, 1.f);
+        glVertex3f(0.f, 0.6f, 0.f);
+        glEnd();
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 
-  }
-
-
-  glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-  glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE,GL_TRUE);
-  glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-  glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
-  glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
-  // Open a window and create its OpenGL context
-  if ( !glfwOpenWindow( 1024, 768, 0,0,0,0, 32,0, GLFW_WINDOW ) )
-  {
-
-    fprintf( stderr, "Failed to open GLFW window.\n");
+    glfwDestroyWindow(window);
     glfwTerminate();
-    return -1;
-
-  }
-
-  // Initialize GLEW
-  if ( glewInit() != GLEW_OK ) {
-
-    fprintf(stderr, "Failed to initialize GLEW\n");
-    return -1;
-
-  }
 
 
-  glfwSetWindowTitle( "Federation" );
-
-  // Ensure we can capture the escape key being pressed below
-  glfwEnable( GLFW_STICKY_KEYS );
-
-  // Dark blue background
-  glClearColor(0.0f, 0.0f, 0.3f, 0.0f);
-
-  do{
-    // Draw nothing, see you in tutorial 2 !
-
-    // Swap buffers
-    glfwSwapBuffers();
-
-  } // Check if the ESC key was pressed or the window was closed
-  while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS &&
-      glfwGetWindowParam( GLFW_OPENED ) );
-
-  // Close OpenGL window and terminate GLFW
-  glfwTerminate();
-
-  return 0;
+    return 0;
 
 }

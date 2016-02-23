@@ -1,8 +1,5 @@
 include (ExternalProject)
 
-#ExternalProject_Add (GLEW)
-
-
 #
 # GLFW external project
 #
@@ -17,9 +14,7 @@ ExternalProject_Add (GLFW
   URL           "http://github.com/glfw/glfw/archive/3.1.2.tar.gz"
   URL_HASH      "MD5=ea3494930a90ccec00719c59ad458983"
   CMAKE_ARGS    ${GLFW_CMAKE_CONF_ARGS}
-  INSTALL_DIR   ${FEDERATION_DEPS_INSTALL}
-  LOG_DOWNLOAD  ON
-  LOG_INSTALL   ON)
+  INSTALL_DIR   ${FEDERATION_DEPS_INSTALL})
 
 #ExternalProject_Add (glm)
 #ExternalProject_Add (assimp)
