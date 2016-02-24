@@ -42,7 +42,9 @@ include_directories (
 add_executable (federation
   code/main.c
   code/federation.h
-  code/fed_screen.c)
+  code/fed_screen.c
+  code/fed_math.h
+  code/fed_math.c)
 
 add_dependencies (federation glfw)
 
