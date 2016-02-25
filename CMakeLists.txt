@@ -48,8 +48,13 @@ add_executable (federation
   code/fed_math.c)
 
 add_dependencies (federation glfw)
+add_dependencies (federation GLEW_1130)
 
-target_link_libraries (federation ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw GLEW)
+target_link_libraries (federation 
+  ${OPENGL_LIBRARY}
+  ${GLFW_LIBRARIES}
+  glfw
+  GLEW_1130)
 
 
 #
