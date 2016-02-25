@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 
-GLFWwindow *fed_window;
+GLFWwindow *fed_window; //< Federation main window
 
 
 #endif

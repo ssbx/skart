@@ -20,7 +20,7 @@ endif()
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
   -DGLEW_STATIC
-  -DDEBUG)
+  -DFEDERATION_DEBUG)
 
 
 #
@@ -66,8 +66,25 @@ target_link_libraries (federation
 #
 # "make run" custom target
 #
-add_custom_target(run
+add_custom_target (run
   COMMAND federation
   DEPENDS federation
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
+#
+# "make doc" custom target
+#
+find_package (Doxygen)
+
+if (DOXYGEN_FOUND)
+
+  configure_file (
+    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in 
+    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+
+  add_custom_target (doc
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen" VERBATIM)
+
+endif (DOXYGEN_FOUND)

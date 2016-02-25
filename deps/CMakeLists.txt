@@ -1,6 +1,9 @@
 #
 # GLFW
 #
+set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "No examples")
+set (GLFW_BUILD_TESTS    OFF CACHE BOOL "No tests")
+
 add_subdirectory (glfw)
 
 include_directories (

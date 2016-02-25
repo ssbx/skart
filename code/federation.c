@@ -1,3 +1,13 @@
+
+/**
+ * @file federation.c
+ * @brief Federation FPS
+ * @version 0.1
+ *
+ * Simple FPS game created for learning various C/C++ tools and real time
+ * rendering.
+ *
+ */
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -6,6 +16,12 @@
 #include "fed_log.h"
 #include "fed_input.h"
 
+/**
+ * @fn int main(int argc, char* argv)
+ * @brief Federation main loop.
+ *
+ * @return 0
+ */
 int main(int argc, char* argv) {
 
     glfwSetErrorCallback(fed_log_errorCallback);
