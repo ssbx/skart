@@ -3,7 +3,9 @@
 #
 add_subdirectory (glfw)
 
-include_directories (glfw/include/)
+include_directories (
+  glfw/include/
+  glew/include/)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -24,6 +26,25 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 
 #
-# GLM is an header only library, nothing to do
+# GLEW
 # 
+
+set(GLEW_SOURCE
+	glew/src/glew.c
+)
+
+set(GLEW_HEADERS
+)
+
+
+add_library(GLEW_1130 STATIC
+	${GLEW_SOURCE}
+	${GLEW_INCLUDE}
+)
+
+target_link_libraries(GLEW_1130
+	${OPENGL_LIBRARY}
+	${EXTRA_LIBS}
+)
+
 

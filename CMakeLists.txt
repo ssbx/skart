@@ -18,7 +18,8 @@ endif()
 # preprocessor definitions
 #
 add_definitions(
-  -D_CRT_SECURE_NO_WARNINGS)
+  -D_CRT_SECURE_NO_WARNINGS
+  -DGLEW_STATIC)
 
 
 #
@@ -33,7 +34,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory (deps)
 include_directories (
   deps/glfw/include/
-  deps/glm/)
+  deps/glew/include/)
 
 
 #
@@ -48,7 +49,7 @@ add_executable (federation
 
 add_dependencies (federation glfw)
 
-target_link_libraries (federation ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw)
+target_link_libraries (federation ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw GLEW)
 
 
 #
