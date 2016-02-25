@@ -19,7 +19,8 @@ endif()
 #
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
-  -DGLEW_STATIC)
+  -DGLEW_STATIC
+  -DDEBUG)
 
 
 #
@@ -41,16 +42,21 @@ include_directories (
 # "federation" executable
 #
 add_executable (federation
-  code/main.c
+  code/federation.c
   code/federation.h
-  code/fed_screen.c
+  code/fed_gl.c
+  code/fed_gl.h
+  code/fed_log.c
+  code/fed_log.h
+  code/fed_input.c
+  code/fed_input.h
   code/fed_math.h
   code/fed_math.c)
 
 add_dependencies (federation glfw)
 add_dependencies (federation GLEW_1130)
 
-target_link_libraries (federation 
+target_link_libraries (federation
   ${OPENGL_LIBRARY}
   ${GLFW_LIBRARIES}
   glfw

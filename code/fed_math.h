@@ -1,9 +1,6 @@
 #ifndef FED_MATH_H
 #define FED_MATH_H
 
-#include <math.h>
-#include <string.h>
-
 typedef struct Matrix {
 	float m[16];
 } Matrix;

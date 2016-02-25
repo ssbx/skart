@@ -1,5 +1,8 @@
 #include "fed_math.h"
 
+#include <math.h>
+#include <string.h>
+
 static const double PI = 3.14159265358979323846;
 
 Matrix multiplymat4(const Matrix* m1, const Matrix* m2) {
