@@ -30,7 +30,7 @@ void fed_log_printInfo(const char* message)
 
 void fed_log_printDebug(const char* message)
 {
-#ifdef DEBUG
+#ifdef FEDERATION_DEBUG
     fed_log_print("DEBUG: ", message, stdout);
 #endif
 }
