@@ -10,10 +10,10 @@
 #include <stdlib.h>
 
 
-void fed_gl_init()
+void FGl_init()
 {
 
-    fed_log_printDebug("fed_gl_init");
+    FLog_debugMsg("FGl_init");
 
     if (!glfwInit()) {
         exit(1);
@@ -27,7 +27,7 @@ void fed_gl_init()
     fed_window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
     if (!fed_window)
     {
-        fed_log_printError("fed_gl_init Failed to open GLFW window.\n");
+        FLog_errorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
         exit(1);
     }
@@ -36,8 +36,8 @@ void fed_gl_init()
 
     if (glewInit() != GLEW_OK)
     {
-        fed_log_printError("fed_gl_init Failed to initialize GLEW\n");
-        fed_gl_cleanup();
+        FLog_errorMsg("fed_gl_init Failed to initialize GLEW\n");
+        FGl_cleanup();
         exit(1);
     }
 
@@ -46,10 +46,10 @@ void fed_gl_init()
 }
 
 
-void fed_gl_cleanup()
+void FGl_cleanup()
 {
 
-    fed_log_printDebug("fed_gl_cleanup");
+    FLog_debugMsg("FGl_cleanup");
     glfwDestroyWindow(fed_window);
     glfwTerminate();
 

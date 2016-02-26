@@ -1,7 +1,7 @@
 #ifndef FED_GL_H
 #define FED_GL_H
 
-void fed_gl_init();
-void fed_gl_cleanup();
+void FGl_init();
+void FGl_cleanup();
 
 #endif

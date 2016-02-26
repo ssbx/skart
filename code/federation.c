@@ -24,9 +24,11 @@
  */
 int main(int argc, char* argv) {
 
-    glfwSetErrorCallback(fed_log_errorCallback);
-    fed_gl_init();
-    glfwSetKeyCallback(fed_window, fed_input_keyCallback);
+
+    glfwSetErrorCallback(FLog_errorCallback);
+    FGl_init();
+    glfwSetKeyCallback(fed_window, FInput_keyCallback);
+
 
     while (!glfwWindowShouldClose(fed_window))
     {
@@ -54,7 +56,7 @@ int main(int argc, char* argv) {
         glfwPollEvents();
     }
 
-    fed_gl_cleanup();
+    FGl_cleanup();
 
     return 0;
 

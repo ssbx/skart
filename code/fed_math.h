@@ -51,20 +51,20 @@ static const Matrix IDENTITY_MATRIX = {{
  * @brief Multiply m1 by m2.
  * @returns Matrix, The resulting matrix
  */
-Matrix multiplymat4(const Matrix* m1, const Matrix* m2);
-Vector4 mulmatvec4(const Matrix* m, const Vector4* v);
-void normalizevec4(Vector4* v);
-float dotvec4(Vector4 v1, Vector4 v2);
-Vector4 crossvec4(Vector4 v1, Vector4 v2);
-void rotateX(Matrix* m, float angle);
-void rotateY(Matrix* m, float angle);
-void rotateZ(Matrix* m, float angle);
-void scale(Matrix* m, float x, float y, float z);
-void translate(Matrix* m, float x, float y, float z);
+Matrix FMath_multiplymat4(const Matrix* m1, const Matrix* m2);
+Vector4 FMath_mulmatvec4(const Matrix* m, const Vector4* v);
+void FMath_normalizevec4(Vector4* v);
+float FMath_dotvec4(Vector4 v1, Vector4 v2);
+Vector4 FMath_crossvec4(Vector4 v1, Vector4 v2);
+void FMath_rotateX(Matrix* m, float angle);
+void FMath_rotateY(Matrix* m, float angle);
+void FMath_rotateZ(Matrix* m, float angle);
+void FMath_scale(Matrix* m, float x, float y, float z);
+void FMath_translate(Matrix* m, float x, float y, float z);
 
-Matrix perspective(float fovy, float aspect_ratio, float near_plane, float far_plane);
-Matrix orthogonal(float left, float right, float bottom, float top);
+Matrix FMath_perspective(float fovy, float aspect_ratio, float near_plane, float far_plane);
+Matrix FMath_orthogonal(float left, float right, float bottom, float top);
 
-Matrix lookAt(Vector4 pos, Vector4 dir);
+Matrix FMath_lookAt(Vector4 pos, Vector4 dir);
 
 #endif
