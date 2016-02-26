@@ -11,5 +11,5 @@ mkdir  build &&
 # create Unix Makefiles project
 cd build && cmake ..
 
-echo "\nYou can now run \"cd build && make\"\n"
+echo "\nYou can now run \"cd build && make all && make test\"\n"
 

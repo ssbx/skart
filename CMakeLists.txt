@@ -35,7 +35,8 @@ find_package(OpenGL REQUIRED)
 add_subdirectory (deps)
 include_directories (
   deps/glfw/include/
-  deps/glew/include/)
+  deps/glew/include/
+  code/)
 
 
 #
@@ -62,6 +63,21 @@ target_link_libraries (federation
   glfw
   GLEW_1130)
 
+#
+# Tests
+#
+
+add_executable (test_fed_math
+  tests/test_fed_math.c
+  code/fed_math.h
+  code/fed_math.c)
+target_link_libraries (test_fed_math -lm)
+
+enable_testing()
+add_test (
+  NAME    test_fed_math
+  COMMAND test_fed_math)
+
 
 #
 # "make run" custom target
@@ -79,7 +95,7 @@ find_package (Doxygen)
 if (DOXYGEN_FOUND)
 
   configure_file (
-    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in 
+    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
     ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
 
   add_custom_target (doc
