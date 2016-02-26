@@ -1,17 +1,27 @@
 #ifndef FED_MATH_H
 #define FED_MATH_H
 
+/**
+ * @file fed_math.h
+ * @brief Federation GL mathematics functions.
+ */
+
+/**
+ * @brief Represent a 4x4 matrix.
+ *
+ * 0 1 2 3 <br>
+ * 4 5 6 7 <br>
+ * 8 9 A B <br>
+ * C D E F <br>
+ */
 typedef struct Matrix {
 	float m[16];
 } Matrix;
 
-/*
-0 1 2 3
-4 5 6 7
-8 9 A B
-C D E F
-*/
 
+/**
+ * @brief Represent a x,y,z,w vector.
+ */
 typedef union Vector4 {
     float m[4];
     struct {
@@ -36,6 +46,11 @@ static const Matrix IDENTITY_MATRIX = {{
 	0, 0, 0, 1
 }};
 
+/**
+ * @fn Matrix multiplymat4(const Matrix* ml, const Matrix* m2)
+ * @brief Multiply m1 by m2.
+ * @returns Matrix, The resulting matrix
+ */
 Matrix multiplymat4(const Matrix* m1, const Matrix* m2);
 Vector4 mulmatvec4(const Matrix* m, const Vector4* v);
 void normalizevec4(Vector4* v);
