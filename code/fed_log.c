@@ -2,9 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void FLog_print(const char* head, const char* body, FILE* out);
 
-void FLog_errorCallback(int error, const char* message)
+static void FLog_print(
+    const char* head,
+    const char* body,
+    FILE*       out)
+{
+
+    char formated[strlen(head) + strlen(body) + 2];
+
+    strcpy(formated, head);
+    strcat(formated, body);
+    strcat(formated, "\n");
+
+    fputs(formated, out);
+
+}
+
+
+void FLog_errorCallback(
+    int         error,
+    const char* message)
 {
     FLog_print("ERROR_CALLBACK: ", message, stderr);
 }
@@ -34,15 +52,3 @@ void FLog_debugMsg(const char* message)
 #endif
 }
 
-static void FLog_print(const char* head, const char* body, FILE* out)
-{
-
-    char formated[sizeof(head) + sizeof(body)];
-
-    strcpy(formated, head);
-    strcat(formated, body);
-    strcat(formated, "\n");
-
-    fputs(formated, out);
-
-}

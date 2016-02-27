@@ -14,7 +14,9 @@
  * @fn FLog_errorCallback(int error, const char* description)
  * @brief Error callback used by GLFW. Print ERROR_CALLBACK message to STDERR.
  */
-void FLog_errorCallback(int error, const char* description);
+void FLog_errorCallback(
+    int         error,
+    const char* description);
 
 /**
  * @fn FLog_errorMsg(const char* message)

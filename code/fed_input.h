@@ -5,11 +5,11 @@
 #include <GLFW/glfw3.h>
 
 void FInput_keyCallback(
-    GLFWwindow *window,
-    int key,
-    int scancode,
-    int action,
-    int mods);
+    GLFWwindow* window,
+    int         key,
+    int         scancode,
+    int         action,
+    int         mods);
 
 
 #endif

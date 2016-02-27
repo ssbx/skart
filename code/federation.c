@@ -8,13 +8,21 @@
  * rendering.
  *
  */
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "federation.h"
 #include "fed_gl.h"
 #include "fed_log.h"
 #include "fed_input.h"
+
+#include "ex0.h"
+#include "ex1.h"
+
+// define init version: FGl_init0 [ FGl_init
+#define FGL_INIT   FGl_init
+
+// define example: exN_*
+#define EX_INIT    ex1_init
+#define EX_UPDATE  ex1_update
+#define EX_CLEANUP ex1_cleanup
 
 /**
  * @fn int main(int argc, char* argv)
@@ -22,40 +30,25 @@
  *
  * @return 0
  */
-int main(int argc, char* argv) {
-
+int main(
+    int   argc,
+    char* argv)
+{
 
     glfwSetErrorCallback(FLog_errorCallback);
-    FGl_init();
-    glfwSetKeyCallback(fed_window, FInput_keyCallback);
 
+    FGL_INIT();
+
+    EX_INIT();
+
+    glfwSetKeyCallback(fed_window, FInput_keyCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {
-        float ratio;
-        int width, height;
-        glfwGetFramebufferSize(fed_window, &width, &height);
-        ratio = width / (float) height;
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
-        glBegin(GL_TRIANGLES);
-        glColor3f(1.f, 0.f, 0.f);
-        glVertex3f(-0.6f, -0.4f, 0.f);
-        glColor3f(0.f, 1.f, 0.f);
-        glVertex3f(0.6f, -0.4f, 0.f);
-        glColor3f(0.f, 0.f, 1.f);
-        glVertex3f(0.f, 0.6f, 0.f);
-        glEnd();
-        glfwSwapBuffers(fed_window);
-        glfwPollEvents();
+        EX_UPDATE();
     }
 
+    EX_CLEANUP();
     FGl_cleanup();
 
     return 0;
