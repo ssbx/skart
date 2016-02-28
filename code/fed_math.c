@@ -7,7 +7,6 @@
 static const double PI = 3.14159265358979323846;
 
 
-// TODO variable length arguments
 Matrix fedMultiplymat4(
     const Matrix* m1,
     const Matrix* m2)

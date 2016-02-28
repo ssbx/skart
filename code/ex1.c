@@ -18,6 +18,7 @@ static Matrix projection;
 static Matrix view;
 static Matrix model;
 static Matrix MVP;
+static Mat4 look;
 
 void ex1_init()
 {
@@ -56,24 +57,26 @@ void ex1_init()
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
                  g_vertex_buffer_data, GL_STATIC_DRAW);
 
-    Mat4 mattest2 = mat4();
+    Mat4 mattest2 = mat4(1);
     printMat4(mattest2, "hello");
-    Mat4 mattest = multiplyMat4(mattest2, mat4());
+    Mat4 mattest = multiplyMat4(mattest2, mat4(1));
     printMat4(mattest, "hello");
 
     Vec3 t1 = {4.0f, 3.0f, 3.0f};
     Vec3 t2 = {0.0f, 0.0f, 0.0f};
     Vec3 t3 = {0.0f, 1.0f, 0.0f};
 
-    Mat4 look = lookAt(t1,t2,t3);
+    look = lookAt(t1,t2,t3);
 
     fedPrintMat(view, "view");
-    printMat4(look, "look");
+    printMat4(look, "view");
 
     Mat4 proj = perspective(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
     fedPrintMat(projection, "projection");
-    printMat4(proj, "proj");
+    printMat4(proj, "projection");
     //Mat4 mattest = fedMultiplymat4(mattest2);
+    Mat4 d = multiplyMat4(look, look);
+    printMat4(d, "mult");
     //fedPrintMat4(mattest);
 
     return;
@@ -88,7 +91,7 @@ void ex1_update()
     // Use our shader
     glUseProgram(program_id);
 
-    glUniformMatrix4fv(IN_modelViewProjection, 1, GL_FALSE, &(model.m[0]));
+    glUniformMatrix4fv(IN_modelViewProjection, 1, GL_FALSE, &(look.a0));
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(IN_modelVertex);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
