@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "fed_utils.h"
 #include "fed_log.h"
 
-char* FUtils_dumpFile(const char* file_path)
+struct t_FileDump FUtils_dumpFile(const char* file_path)
 {
     char* file_content;
     FILE* file_ptr = NULL;
@@ -12,7 +13,8 @@ char* FUtils_dumpFile(const char* file_path)
 
     if (!file_ptr) {
         FLog_errorMsg("File not found!");
-        return NULL;
+        struct t_FileDump empty = {0, NULL};
+        return empty;
     }
 
     fseek(file_ptr, 0, SEEK_END);
@@ -24,6 +26,7 @@ char* FUtils_dumpFile(const char* file_path)
     fread(file_content, sizeof(char), file_size, file_ptr);
     fclose(file_ptr);
 
-    return file_content;
+    struct t_FileDump value = {file_size, file_content};
+    return value;
 
 }

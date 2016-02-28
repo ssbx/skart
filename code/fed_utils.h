@@ -2,9 +2,19 @@
 #define FED_UTILS_H
 
 /**
- * @fn FUtils_dumpFile(const char* file_path)
- * @return pointer to char array or NULL
+ * @struct FileDump
+ * @brief File dump structure.
+ * Contain the size of dump and the file dump.
  */
-char* FUtils_dumpFile(const char* file_path);
+struct t_FileDump {
+    int   size;
+    char* dump;
+};
+
+/**
+ * @fn FUtils_dumpFile(const char* file_path)
+ * @return FileDump struct
+ */
+struct t_FileDump FUtils_dumpFile(const char* file_path);
 
 #endif

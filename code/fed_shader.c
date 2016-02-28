@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 GLuint FShader_load(
     const char * vertex_file_path,
@@ -16,13 +17,26 @@ GLuint FShader_load(
     GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
     GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-    char* vertex_code = FUtils_dumpFile(vertex_file_path);
+
+    // read vertex file
+    struct t_FileDump vertex_dump = FUtils_dumpFile(vertex_file_path);
+    char  vertex_code[vertex_dump.size + 1];
+    strncpy(vertex_code, vertex_dump.dump, vertex_dump.size);
+    vertex_code[vertex_dump.size + 1] = '\0';
+
     if (!vertex_code)
         return -1;
 
-    char* fragment_code = FUtils_dumpFile(fragment_file_path);
+
+    // read fragment file
+    struct t_FileDump fragment_dump = FUtils_dumpFile(fragment_file_path);
+    char  fragment_code[fragment_dump.size + 1];
+    strncpy(fragment_code, fragment_dump.dump, fragment_dump.size);
+    fragment_code[fragment_dump.size + 1] = '\0';
+
     if (!fragment_code)
         return -1;
+
 
     FLog_debugMsg(vertex_code);
     FLog_debugMsg(fragment_code);
@@ -51,7 +65,6 @@ GLuint FShader_load(
         FLog_infoMsg((char*) info_log);
     }
 
-    free(vertex_code);
 
 
 
@@ -75,7 +88,6 @@ GLuint FShader_load(
         FLog_infoMsg((char*) info_log);
     }
 
-    free(fragment_code);
 
 
     // linking program
@@ -104,6 +116,9 @@ GLuint FShader_load(
 
     glDeleteShader(VertexShaderID);
     glDeleteShader(FragmentShaderID);
+
+    free(vertex_dump.dump);
+    free(fragment_dump.dump);
 
     return program_id;
 }
