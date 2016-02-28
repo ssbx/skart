@@ -6,12 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-GLuint FLoadShader(
+GLuint fedLoadShaders(
     const char * vertex_file_path,
     const char * fragment_file_path)
 {
 
-    FDebugMsg("FShader_load");
+    fedDebugMsg("FShader_load");
 
     // Create the shaders
     GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
@@ -19,7 +19,7 @@ GLuint FLoadShader(
 
 
     // read vertex file
-    FileDump vertex_dump = FUtils_dumpFile(vertex_file_path);
+    FileDump vertex_dump = fedDumpFile(vertex_file_path);
     char vertex_code[vertex_dump.size + 1];
     strncpy(vertex_code, vertex_dump.dump, vertex_dump.size);
     vertex_code[vertex_dump.size] = '\0';
@@ -29,7 +29,7 @@ GLuint FLoadShader(
 
 
     // read fragment file
-    FileDump fragment_dump = FUtils_dumpFile(fragment_file_path);
+    FileDump fragment_dump = fedDumpFile(fragment_file_path);
     char  fragment_code[fragment_dump.size + 1];
     strncpy(fragment_code, fragment_dump.dump, fragment_dump.size);
     fragment_code[fragment_dump.size] = '\0';
@@ -38,8 +38,8 @@ GLuint FLoadShader(
         return -1;
 
 
-    FDebugMsg(vertex_code);
-    FDebugMsg(fragment_code);
+    fedDebugMsg(vertex_code);
+    fedDebugMsg(fragment_code);
 
     GLint result = GL_FALSE;
     int   info_log_length;
@@ -55,14 +55,14 @@ GLuint FLoadShader(
     glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        FErrorMsg("Error compiling vertex code");
+        fedErrorMsg("Error compiling vertex code");
     else
-        FDebugMsg("Compiling vertex success");
+        fedDebugMsg("Compiling vertex success");
 
     if (info_log_length > 0) {
         GLchar info_log[info_log_length + 1];
         glGetShaderInfoLog(VertexShaderID, info_log_length, NULL, info_log);
-        FInfoMsg((char*) info_log);
+        fedInfoMsg((char*) info_log);
     }
 
 
@@ -78,14 +78,14 @@ GLuint FLoadShader(
     glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        FErrorMsg("Error compiling fragment code");
+        fedErrorMsg("Error compiling fragment code");
     else
-        FDebugMsg("Compiling fragment success");
+        fedDebugMsg("Compiling fragment success");
 
     if (info_log_length > 0) {
         GLchar info_log[info_log_length + 1];
         glGetShaderInfoLog(FragmentShaderID, info_log_length, NULL, info_log);
-        FInfoMsg((char*) info_log);
+        fedInfoMsg((char*) info_log);
     }
 
 
@@ -101,14 +101,14 @@ GLuint FLoadShader(
     glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        FErrorMsg("Error linking program");
+        fedErrorMsg("Error linking program");
     else
-        FDebugMsg("Linking program success");
+        fedDebugMsg("Linking program success");
 
     if (info_log_length > 0) {
         char info_log[info_log_length + 1];
         glGetProgramInfoLog(program_id, info_log_length, NULL, info_log);
-        FInfoMsg(info_log);
+        fedInfoMsg(info_log);
     }
 
     glDetachShader(program_id, VertexShaderID);

@@ -9,10 +9,10 @@
 // local
 #include <stdlib.h>
 
-void FGlInit0()
+void fedGlInit0()
 {
 
-    FDebugMsg("FGl_prepare");
+    fedDebugMsg("FGl_prepare");
 
     if (!glfwInit()) {
         exit(1);
@@ -25,7 +25,7 @@ void FGlInit0()
     fed_window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
     if (!fed_window)
     {
-        FErrorMsg("fed_gl_init Failed to open GLFW window.\n");
+        fedErrorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
         exit(1);
     }
@@ -34,8 +34,8 @@ void FGlInit0()
 
     if (glewInit() != GLEW_OK)
     {
-        FErrorMsg("fed_gl_init Failed to initialize GLEW\n");
-        FGlCleanup();
+        fedErrorMsg("fed_gl_init Failed to initialize GLEW\n");
+        fedGlCleanup();
         exit(1);
     }
 
@@ -43,10 +43,10 @@ void FGlInit0()
 
 }
 
-void FGlInit()
+void fedGlInit()
 {
 
-    FDebugMsg("FGl_prepare");
+    fedDebugMsg("FGl_prepare");
 
     if (!glfwInit()) {
         exit(1);
@@ -59,7 +59,7 @@ void FGlInit()
     fed_window = glfwCreateWindow(1024, 768, "Simple example", NULL, NULL);
     if (!fed_window)
     {
-        FErrorMsg("fed_gl_init Failed to open GLFW window.\n");
+        fedErrorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
         exit(1);
     }
@@ -68,7 +68,7 @@ void FGlInit()
 
     if (glewInit() != GLEW_OK)
     {
-        FErrorMsg("fed_gl_init Failed to initialize GLEW\n");
+        fedErrorMsg("fed_gl_init Failed to initialize GLEW\n");
         glfwTerminate();
         exit(1);
     }
@@ -78,10 +78,10 @@ void FGlInit()
 }
 
 
-void FGlCleanup()
+void fedGlCleanup()
 {
 
-    FDebugMsg("FGl_cleanup");
+    fedDebugMsg("FGl_cleanup");
     glfwDestroyWindow(fed_window);
     glfwTerminate();
 

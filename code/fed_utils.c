@@ -3,7 +3,7 @@
 #include "fed_utils.h"
 #include "fed_log.h"
 
-FileDump FUtils_dumpFile(const char* file_path)
+FileDump fedDumpFile(const char* file_path)
 {
     char* file_content;
     FILE* file_ptr = NULL;
@@ -12,7 +12,7 @@ FileDump FUtils_dumpFile(const char* file_path)
     file_ptr = fopen(file_path, "rb");
 
     if (!file_ptr) {
-        FErrorMsg("File not found!");
+        fedErrorMsg("File not found!");
         FileDump empty = {0, NULL};
         return empty;
     }

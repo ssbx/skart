@@ -16,6 +16,6 @@ typedef struct FileDump {
  * @fn FUtils_dumpFile(const char* file_path)
  * @return FileDump struct
  */
-FileDump FUtils_dumpFile(const char* file_path);
+FileDump fedDumpFile(const char* file_path);
 
 #endif

@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-void FKeyCallback(
+void fedKeyCallback(
     GLFWwindow* window,
     int         key,
     int         scancode,

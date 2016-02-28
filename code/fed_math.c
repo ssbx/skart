@@ -2,11 +2,13 @@
 
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 static const double PI = 3.14159265358979323846;
 
 
-Matrix FMath_multiplymat4(
+// TODO variable length arguments
+Matrix fedMultiplymat4(
     const Matrix* m1,
     const Matrix* m2)
 {
@@ -39,7 +41,7 @@ Matrix FMath_multiplymat4(
 }
 
 
-Vector4 FMath_mulmatvec4(
+Vector4 fedMulmatvec4(
     const Matrix*  m,
     const Vector4* v)
 {
@@ -62,7 +64,7 @@ Vector4 FMath_mulmatvec4(
 }
 
 
-void FMath_normalizevec4(Vector4* v)
+void fedNormalizevec4(Vector4* v)
 {
 
     float sqr = v->m[0] * v->m[0] + v->m[1] * v->m[1] + v->m[2] * v->m[2];
@@ -77,7 +79,7 @@ void FMath_normalizevec4(Vector4* v)
 }
 
 
-float FMath_dotvec4(
+float fedDotvec4(
     Vector4 v1,
     Vector4 v2)
 {
@@ -88,7 +90,7 @@ float FMath_dotvec4(
 }
 
 
-Vector4 FMath_crossvec4(
+Vector4 fedCrossvec4(
     Vector4 v1,
     Vector4 v2)
 {
@@ -103,7 +105,7 @@ Vector4 FMath_crossvec4(
 }
 
 
-void FMath_rotateX(
+void fedRotateX(
     Matrix* m,
     float   angle)
 {
@@ -117,13 +119,13 @@ void FMath_rotateX(
     rotation.m[9] = sine;
     rotation.m[10] = cosine;
 
-    Matrix result = FMath_multiplymat4(m, &rotation);
+    Matrix result = fedMultiplymat4(m, &rotation);
     memcpy(m->m, result.m, sizeof(m->m));
 
 }
 
 
-void FMath_rotateY(
+void fedRotateY(
     Matrix* m,
     float   angle)
 {
@@ -137,14 +139,14 @@ void FMath_rotateY(
     rotation.m[2] = -sine;
     rotation.m[10] = cosine;
 
-    Matrix result = FMath_multiplymat4(m, &rotation);
+    Matrix result = fedMultiplymat4(m, &rotation);
 
     memcpy(m->m, result.m, sizeof(m->m));
 
 }
 
 
-void FMath_rotateZ(
+void fedRotateZ(
     Matrix* m,
     float   angle)
 {
@@ -158,13 +160,13 @@ void FMath_rotateZ(
     rotation.m[4] = sine;
     rotation.m[5] = cosine;
 
-    Matrix result = FMath_multiplymat4(m, &rotation);
+    Matrix result = fedMultiplymat4(m, &rotation);
     memcpy(m->m, result.m, sizeof(m->m));
 
 }
 
 
-void FMath_scale(
+void fedScale(
     Matrix* m,
     float   x,
     float   y,
@@ -176,13 +178,13 @@ void FMath_scale(
     scale.m[5] = y;
     scale.m[10] = z;
 
-    Matrix result = FMath_multiplymat4(m, &scale);
+    Matrix result = fedMultiplymat4(m, &scale);
     memcpy(m->m, result.m, sizeof(m->m));
 
 }
 
 
-void FMath_translate(
+void fedTranslate(
     Matrix* m,
     float   x,
     float   y,
@@ -195,13 +197,13 @@ void FMath_translate(
     translation.m[13] = y;
     translation.m[14] = z;
 
-    Matrix result = FMath_multiplymat4(m, &translation);
+    Matrix result = fedMultiplymat4(m, &translation);
     memcpy(m->m, result.m, sizeof(m->m));
 
 }
 
 
-Matrix FMath_perspective(
+Matrix fedPerspective(
     float fovy,
     float aspect_ratio,
     float near_plane,
@@ -225,7 +227,7 @@ Matrix FMath_perspective(
 }
 
 
-Matrix FMath_orthogonal(
+Matrix fedOrthogonal(
     float left,
     float right,
     float bottom,
@@ -244,17 +246,17 @@ Matrix FMath_orthogonal(
 }
 
 
-Matrix FMath_lookAt(
+Matrix fedLookAt(
     Vector4 pos,
     Vector4 dir)
 {
 
     Vector4 f = dir;
-    FMath_normalizevec4(&f);
+    fedNormalizevec4(&f);
     Vector4 u = {{0, 1, 0, 0}};
-    Vector4 s = FMath_crossvec4(f, u);
-    FMath_normalizevec4(&s);
-    u = FMath_crossvec4(s, f);
+    Vector4 s = fedCrossvec4(f, u);
+    fedNormalizevec4(&s);
+    u = fedCrossvec4(s, f);
 
     Matrix out = IDENTITY_MATRIX;
     out.m[0] = s.x;
@@ -269,16 +271,16 @@ Matrix FMath_lookAt(
     out.m[6] = -f.y;
     out.m[10] = -f.z;
 
-    out.m[12] = -FMath_dotvec4(s, pos);
-    out.m[13] = -FMath_dotvec4(u, pos);
-    out.m[14] =  FMath_dotvec4(f, pos);
+    out.m[12] = -fedDotvec4(s, pos);
+    out.m[13] = -fedDotvec4(u, pos);
+    out.m[14] =  fedDotvec4(f, pos);
 
     return out;
 
 }
 
 
-float FMath_fastSqrt(float number)
+float fedFastSqrt(float number)
 {
 
     /*
@@ -308,5 +310,16 @@ float FMath_fastSqrt(float number)
     // y  = y * (threehalfs - (x2 * y * y));
 
     return y;
+
+}
+
+void fedPrintMat(Matrix mat, char* tag)
+{
+    printf("\n\n%s\n", tag);
+    printf("%f %f %f %f\n", mat.m[0], mat.m[1], mat.m[2], mat.m[3]);
+    printf("%f %f %f %f\n", mat.m[4], mat.m[5], mat.m[6], mat.m[7]);
+    printf("%f %f %f %f\n", mat.m[8], mat.m[9], mat.m[10], mat.m[11]);
+    printf("%f %f %f %f\n", mat.m[12], mat.m[13], mat.m[14], mat.m[15]);
+    printf("end %s\n\n", tag);
 
 }

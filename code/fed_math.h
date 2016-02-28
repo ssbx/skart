@@ -51,61 +51,63 @@ static const Matrix IDENTITY_MATRIX = {{
  * @brief Multiply m1 by m2.
  * @returns Matrix, The resulting matrix
  */
-Matrix FMath_multiplymat4(
+Matrix fedMultiplymat4(
     const Matrix* m1,
     const Matrix* m2);
 
-Vector4 FMath_mulmatvec4(
+Vector4 fedMulmatvec4(
     const Matrix*  m,
     const Vector4* v);
 
-void FMath_normalizevec4(Vector4* v);
+void fedNormalizevec4(Vector4* v);
 
-float FMath_dotvec4(
+float fedDotvec4(
     Vector4 v1,
     Vector4 v2);
-Vector4 FMath_crossvec4(
+Vector4 fedCrossvec4(
     Vector4 v1,
     Vector4 v2);
 
-void FMath_rotateX(
+void fedRotateX(
     Matrix* m,
     float   angle);
-void FMath_rotateY(
+void fedRotateY(
     Matrix* m,
     float   angle);
-void FMath_rotateZ(
+void fedRotateZ(
     Matrix* m,
     float   angle);
 
-void FMath_scale(
+void fedScale(
     Matrix* m,
     float   x,
     float   y,
     float   z);
-void FMath_translate(
+void fedTranslate(
     Matrix* m,
     float   x,
     float   y,
     float   z);
 
-Matrix FMath_perspective(
+Matrix fedPerspective(
     float fovy,
     float aspect_ratio,
     float near_plane,
     float far_plane);
-Matrix FMath_orthogonal(
+Matrix fedOrthogonal(
     float left,
     float right,
     float bottom,
     float top);
 
-Matrix FMath_lookAt(
+Matrix fedLookAt(
     Vector4 pos,
     Vector4 dir);
 
-float FMath_fastSqrt(float number);
-float FMath_fastSin(float number);
-float FMath_fastCos(float number);
+float fedFastSqrt(float number);
+float fedFastSin(float number);
+float fedFastCos(float number);
+
+void fedPrintMat(Matrix matrix, char* tag);
 
 #endif

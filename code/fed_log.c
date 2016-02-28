@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-static void FLog(
+static void fedLog(
     const char* head,
     const char* body,
     FILE*       out)
@@ -20,35 +20,35 @@ static void FLog(
 }
 
 
-void FErrorCallback(
+void fedErrorCallback(
     int         error,
     const char* message)
 {
-    FLog("ERROR_CALLBACK: ", message, stderr);
+    fedLog("ERROR_CALLBACK: ", message, stderr);
 }
 
 
-void FErrorMsg(const char* message)
+void fedErrorMsg(const char* message)
 {
-    FLog("ERROR: ", message, stderr);
+    fedLog("ERROR: ", message, stderr);
 }
 
 
-void FWarningMsg(const char* message)
+void fedWarningMsg(const char* message)
 {
-    FLog("WARNING: ", message, stdout);
+    fedLog("WARNING: ", message, stdout);
 }
 
 
-void FInfoMsg(const char* message)
+void fedInfoMsg(const char* message)
 {
-    FLog("INFO: ", message, stdout);
+    fedLog("INFO: ", message, stdout);
 }
 
-void FDebugMsg(const char* message)
+void fedDebugMsg(const char* message)
 {
 #ifdef FEDERATION_DEBUG
-    FLog("DEBUG: ", message, stdout);
+    fedLog("DEBUG: ", message, stdout);
 #endif
 }
 

@@ -11,36 +11,36 @@
 
 
 /**
- * @fn FLog_errorCallback(int error, const char* description)
+ * @fn fedErrorCallback(int error, const char* description)
  * @brief Error callback used by GLFW. Print ERROR_CALLBACK message to STDERR.
  */
-void FErrorCallback(
+void fedErrorCallback(
     int         error,
     const char* description);
 
 /**
- * @fn FLog_errorMsg(const char* message)
+ * @fn fedErrorMsg(const char* message)
  * @brief Print ERROR message to STDERR.
  */
-void FErrorMsg(const char* message);
+void fedErrorMsg(const char* message);
 
 /**
- * @fn FLog_warningMsg(const char* message)
+ * @fn fedWarningMsg(const char* message)
  * @brief Print WARNING message to STDOUT.
  */
-void FWarningMsg(const char* message);
+void fedWarningMsg(const char* message);
 
 /**
- * @fn FLog_infoMsg(const char* message)
+ * @fn fedInfoMsg(const char* message)
  * @brief Print INFO message to STDOUT.
  */
-void FInfoMsg(const char* message);
+void fedInfoMsg(const char* message);
 
 /**
- * @fn FLog_debugMsg(const char* message)
+ * @fn fedDebugMsg(const char* message)
  * @brief Print DEBUG message to STDOUT.
  */
-void FDebugMsg(const char* message);
+void fedDebugMsg(const char* message);
 
 
 #endif

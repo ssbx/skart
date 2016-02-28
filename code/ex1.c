@@ -22,7 +22,7 @@ void ex1_init()
 {
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-    program_id = FLoadShader(
+    program_id = fedLoadShaders(
         "data/shaders/SimpleTransform.vertexshader",
         "data/shaders/SingleColor.fragmentshader"
     );
@@ -34,16 +34,20 @@ void ex1_init()
         glGetAttribLocation(program_id, "modelVertex");
 
 
-    projection = FMath_perspective(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
-    Vector4 v1 = {{0,0,0,0}};
+    projection = fedPerspective(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
+    fedPrintMat(projection, "projection");
+    Vector4 v1 = {{4,3,3,1}};
     Vector4 v2 = {{0,0,0,0}};
-    view = FMath_lookAt(v1,v2);
+    view = fedLookAt(v1,v2);
+    fedPrintMat(view, "view");
 
     model = IDENTITY_MATRIX;
+    fedPrintMat(model, "model");
 
-    //Matrix compresult = FMath_multiplymat4(&projection, &view);
-    //MVP = FMath_multiplymat4(&compresult, &model);
-    MVP = FMath_multiplymat4(&projection, &view);
+    Matrix compresult = fedMultiplymat4(&projection, &model);
+    fedPrintMat(compresult, "intermediary");
+    MVP = fedMultiplymat4(&compresult, &model);
+    fedPrintMat(MVP, "MVP");
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
