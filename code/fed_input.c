@@ -1,6 +1,6 @@
 #include "fed_input.h"
 
-void FInput_keyCallback(
+void FKeyCallback(
     GLFWwindow* window,
     int         key,
     int         scancode,

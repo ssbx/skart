@@ -17,7 +17,7 @@
 #include "ex1.h"
 
 // define init version: FGl_init0 [ FGl_init
-#define FGL_INIT   FGl_init
+#define FGL_INIT   FGlInit
 
 // define example: exN_*
 #define EX_INIT    ex1_init
@@ -35,13 +35,13 @@ int main(
     char* argv)
 {
 
-    glfwSetErrorCallback(FLog_errorCallback);
+    glfwSetErrorCallback(FErrorCallback);
 
     FGL_INIT();
 
     EX_INIT();
 
-    glfwSetKeyCallback(fed_window, FInput_keyCallback);
+    glfwSetKeyCallback(fed_window, FKeyCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {
@@ -49,7 +49,7 @@ int main(
     }
 
     EX_CLEANUP();
-    FGl_cleanup();
+    FGlCleanup();
 
     return 0;
 

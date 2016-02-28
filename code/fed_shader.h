@@ -3,7 +3,7 @@
 
 #include "GL/glew.h"
 
-GLuint FShader_load(
+GLuint FLoadShader(
     const char * vertex_file_path,
     const char * fragment_file_path);
 
