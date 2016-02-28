@@ -59,6 +59,8 @@ add_executable (federation
   code/fed_input.h
   code/fed_math.h
   code/fed_math.c
+  code/fed_math2.h
+  code/fed_math2.c
   code/fed_shader.c
   code/fed_shader.h)
 

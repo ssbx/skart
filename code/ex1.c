@@ -2,6 +2,7 @@
 #include "ex1.h"
 #include "fed_shader.h"
 #include "fed_math.h"
+#include "fed_math2.h"
 
 static GLuint program_id;
 static const GLfloat g_vertex_buffer_data[] = {
@@ -36,6 +37,7 @@ void ex1_init()
 
     projection = fedPerspective(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
     fedPrintMat(projection, "projection");
+
     Vector4 v1 = {{4,3,3,1}};
     Vector4 v2 = {{0,0,0,0}};
     view = fedLookAt(v1,v2);
@@ -53,6 +55,26 @@ void ex1_init()
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
                  g_vertex_buffer_data, GL_STATIC_DRAW);
+
+    Mat4 mattest2 = mat4();
+    printMat4(mattest2, "hello");
+    Mat4 mattest = multiplyMat4(mattest2, mat4());
+    printMat4(mattest, "hello");
+
+    Vec3 t1 = {4.0f, 3.0f, 3.0f};
+    Vec3 t2 = {0.0f, 0.0f, 0.0f};
+    Vec3 t3 = {0.0f, 1.0f, 0.0f};
+
+    Mat4 look = lookAt(t1,t2,t3);
+
+    fedPrintMat(view, "view");
+    printMat4(look, "look");
+
+    Mat4 proj = perspective(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
+    fedPrintMat(projection, "projection");
+    printMat4(proj, "proj");
+    //Mat4 mattest = fedMultiplymat4(mattest2);
+    //fedPrintMat4(mattest);
 
     return;
 }
