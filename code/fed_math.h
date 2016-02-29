@@ -1,113 +1,87 @@
-#ifndef FED_MATH_H
-#define FED_MATH_H
+#ifndef FED_MATH2_H
+#define FED_MATH2_H
+
+#include <GL/glew.h>
 
 /**
- * @file fed_math.h
- * @brief Federation GL mathematics functions.
- */
-
-/**
- * @brief Represent a 4x4 matrix.
+ * @struct Mat4
+ * @brief represent a 4x4 matrix.
  *
- * 0 1 2 3 <br>
- * 4 5 6 7 <br>
- * 8 9 A B <br>
- * C D E F <br>
+ *       a0   a1  a2   a3 <br>
+ *
+ *       b0   b1  b2   b3 <br>
+ *
+ *       c0   c1  c2   c3 <br>
+ *
+ *       d0   d1  d2   d3 <br>
+ *
  */
-typedef struct Matrix {
-	float m[16];
-} Matrix;
+typedef struct Mat4 {
+    GLfloat a0, a1, a2, a3,
+            b0 ,b1, b2, b3,
+            c0, c1, c2, c3,
+            d0, d1, d2, d3;
+} Mat4;
 
 
 /**
- * @brief Represent a x,y,z,w vector.
+ * @typedef Vec3 struct Vec3
+ * @brief represent a 3 dimention vertex.
  */
-typedef union Vector4 {
-    float m[4];
-    struct {
-        float x;
-        float y;
-        float z;
-        float w;
-    };
-} Vector4;
+typedef struct Vec3 {
+    GLfloat x, y, z;
+} Vec3;
 
-static const Vector4 X_AXIS = {{1, 0, 0, 0}};
-static const Vector4 Y_AXIS = {{0, 1, 0, 0}};
-static const Vector4 Z_AXIS = {{0, 0, 1, 0}};
-static const Vector4 INV_X_AXIS = {{-1, 0, 0, 0}};
-static const Vector4 INV_Y_AXIS = {{0, -1, 0, 0}};
-static const Vector4 INV_Z_AXIS = {{0, 0, -1, 0}};
-
-static const Matrix IDENTITY_MATRIX = {{
-	1, 0, 0, 0,
-	0, 1, 0, 0,
-	0, 0, 1, 0,
-	0, 0, 0, 1
-}};
 
 /**
- * @fn Matrix multiplymat4(const Matrix* ml, const Matrix* m2)
- * @brief Multiply m1 by m2.
- * @returns Matrix, The resulting matrix
+ * @typedef Vec4 struct Vec4
+ * @brief represent a 4 dimention vertex.
  */
-Matrix fedMultiplymat4(
-    const Matrix* m1,
-    const Matrix* m2);
+typedef struct Vec4 {
+    GLfloat x, y, z, w;
+} Vec4;
 
-Vector4 fedMulmatvec4(
-    const Matrix*  m,
-    const Vector4* v);
 
-void fedNormalizevec4(Vector4* v);
+Mat4 perspective(
+    GLfloat fovy,
+    GLfloat aspect,
+    GLfloat zNear,
+    GLfloat zFar);
 
-float fedDotvec4(
-    Vector4 v1,
-    Vector4 v2);
-Vector4 fedCrossvec4(
-    Vector4 v1,
-    Vector4 v2);
+Mat4 mat4(GLfloat num);
 
-void fedRotateX(
-    Matrix* m,
-    float   angle);
-void fedRotateY(
-    Matrix* m,
-    float   angle);
-void fedRotateZ(
-    Matrix* m,
-    float   angle);
+Vec3 normalizeVec3(Vec3 vector);
 
-void fedScale(
-    Matrix* m,
-    float   x,
-    float   y,
-    float   z);
-void fedTranslate(
-    Matrix* m,
-    float   x,
-    float   y,
-    float   z);
+Vec3 crossVec3(
+    Vec3 x,
+    Vec3 y);
 
-Matrix fedPerspective(
-    float fovy,
-    float aspect_ratio,
-    float near_plane,
-    float far_plane);
-Matrix fedOrthogonal(
-    float left,
-    float right,
-    float bottom,
-    float top);
+Vec3 minusVec3(
+    Vec3 a,
+    Vec3 b);
 
-Matrix fedLookAt(
-    Vector4 pos,
-    Vector4 dir);
+Vec3 addVec3(
+    Vec3 a,
+    Vec3 b);
 
-float fedFastSqrt(float number);
-float fedFastSin(float number);
-float fedFastCos(float number);
+GLfloat dotVec3(
+    Vec3 a,
+    Vec3 b);
 
-void fedPrintMat(Matrix matrix, char* tag);
+Mat4 lookAt(
+    Vec3 eye,
+    Vec3 center,
+    Vec3 up);
 
+Mat4 mplMat4(
+    Mat4 m1,
+    Mat4 m2);
+
+/**
+ * @brief for debugging purpose
+ */
+void printMat4(
+    Mat4 matrix,
+    char* info);
+void printVec3(Vec3 vec);
 #endif

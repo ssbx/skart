@@ -59,8 +59,6 @@ add_executable (federation
   code/fed_input.h
   code/fed_math.h
   code/fed_math.c
-  code/fed_math2.h
-  code/fed_math2.c
   code/fed_shader.c
   code/fed_shader.h)
 
@@ -85,9 +83,11 @@ add_executable (test_fed_math
 target_link_libraries (test_fed_math -lm)
 
 enable_testing()
-add_test (
-  NAME    test_fed_math
-  COMMAND test_fed_math)
+add_test (NAME test_mat4_creation COMMAND test_fed_math creation)
+add_test (NAME test_mat4_perspective COMMAND test_fed_math perspective)
+add_test (NAME test_mat4_lookat COMMAND test_fed_math lookat)
+add_test (NAME test_mat4_multiply COMMAND test_fed_math multiply)
+
 
 
 #
