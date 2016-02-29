@@ -9,13 +9,15 @@ static void fedLog(
     FILE*       out)
 {
 
-    char formated[strlen(head) + strlen(body) + 1];
+    char* formated = malloc((strlen(head) + strlen(body) + 2) * sizeof(char));
 
     strcpy(formated, head);
     strcat(formated, body);
     strcat(formated, "\n");
+    strcat(formated, "\0");
 
     fputs(formated, out);
+    free(formated);
 
 }
 

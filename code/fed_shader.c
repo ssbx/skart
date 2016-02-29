@@ -50,9 +50,10 @@ GLuint fedLoadShaders(
         fedDebugMsg("Compiling vertex success");
 
     if (info_log_length > 0) {
-        GLchar info_log[info_log_length + 1];
+        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(VertexShaderID, info_log_length, NULL, info_log);
         fedInfoMsg((char*) info_log);
+        free(info_log);
     }
 
 
