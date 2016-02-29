@@ -1,7 +1,7 @@
 #include "federation.h"
 #include "ex1.h"
 #include "fed_shader.h"
-#include "fed_math.h"
+#include "cglm.h"
 
 static GLuint program_id;
 static const GLfloat g_vertex_buffer_data[] = {

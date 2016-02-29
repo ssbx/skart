@@ -4,3 +4,6 @@
 [submodule "deps/glew"]
 	path = deps/glew
 	url = http://github.com/ssbx/glew.git
+[submodule "deps/cglm"]
+	path = deps/cglm
+	url = https://github.com/ssbx/cglm.git

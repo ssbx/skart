@@ -36,6 +36,7 @@ add_subdirectory (deps)
 include_directories (
   deps/glfw/include/
   deps/glew/include/
+  deps/cglm/include/
   code/)
 
 
@@ -55,8 +56,6 @@ add_executable (federation
   code/fed_log.h
   code/fed_input.c
   code/fed_input.h
-  code/fed_math.h
-  code/fed_math.c
   code/fed_shader.c
   code/fed_shader.h)
 
@@ -66,26 +65,9 @@ add_dependencies (federation GLEW_1130)
 target_link_libraries (federation
   ${OPENGL_LIBRARY}
   ${GLFW_LIBRARIES}
+  cglm
   glfw
   GLEW_1130)
-
-
-#
-# Tests
-#
-
-add_executable (test_fed_math
-  tests/test_fed_math.c
-  code/fed_math.h
-  code/fed_math.c)
-target_link_libraries (test_fed_math -lm)
-
-enable_testing()
-add_test (NAME test_mat4_creation COMMAND test_fed_math creation)
-add_test (NAME test_mat4_perspective COMMAND test_fed_math perspective)
-add_test (NAME test_mat4_lookat COMMAND test_fed_math lookat)
-add_test (NAME test_mat4_multiply COMMAND test_fed_math multiply)
-
 
 
 #

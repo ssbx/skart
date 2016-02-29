@@ -30,7 +30,7 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 #
 # GLEW
-# 
+#
 
 set(GLEW_SOURCE
 	glew/src/glew.c
@@ -51,3 +51,7 @@ target_link_libraries(GLEW_1130
 )
 
 
+#
+# CGLM
+#
+add_subdirectory(cglm)
