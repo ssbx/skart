@@ -41,7 +41,7 @@ void ex1_init()
     Vec3 up     = {0,1,0};
     view = lookAt(eye, center, up);
     model = mat4(1);
-    MVP = mplMat4(mplMat4(projection, view), model);
+    MVP = multMat4(multMat4(projection, view), model);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);

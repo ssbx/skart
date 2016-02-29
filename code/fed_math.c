@@ -43,9 +43,9 @@ Vec3 minusVec3(
 {
 
     Vec3 result;
-    result.x = a.x + (0 - b.x);
-    result.y = a.y + (0 - b.y);
-    result.z = a.z + (0 - b.z);
+    result.x = a.x + (-b.x);
+    result.y = a.y + (-b.y);
+    result.z = a.z + (-b.z);
 
     return result;
 
@@ -106,7 +106,7 @@ Mat4 lookAt(
 }
 
 
-Mat4 mplMat4(
+Mat4 multMat4(
     Mat4 m2,
     Mat4 m1)
 {
@@ -195,4 +195,38 @@ void printMat4(
 void printVec3(Vec3 vec)
 {
     printf("%f %f %f\n", vec.x, vec.y, vec.z);
+}
+
+
+float f_squrt(float number)
+{
+
+    /*
+     * Copyed from https://en.wikipedia.org/wiki/Fast_inverse_square_root
+     */
+
+    long  i;
+    float x2;
+    float y;
+    const float threehalfs = 1.5F;
+
+    x2 = number * 0.5F;
+    y  = number;
+
+    // evil floating point bit level hacking
+    i  = *(long*) &y;
+
+    // what the fuck?
+    i  = 0x5f3759df - (i >> 1);
+
+    y  = * (float*) &i;
+
+    // 1st iteration
+    y  = y * (threehalfs - (x2 * y * y));
+
+    // 2nd iteration, this can be removed
+    // y  = y * (threehalfs - (x2 * y * y));
+
+    return y;
+
 }

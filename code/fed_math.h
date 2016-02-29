@@ -73,9 +73,11 @@ Mat4 lookAt(
     Vec3 center,
     Vec3 up);
 
-Mat4 mplMat4(
+Mat4 multMat4(
     Mat4 m1,
     Mat4 m2);
+
+float f_sqrt(float number);
 
 /**
  * @brief for debugging purpose
@@ -84,4 +86,6 @@ void printMat4(
     Mat4 matrix,
     char* info);
 void printVec3(Vec3 vec);
+
+
 #endif
