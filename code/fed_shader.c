@@ -74,9 +74,10 @@ GLuint fedLoadShaders(
         fedDebugMsg("Compiling fragment success");
 
     if (info_log_length > 0) {
-        GLchar info_log[info_log_length + 1];
+        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(FragmentShaderID, info_log_length, NULL, info_log);
         fedInfoMsg((char*) info_log);
+        free(info_log);
     }
 
 
@@ -97,9 +98,10 @@ GLuint fedLoadShaders(
         fedDebugMsg("Linking program success");
 
     if (info_log_length > 0) {
-        char info_log[info_log_length + 1];
+        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetProgramInfoLog(program_id, info_log_length, NULL, info_log);
         fedInfoMsg(info_log);
+        free(info_log);
     }
 
     glDetachShader(program_id, VertexShaderID);
