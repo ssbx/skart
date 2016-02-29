@@ -1,10 +1,8 @@
 #include "fed_shader.h"
-#include "fed_utils.h"
 #include "fed_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 GLuint fedLoadShaders(
     const char * vertex_file_path,
@@ -19,21 +17,13 @@ GLuint fedLoadShaders(
 
 
     // read vertex file
-    FileDump vertex_dump = fedDumpFile(vertex_file_path);
-    char vertex_code[vertex_dump.size + 1];
-    strncpy(vertex_code, vertex_dump.dump, vertex_dump.size);
-    vertex_code[vertex_dump.size] = '\0';
-
+    char* vertex_code = fedDumpFile(vertex_file_path);
     if (!vertex_code)
         return -1;
 
 
     // read fragment file
-    FileDump fragment_dump = fedDumpFile(fragment_file_path);
-    char  fragment_code[fragment_dump.size + 1];
-    strncpy(fragment_code, fragment_dump.dump, fragment_dump.size);
-    fragment_code[fragment_dump.size] = '\0';
-
+    char* fragment_code = fedDumpFile(fragment_file_path);
     if (!fragment_code)
         return -1;
 
@@ -117,8 +107,35 @@ GLuint fedLoadShaders(
     glDeleteShader(VertexShaderID);
     glDeleteShader(FragmentShaderID);
 
-    free(vertex_dump.dump);
-    free(fragment_dump.dump);
+    free(vertex_code);
+    free(fragment_code);
 
     return program_id;
+}
+
+char* fedDumpFile(const char* file_path)
+{
+    char* file_content;
+    FILE* file_ptr = NULL;
+    long int file_size;
+
+    file_ptr = fopen(file_path, "rb");
+
+    if (!file_ptr) {
+        fedErrorMsg("File not found!");
+        return NULL;
+    }
+
+    fseek(file_ptr, 0, SEEK_END);
+    file_size = ftell(file_ptr);
+    rewind(file_ptr);
+
+    file_content = malloc((file_size + 1) * (sizeof(char)));
+
+    fread(file_content, sizeof(char), file_size, file_ptr);
+    file_content[file_size] = '\0';
+
+    fclose(file_ptr);
+
+    return file_content;
 }

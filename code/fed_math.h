@@ -82,10 +82,10 @@ float f_sqrt(float number);
 /**
  * @brief for debugging purpose
  */
-void printMat4(
+void debugMat4(
     Mat4 matrix,
     char* info);
-void printVec3(Vec3 vec);
+void debugVec3(Vec3 vec);
 
 
 #endif

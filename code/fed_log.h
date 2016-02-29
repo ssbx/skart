@@ -26,7 +26,7 @@ void fedErrorMsg(const char* message);
 
 /**
  * @fn fedWarningMsg(const char* message)
- * @brief Print WARNING message to STDOUT.
+ * @brief Print WARN message to STDOUT.
  */
 void fedWarningMsg(const char* message);
 

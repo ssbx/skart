@@ -12,7 +12,7 @@
 void fedGlInit0()
 {
 
-    fedDebugMsg("FGl_prepare");
+    fedDebugMsg("fedGlInit0");
 
     if (!glfwInit()) {
         exit(1);
@@ -46,7 +46,7 @@ void fedGlInit0()
 void fedGlInit()
 {
 
-    fedDebugMsg("FGl_prepare");
+    fedDebugMsg("fedGlIit");
 
     if (!glfwInit()) {
         exit(1);
@@ -81,7 +81,7 @@ void fedGlInit()
 void fedGlCleanup()
 {
 
-    fedDebugMsg("FGl_cleanup");
+    fedDebugMsg("fedGlCleanup");
     glfwDestroyWindow(fed_window);
     glfwTerminate();
 

@@ -131,14 +131,14 @@ Mat4 multMat4(
         m1.d0*m2.a1 + m1.d1*m2.b1 + m1.d2*m2.c1 + m1.d3*m2.d1,
         m1.d0*m2.a2 + m1.d1*m2.b2 + m1.d2*m2.c2 + m1.d3*m2.d2,
         m1.d0*m2.a3 + m1.d1*m2.b3 + m1.d2*m2.c3 + m1.d3*m2.d3,
-
     };
 
     return result;
 
 }
 
-static const Mat4 EMPTY_MATRIX_4 = {
+
+static const Mat4 empty_matrix_4 = {
     0,0,0,0,
     0,0,0,0,
     0,0,0,0,
@@ -147,7 +147,7 @@ static const Mat4 EMPTY_MATRIX_4 = {
 Mat4 mat4(GLfloat num)
 {
 
-    Mat4 result = EMPTY_MATRIX_4;
+    Mat4 result = empty_matrix_4;
 
     result.a0 = num;
                     result.b1 = num;
@@ -177,24 +177,6 @@ Mat4 perspective(
 
     return result;
 
-}
-
-
-void printMat4(
-    Mat4  matrix,
-    char* info)
-{
-
-    printf("%s: %f %f %f %f\n", info, matrix.a0, matrix.a1, matrix.a2, matrix.a3);
-    printf("%s: %f %f %f %f\n", info, matrix.b0, matrix.b1, matrix.b2, matrix.b3);
-    printf("%s: %f %f %f %f\n", info, matrix.c0, matrix.c1, matrix.c2, matrix.c3);
-    printf("%s: %f %f %f %f\n", info, matrix.d0, matrix.d1, matrix.d2, matrix.d3);
-
-}
-
-void printVec3(Vec3 vec)
-{
-    printf("%f %f %f\n", vec.x, vec.y, vec.z);
 }
 
 
@@ -230,3 +212,23 @@ float f_squrt(float number)
     return y;
 
 }
+
+
+void debugMat4(
+    Mat4  matrix,
+    char* info)
+{
+
+    printf("%s: %f %f %f %f\n", info, matrix.a0, matrix.a1, matrix.a2, matrix.a3);
+    printf("%s: %f %f %f %f\n", info, matrix.b0, matrix.b1, matrix.b2, matrix.b3);
+    printf("%s: %f %f %f %f\n", info, matrix.c0, matrix.c1, matrix.c2, matrix.c3);
+    printf("%s: %f %f %f %f\n", info, matrix.d0, matrix.d1, matrix.d2, matrix.d3);
+
+}
+
+
+void debugVec3(Vec3 vec)
+{
+    printf("%f %f %f\n", vec.x, vec.y, vec.z);
+}
+

@@ -9,7 +9,7 @@ static void fedLog(
     FILE*       out)
 {
 
-    char formated[strlen(head) + strlen(body) + 2];
+    char formated[strlen(head) + strlen(body) + 1];
 
     strcpy(formated, head);
     strcat(formated, body);
