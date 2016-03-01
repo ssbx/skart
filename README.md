@@ -1,5 +1,7 @@
 Build
 -----
+[![Build Status](https://travis-ci.org/ssbx/federation.svg?branch=master)](https://travis-ci.org/ssbx/federation)
+[![Build status](https://ci.appveyor.com/api/projects/status/jhnm6oxd26bc7f38?svg=true)](https://ci.appveyor.com/project/ssbx/federation)
 
 Initialize submodules, build directory and compile all:
 ```sh
