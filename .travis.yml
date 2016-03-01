@@ -1,7 +1,0 @@
-language: c
-
-sudo: false
-
-script: 
-    - ./configure
-    - cd build && make all
