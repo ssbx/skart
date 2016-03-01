@@ -15,14 +15,15 @@
 #include "ex0.h"
 #include "ex1.h"
 #include "ex2.h"
+#include "ex3.h"
 
 // define init version: FGl_init0 [ FGl_init
 #define FGL_INIT   fedGlInit
 
 // define example: exN_*
-#define EX_INIT    ex2_init
-#define EX_UPDATE  ex2_update
-#define EX_CLEANUP ex2_cleanup
+#define EX_INIT    ex3_init
+#define EX_UPDATE  ex3_update
+#define EX_CLEANUP ex3_cleanup
 
 /**
  * @fn int main(int argc, char* argv[])

@@ -52,6 +52,8 @@ add_executable (federation
   code/ex1.h
   code/ex2.c
   code/ex2.h
+  code/ex3.c
+  code/ex3.h
   code/fed_gl.c
   code/fed_gl.h
   code/fed_log.c
