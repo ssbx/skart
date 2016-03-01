@@ -75,6 +75,9 @@ void fedGlInit()
 
     glfwSwapInterval(1);
 
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+   
 }
 
 

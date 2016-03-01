@@ -107,8 +107,8 @@ void ex3_init()
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
     program_id = fedLoadShaders(
-        "data/shaders/fedVertexShader.glsm",
-        "data/shaders/fedFragmentShader.glsm"
+        "data/shaders/fedVertexShader.glsl",
+        "data/shaders/fedFragmentShader.glsl"
     );
 
     IN_modelViewProjection =
@@ -124,9 +124,11 @@ void ex3_init()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    projection = perspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    //projection = perspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    projection = ortho(-10,10,-10,10,0,100);
 
-    Vec3 eye    = {4,3,3};
+    debugMat4(projection, "ortho");
+    Vec3 eye    = {0,0,3};
     Vec3 center = {0,0,0};
     Vec3 up     = {0,1,0};
     view = lookAt(eye, center, up);
