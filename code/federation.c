@@ -1,4 +1,3 @@
-
 /**
  * @file federation.c
  * @brief Federation FPS
@@ -15,24 +14,25 @@
 
 #include "ex0.h"
 #include "ex1.h"
+#include "ex2.h"
 
 // define init version: FGl_init0 [ FGl_init
 #define FGL_INIT   fedGlInit
 
 // define example: exN_*
-#define EX_INIT    ex1_init
-#define EX_UPDATE  ex1_update
-#define EX_CLEANUP ex1_cleanup
+#define EX_INIT    ex2_init
+#define EX_UPDATE  ex2_update
+#define EX_CLEANUP ex2_cleanup
 
 /**
- * @fn int main(int argc, char* argv)
+ * @fn int main(int argc, char* argv[])
  * @brief Federation main loop.
  *
  * @return 0
  */
 int main(
     int   argc,
-    char* argv)
+    char* argv[])
 {
 
     glfwSetErrorCallback(fedErrorCallback);

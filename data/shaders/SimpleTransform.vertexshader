@@ -12,4 +12,3 @@ void main(){
 	gl_Position =  modelViewProjection * vec4(modelVertex ,1);
 
 }
-

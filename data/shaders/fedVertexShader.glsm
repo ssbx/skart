@@ -1,0 +1,21 @@
+#version 120
+
+// Values that stay constant for the whole mesh.
+uniform mat4 modelViewProjection;
+
+// Input vertex data, different for all executions of this shader.
+attribute vec3 modelVertex;
+attribute vec3 vertexColor;
+
+// sent to the fragment shader!!!
+varying vec3 fragmentColor;
+
+
+void main(){
+
+	// Output position of the vertex, in clip space : MVP * position
+	gl_Position =  modelViewProjection * vec4(modelVertex ,1);
+
+	fragmentColor = vertexColor;
+}
+
