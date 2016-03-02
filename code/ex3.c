@@ -97,10 +97,10 @@ static GLuint IN_colorVertex;
 static GLuint IN_modelViewProjection;
 static GLuint IN_sinVar;
 
-static Mat4 projection;
-static Mat4 view;
-static Mat4 model;
-static Mat4 MVP;
+static CGLMmat4 projection;
+static CGLMmat4 view;
+static CGLMmat4 model;
+static CGLMmat4 MVP;
 
 void ex3_init()
 {
@@ -124,16 +124,15 @@ void ex3_init()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    //projection = perspective(45, (GLfloat) 4/3, 0.1, 100.0);
-    projection = ortho(-10,10,-10,10,0,100);
+    projection = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    //projection = cglmOrtho(-10,10,-10,10,0,100);
 
-    debugMat4(projection, "ortho");
-    Vec3 eye    = {0,0,3};
-    Vec3 center = {0,0,0};
-    Vec3 up     = {0,1,0};
-    view = lookAt(eye, center, up);
-    model = mat4(1);
-    MVP = multMat4(multMat4(projection, view), model);
+    CGLMvec3 eye    = {4,3,3};
+    CGLMvec3 center = {0,0,0};
+    CGLMvec3 up     = {0,1,0};
+    view = cglmLookAt(eye, center, up);
+    model = cglmMat4(1);
+    MVP = cglmMultMat4(cglmMultMat4(projection, view), model);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
