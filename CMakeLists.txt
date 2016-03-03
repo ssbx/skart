@@ -46,14 +46,6 @@ include_directories (
 add_executable (federation
   code/federation.c
   code/federation.h
-  code/ex0.c
-  code/ex0.h
-  code/ex1.c
-  code/ex1.h
-  code/ex2.c
-  code/ex2.h
-  code/ex3.c
-  code/ex3.h
   code/fed_gl.c
   code/fed_gl.h
   code/fed_log.c

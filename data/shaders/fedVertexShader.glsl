@@ -22,7 +22,8 @@ varying vec3 fragmentColor;
 varying float forwardSin;
 
 
-void main() {
+void main()
+{
 
 	// Output position of the vertex, in clip space : MVP * position
 	gl_Position =  modelViewProjection * vec4(modelVertex ,1);

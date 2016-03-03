@@ -12,19 +12,6 @@
 #include "fed_log.h"
 #include "fed_input.h"
 
-#include "ex0.h"
-#include "ex1.h"
-#include "ex2.h"
-#include "ex3.h"
-
-// define init version: FGl_init0 [ FGl_init
-#define FGL_INIT   fedGlInit
-
-// define example: exN_*
-#define EX_INIT    ex3_init
-#define EX_UPDATE  ex3_update
-#define EX_CLEANUP ex3_cleanup
-
 /**
  * @fn int main(int argc, char* argv[])
  * @brief Federation main loop.
@@ -38,18 +25,14 @@ int main(
 
     glfwSetErrorCallback(fedErrorCallback);
 
-    FGL_INIT();
-
-    EX_INIT();
-
+    fedGlInit();
     glfwSetKeyCallback(fed_window, fedKeyCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {
-        EX_UPDATE();
+        fedGlUpdate();
     }
 
-    EX_CLEANUP();
     fedGlCleanup();
 
     return 0;
