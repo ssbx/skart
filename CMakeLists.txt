@@ -19,7 +19,6 @@ endif()
 #
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
-  -DGLEW_STATIC
   -DFEDERATION_DEBUG)
 
 
@@ -35,7 +34,6 @@ find_package(OpenGL REQUIRED)
 add_subdirectory (deps)
 include_directories (
   deps/glfw/include/
-  deps/glew/include/
   deps/cglm/
   code/)
 
@@ -56,14 +54,12 @@ add_executable (federation
   code/fed_shader.h)
 
 add_dependencies (federation glfw)
-add_dependencies (federation GLEW_1130)
 
 target_link_libraries (federation
   ${OPENGL_LIBRARY}
   ${GLFW_LIBRARIES}
   cglm
-  glfw
-  GLEW_1130)
+  glfw)
 
 
 #

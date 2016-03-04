@@ -128,14 +128,6 @@ void fedGlInit()
     }
     glfwMakeContextCurrent(fed_window);
 
-
-    if (glewInit() != GLEW_OK)
-    {
-        fedErrorMsg("fed_gl_init Failed to initialize GLEW\n");
-        glfwTerminate();
-        exit(1);
-    }
-
     glfwSwapInterval(1);
 
     glEnable(GL_DEPTH_TEST);

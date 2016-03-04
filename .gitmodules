@@ -1,9 +1,6 @@
 [submodule "deps/glfw"]
 	path = deps/glfw
 	url = http://github.com/glfw/glfw.git
-[submodule "deps/glew"]
-	path = deps/glew
-	url = http://github.com/ssbx/glew.git
 [submodule "deps/cglm"]
 	path = deps/cglm
 	url = https://github.com/ssbx/cglm.git
