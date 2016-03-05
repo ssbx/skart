@@ -1,6 +1,6 @@
 #include "fed_shader.h"
-#include "fed_log.h"
 
+#include <clog.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,7 +9,7 @@ GLuint fedLoadShaders(
     const char * fragment_file_path)
 {
 
-    fedDebugMsg("FShader_load");
+    clogDebugMsg("FShader_load");
 
     // Create the shaders
     GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
@@ -28,8 +28,8 @@ GLuint fedLoadShaders(
         return -1;
 
 
-    fedDebugMsg(vertex_code);
-    fedDebugMsg(fragment_code);
+    clogDebugMsg(vertex_code);
+    clogDebugMsg(fragment_code);
 
     GLint result = GL_FALSE;
     int   info_log_length;
@@ -45,14 +45,14 @@ GLuint fedLoadShaders(
     glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        fedErrorMsg("Error compiling vertex code");
+        clogErrorMsg("Error compiling vertex code");
     else
-        fedDebugMsg("Compiling vertex success");
+        clogDebugMsg("Compiling vertex success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(VertexShaderID, info_log_length, NULL, info_log);
-        fedInfoMsg((char*) info_log);
+        clogInfoMsg((char*) info_log);
         free(info_log);
     }
 
@@ -69,14 +69,14 @@ GLuint fedLoadShaders(
     glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        fedErrorMsg("Error compiling fragment code");
+        clogErrorMsg("Error compiling fragment code");
     else
-        fedDebugMsg("Compiling fragment success");
+        clogDebugMsg("Compiling fragment success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(FragmentShaderID, info_log_length, NULL, info_log);
-        fedInfoMsg((char*) info_log);
+        clogInfoMsg((char*) info_log);
         free(info_log);
     }
 
@@ -93,14 +93,14 @@ GLuint fedLoadShaders(
     glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &info_log_length);
 
     if (result == GL_FALSE)
-        fedErrorMsg("Error linking program");
+        clogErrorMsg("Error linking program");
     else
-        fedDebugMsg("Linking program success");
+        clogDebugMsg("Linking program success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetProgramInfoLog(program_id, info_log_length, NULL, info_log);
-        fedInfoMsg(info_log);
+        clogInfoMsg(info_log);
         free(info_log);
     }
 
@@ -125,7 +125,7 @@ char* fedDumpFile(const char* file_path)
     file_ptr = fopen(file_path, "rb");
 
     if (!file_ptr) {
-        fedErrorMsg("File not found!");
+        clogErrorMsg("File not found!");
         return NULL;
     }
 

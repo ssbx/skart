@@ -1,7 +1,7 @@
 #include "federation.h"
 #include "fed_gl.h"
-#include "fed_log.h"
 #include "fed_shader.h"
+#include <clog.h>
 #include <cglm.h>
 #include <stdio.h>
 #include <math.h>
@@ -109,7 +109,7 @@ static CGLMmat4 MVP;
 void fedGlInit()
 {
 
-    fedDebugMsg("fedGlIit");
+    clogDebugMsg("fedGlIit");
 
     if (!glfwInit()) {
         exit(1);
@@ -122,7 +122,7 @@ void fedGlInit()
     fed_window = glfwCreateWindow(1024, 768, "Simple example", NULL, NULL);
     if (!fed_window)
     {
-        fedErrorMsg("fed_gl_init Failed to open GLFW window.\n");
+        clogErrorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
         exit(1);
     }
@@ -231,7 +231,7 @@ void fedGlUpdate()
 void fedGlCleanup()
 {
 
-    fedDebugMsg("fedGlCleanup");
+    clogDebugMsg("fedGlCleanup");
     glfwDestroyWindow(fed_window);
     glfwTerminate();
 

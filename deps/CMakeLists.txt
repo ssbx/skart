@@ -31,3 +31,8 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 # CGLM
 #
 add_subdirectory(cglm)
+
+#
+# CLOG
+#
+add_subdirectory(clog)

@@ -9,8 +9,8 @@
  */
 #include "federation.h"
 #include "fed_gl.h"
-#include "fed_log.h"
 #include "fed_input.h"
+#include <clog.h>
 
 /**
  * @fn int main(int argc, char* argv[])
@@ -23,7 +23,7 @@ int main(
     char* argv[])
 {
 
-    glfwSetErrorCallback(fedErrorCallback);
+    glfwSetErrorCallback(clogErrorCallback);
 
     fedGlInit();
     glfwSetKeyCallback(fed_window, fedKeyCallback);

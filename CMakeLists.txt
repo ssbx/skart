@@ -19,7 +19,7 @@ endif()
 #
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
-  -DFEDERATION_DEBUG)
+  -DCLOG_DEBUG)
 
 
 #
@@ -34,6 +34,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory (deps)
 include_directories (
   deps/glfw/include/
+  deps/clog/
   deps/cglm/
   code/)
 
@@ -46,8 +47,6 @@ add_executable (federation
   code/federation.h
   code/fed_gl.c
   code/fed_gl.h
-  code/fed_log.c
-  code/fed_log.h
   code/fed_input.c
   code/fed_input.h
   code/fed_shader.c
@@ -58,6 +57,7 @@ add_dependencies (federation glfw)
 target_link_libraries (federation
   ${OPENGL_LIBRARY}
   ${GLFW_LIBRARIES}
+  clog
   cglm
   glfw)
 
