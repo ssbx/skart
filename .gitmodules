@@ -6,4 +6,4 @@
 	url = https://github.com/ssbx/cglm.git
 [submodule "deps/clog"]
 	path = deps/clog
-	url = git@github.com:ssbx/clog.git
+	url = https://github.com/ssbx/clog.git
