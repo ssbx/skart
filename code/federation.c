@@ -23,7 +23,7 @@ int main(
     char* argv[])
 {
 
-    glfwSetErrorCallback(clogErrorCallback);
+    glfwSetErrorCallback(clogGLFWErrorCallback);
 
     fedGlInit();
     glfwSetKeyCallback(fed_window, fedKeyCallback);
