@@ -1,48 +1,34 @@
-# -----------------------------------------------------------------------------
+#
 # CMakeList for project FEDERATION
-# -----------------------------------------------------------------------------
+#
 cmake_minimum_required (VERSION 2.8)
 project (FEDERATION)
 
 
-if (CMAKE_SOURCE_DIR MATCHES " ")
-  message (FATAL_ERROR "Your Source Directory contains spaces.")
-endif()
-
-if (CMAKE_BINARY_DIR MATCHES " ")
-  message (FATAL_ERROR "Your Build Directory contains spaces.")
-endif()
-
-
-
-# -----------------------------------------------------------------------------
-# Dependencies
-# -----------------------------------------------------------------------------
-
-# Preprocessor definitions
+#
+# preprocessor definitions
+#
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
+  -DGLEW_STATIC
   -DCLOG_DEBUG)
 
-# GLAD
-add_subdirectory (deps/glad)
 
-# GLFW
-set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "No examples")
-set (GLFW_BUILD_TESTS    OFF CACHE BOOL "No tests")
-add_subdirectory (deps/glfw)
+#
+# shared dependencies
+#
+find_package(OpenGL REQUIRED)
 
-# # CGLM
-add_subdirectory(deps/cglm)
 
-# CLOG
-add_subdirectory(deps/clog)
-
+#
+# dependencies build
+#
+add_subdirectory (deps)
 include_directories (
-  deps/glad/include/
   deps/glfw/include/
-  deps/clog/
+  deps/glew/include/
   deps/cglm/
+  deps/clog/
   code/)
 
 
@@ -59,13 +45,9 @@ add_executable (federation
   code/fed_shader.c
   code/fed_shader.h)
 
-add_dependencies (federation glad glfw clog cglm)
+add_dependencies (federation glfw glew clog cglm)
 target_link_libraries (federation
-  glad
-  glfw
-  ${GLFW_LIBRARIES}
-  clog
-  cglm)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew)
 
 
 #
@@ -116,4 +98,3 @@ if (DOXYGEN_FOUND)
     COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
 endif (DOXYGEN_FOUND)
-

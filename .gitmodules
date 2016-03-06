@@ -7,6 +7,6 @@
 [submodule "deps/clog"]
 	path = deps/clog
 	url = https://github.com/ssbx/clog.git
-[submodule "deps/glad"]
-	path = deps/glad
-	url = https://github.com/ssbx/glad.git
+[submodule "deps/glew"]
+	path = deps/glew
+	url = https://github.com/ssbx/glew.git

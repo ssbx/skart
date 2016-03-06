@@ -1,8 +1,8 @@
 #include "federation.h"
 #include "fed_gl.h"
 #include "fed_shader.h"
-#include <clog.h>
 #include <cglm.h>
+#include <clog.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -128,6 +128,14 @@ void fedGlInit()
     }
     glfwMakeContextCurrent(fed_window);
 
+
+    if (glewInit() != GLEW_OK)
+    {
+        clogErrorMsg("fed_gl_init Failed to initialize GLEW\n");
+        glfwTerminate();
+        exit(1);
+    }
+
     glfwSwapInterval(1);
 
     glEnable(GL_DEPTH_TEST);
@@ -153,11 +161,7 @@ void fedGlInit()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    projection = cglmPerspective(
-        (GLfloat) 45,
-        (GLfloat) 4 / (GLfloat) 3,
-        (GLfloat) 0.1,
-        (GLfloat) 100.0);
+    projection = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
     //projection = cglmOrtho(-10,10,-10,10,0,100);
 
     CGLMvec3 eye    = {4,3,3};
