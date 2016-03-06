@@ -14,3 +14,4 @@ $ cmake ..
 $ make all
 ```
 
+TODO "cmake test" working on OSX and windows.
