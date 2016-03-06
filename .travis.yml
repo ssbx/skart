@@ -20,7 +20,7 @@ script:
   - export PATH="$HOME/cmake/bin:$PATH"
   - ./configure
   - cd build; make
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make test ARGS=--output-on-failure; fi
+  - make test ARGS=-V
 
 cache:
     directories:
