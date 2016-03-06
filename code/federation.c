@@ -12,6 +12,8 @@
 #include "fed_input.h"
 #include <clog.h>
 
+#include <string.h>
+
 /**
  * @fn int main(int argc, char* argv[])
  * @brief Federation main loop.
@@ -22,6 +24,16 @@ int main(
     int   argc,
     char* argv[])
 {
+
+    clogInfoMsg("arg is: ");
+    clogInfoMsg(argv[1]);
+    if (strcmp(argv[1], "basic_test") == 0) {
+        clogInfoMsg("Start in test mode\n");
+        fedGlInit();
+        fedGlUpdate();
+        fedGlCleanup();
+        return 0;
+    }
 
     glfwSetErrorCallback(clogGLFWErrorCallback);
 

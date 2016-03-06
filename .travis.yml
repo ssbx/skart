@@ -4,20 +4,26 @@ os:
   - linux
   - osx
 
-sudo: false
+sudo: true
 
 compiler:
     - gcc
     - clang
 
 before_install:
-    - sh ./.travis.update_cmake
+    - sh ./.travis.init
 
-cache:
-    directories:
-        - $HOME/cmake
+before_script:
+    - export DISPLAY=:99.0
 
 script:
   - export PATH="$HOME/cmake/bin:$PATH"
   - ./configure
   - cd build; make
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make test ARGS=--output-on-failure; fi
+
+cache:
+    directories:
+        - $HOME/cmake
+
+

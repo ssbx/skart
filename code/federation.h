@@ -7,5 +7,4 @@
 
 GLFWwindow *fed_window; //< Federation main window
 
-
 #endif // FEDERATION_H

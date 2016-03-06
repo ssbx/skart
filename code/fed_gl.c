@@ -124,7 +124,7 @@ void fedGlInit()
     {
         clogErrorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
-        exit(1);
+        exit(2);
     }
     glfwMakeContextCurrent(fed_window);
 
@@ -133,7 +133,7 @@ void fedGlInit()
     {
         clogErrorMsg("fed_gl_init Failed to initialize GLEW\n");
         glfwTerminate();
-        exit(1);
+        exit(3);
     }
 
     glfwSwapInterval(1);
