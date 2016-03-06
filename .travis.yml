@@ -11,7 +11,7 @@ compiler:
     - clang
 
 before_install:
-    - sh ./.travis.script
+    - sh ./.travis.update_cmake
 
 cache:
     directories:
