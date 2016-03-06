@@ -1,7 +1,7 @@
 #ifndef FED_INPUT_H
 #define FED_INPUT_H
 
-#include <GLFW/glfw3.h>
+#include "federation.h"
 
 void fedKeyCallback(
     GLFWwindow* window,

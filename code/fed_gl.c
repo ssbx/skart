@@ -153,7 +153,11 @@ void fedGlInit()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    projection = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    projection = cglmPerspective(
+        (GLfloat) 45,
+        (GLfloat) 4 / (GLfloat) 3,
+        (GLfloat) 0.1,
+        (GLfloat) 100.0);
     //projection = cglmOrtho(-10,10,-10,10,0,100);
 
     CGLMvec3 eye    = {4,3,3};

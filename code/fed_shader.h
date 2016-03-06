@@ -1,7 +1,7 @@
 #ifndef FED_SHADER_H
 #define FED_SHADER_H
 
-#include <GLFW/glfw3.h>
+#include "federation.h"
 
 GLuint fedLoadShaders(
     const char * vertex_file_path,

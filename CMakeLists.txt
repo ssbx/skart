@@ -1,6 +1,6 @@
-#
+# -----------------------------------------------------------------------------
 # CMakeList for project FEDERATION
-#
+# -----------------------------------------------------------------------------
 cmake_minimum_required (VERSION 2.8)
 project (FEDERATION)
 
@@ -14,25 +14,32 @@ if (CMAKE_BINARY_DIR MATCHES " ")
 endif()
 
 
-#
-# preprocessor definitions
-#
+
+# -----------------------------------------------------------------------------
+# Dependencies
+# -----------------------------------------------------------------------------
+
+# Preprocessor definitions
 add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
   -DCLOG_DEBUG)
 
+# GLAD
+add_subdirectory (deps/glad)
 
-#
-# shared dependencies
-#
-find_package(OpenGL REQUIRED)
+# GLFW
+set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "No examples")
+set (GLFW_BUILD_TESTS    OFF CACHE BOOL "No tests")
+add_subdirectory (deps/glfw)
 
+# # CGLM
+add_subdirectory(deps/cglm)
 
-#
-# dependencies build
-#
-add_subdirectory (deps)
+# CLOG
+add_subdirectory(deps/clog)
+
 include_directories (
+  deps/glad/include/
   deps/glfw/include/
   deps/clog/
   deps/cglm/
@@ -52,14 +59,13 @@ add_executable (federation
   code/fed_shader.c
   code/fed_shader.h)
 
-add_dependencies (federation glfw)
-
+add_dependencies (federation glad glfw clog cglm)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY}
+  glad
+  glfw
   ${GLFW_LIBRARIES}
   clog
-  cglm
-  glfw)
+  cglm)
 
 
 #
@@ -110,3 +116,4 @@ if (DOXYGEN_FOUND)
     COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
 endif (DOXYGEN_FOUND)
+
