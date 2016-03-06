@@ -25,14 +25,15 @@ int main(
     char* argv[])
 {
 
-    clogInfoMsg("arg is: ");
-    clogInfoMsg(argv[1]);
-    if (strcmp(argv[1], "basic_test") == 0) {
-        clogInfoMsg("Start in test mode\n");
-        fedGlInit();
-        fedGlUpdate();
-        fedGlCleanup();
-        return 0;
+
+    if (argc > 1) {
+        if (strcmp(argv[1], "basic_test") == 0) {
+            clogInfoMsg("Start in test mode\n");
+            fedGlInit();
+            fedGlUpdate();
+            fedGlCleanup();
+            return 0;
+        }
     }
 
     glfwSetErrorCallback(clogGLFWErrorCallback);
