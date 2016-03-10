@@ -6,7 +6,7 @@ Build
 Initialize submodules, build directory and compile all:
 ```sh
 $ git submodule init
-$ git submodule update
+$ git submodule update --init --recursive
 $ rm -rf build 
 $ mkdir build
 $ cd build 

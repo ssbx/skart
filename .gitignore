@@ -4,3 +4,4 @@
 *.swo
 .kdev4
 federation.kdev4
+/Makefile

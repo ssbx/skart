@@ -35,3 +35,6 @@ add_subdirectory(cglm)
 
 # CLOG
 add_subdirectory(clog)
+
+# SNDO
+add_subdirectory(sndo)

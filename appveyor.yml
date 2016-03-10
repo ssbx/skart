@@ -9,7 +9,6 @@ install:
     ps: $screen_resolution = '1280x800'; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
 
 before_build:
-    - echo Running cmake...
     - cd c:\projects\federation
     - git submodule init
     - git submodule update

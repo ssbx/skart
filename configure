@@ -1,15 +1,24 @@
 #!/bin/sh
 
-# update dependencies
+# easy makefile
+echo '
+.PHONY: all clean_all
+
+all:
+	make -C build all
+
+clean_all:
+	rm -rf build; rm Makefile
+
+%: 
+	make -C build $@
+' > Makefile
+
 git submodule init
-git submodule update
+git submodule update --init --recursive
 
 # cleanup build dir if exist
 rm -rf build
-mkdir  build && 
 
 # create Unix Makefiles project
-cd build && cmake ..
-
-echo "\nYou can now run \"cd build && make all && make test\"\n"
-
+mkdir build && cd build && cmake ..
