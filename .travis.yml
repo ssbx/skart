@@ -12,6 +12,8 @@ compiler:
 
 before_install:
     - sh ./.travis.init
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y libjack-dev libasound2-dev; fi
 
 before_script:
     - export DISPLAY=:99.0
