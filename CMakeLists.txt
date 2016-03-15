@@ -29,6 +29,7 @@ include_directories (
   deps/glew/include/
   deps/cglm/
   deps/clog/
+  deps/sndo/
   code/)
 
 
@@ -47,7 +48,7 @@ add_executable (federation
 
 add_dependencies (federation glfw glew clog cglm sndo)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew sndo)
 
 
 #

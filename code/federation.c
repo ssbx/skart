@@ -12,6 +12,8 @@
 #include "fed_input.h"
 #include <clog.h>
 
+#include <sndo.h>
+
 #include <string.h>
 
 /**
@@ -25,6 +27,8 @@ int main(
     char* argv[])
 {
 
+
+    sndoInit("../tes.wav");
 
     if (argc > 1) {
         if (strcmp(argv[1], "basic_test") == 0) {
@@ -47,6 +51,7 @@ int main(
     }
 
     fedGlCleanup();
+    sndoTerminate();
 
     return 0;
 
