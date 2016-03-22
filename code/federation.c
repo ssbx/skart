@@ -28,8 +28,6 @@ int main(
 {
 
 
-    sndoInit();
-    GUN_SHOT = sndoLoad("data/sounds/shot.wav");
 
     if (argc > 1) {
         if (strcmp(argv[1], "basic_test") == 0) {
@@ -40,6 +38,9 @@ int main(
             return 0;
         }
     }
+
+    sndoInit();
+    GUN_SHOT = sndoLoad("data/sounds/shot.wav");
 
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
