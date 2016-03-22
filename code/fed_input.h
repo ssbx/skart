@@ -10,5 +10,10 @@ void fedKeyCallback(
     int         action,
     int         mods);
 
+void fedMouseButtonCallback(
+    GLFWwindow* window,
+    int         button,
+    int         action,
+    int         mods);
 
 #endif

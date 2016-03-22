@@ -28,7 +28,8 @@ int main(
 {
 
 
-    sndoInit("../tes.wav");
+    sndoInit();
+    GUN_SHOT = sndoLoad("data/sounds/shot.wav");
 
     if (argc > 1) {
         if (strcmp(argv[1], "basic_test") == 0) {
@@ -44,6 +45,7 @@ int main(
 
     fedGlInit();
     glfwSetKeyCallback(fed_window, fedKeyCallback);
+    glfwSetMouseButtonCallback(fed_window, fedMouseButtonCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {

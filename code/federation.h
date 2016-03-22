@@ -7,4 +7,6 @@
 
 GLFWwindow *fed_window; //< Federation main window
 
+int GUN_SHOT;
+
 #endif // FEDERATION_H
