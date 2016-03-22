@@ -39,7 +39,7 @@ int main(
         }
     }
 
-    sndoInit();
+    sndoInit(0.05);
     GUN_SHOT = sndoLoad("data/sounds/shot.wav");
 
     glfwSetErrorCallback(clogGLFWErrorCallback);
