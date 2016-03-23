@@ -22,6 +22,11 @@ void fedMouseButtonCallback(
     int         action,
     int         mods);
 
+void fedScrollCallback(
+    GLFWcharfun* window,
+    double xoffset,
+    double yoffset);
+
 void fedInputInit(float mouseSpeed);
 
 #endif

@@ -39,7 +39,7 @@ int main(
         }
     }
 
-    fedInputInit(0.005f);
+    fedInputInit(0.01f);
     sndoInit(0.05);
     SND_Intro = sndoLoad("../tes.wav");
     SND_GunShot = sndoLoad("data/sounds/shot.wav");
@@ -52,6 +52,7 @@ int main(
     glfwSetKeyCallback(fed_window, fedKeyCallback);
     glfwSetMouseButtonCallback(fed_window, fedMouseButtonCallback);
     glfwSetCursorPosCallback(fed_window, fedCursorPosCallback);
+    glfwSetScrollCallback(fed_window, fedScrollCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {
