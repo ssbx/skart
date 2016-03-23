@@ -3,10 +3,15 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <cglm.h>
 
 
 GLFWwindow *fed_window; //< Federation main window
 
-int GUN_SHOT;
+int SND_Intro;
+int SND_GunShot;
+
+CGLMmat4 FED_ProjectionMatrix;
+CGLMmat4 FED_ViewMatrix;
 
 #endif // FEDERATION_H

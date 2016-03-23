@@ -10,10 +10,18 @@ void fedKeyCallback(
     int         action,
     int         mods);
 
+
+void fedCursorPosCallback(
+    GLFWwindow* window,
+    double      xpos,  
+    double      ypos);
+
 void fedMouseButtonCallback(
     GLFWwindow* window,
     int         button,
     int         action,
     int         mods);
+
+void fedInputInit(float mouseSpeed);
 
 #endif

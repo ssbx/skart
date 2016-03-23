@@ -101,8 +101,6 @@ static GLuint IN_colorVertex;
 static GLuint IN_modelViewProjection;
 static GLuint IN_sinVar;
 
-static CGLMmat4 projection;
-static CGLMmat4 view;
 static CGLMmat4 model;
 static CGLMmat4 MVP;
 
@@ -137,6 +135,7 @@ void fedGlInit()
     }
 
     glfwSwapInterval(1);
+    glfwSetInputMode(fed_window, GLFW_STICKY_KEYS, GL_TRUE);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -162,15 +161,15 @@ void fedGlInit()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    projection = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
-    //projection = cglmOrtho(-10,10,-10,10,0,100);
+    FED_ProjectionMatrix = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    //FED_ProjectionMatrix = cglmOrtho(-10,10,-10,10,0,100);
 
     CGLMvec3 eye    = {4,3,3};
     CGLMvec3 center = {0,0,0};
     CGLMvec3 up     = {0,1,0};
-    view = cglmLookAt(eye, center, up);
+    FED_ViewMatrix = cglmLookAt(eye, center, up);
     model = cglmMat4(1);
-    MVP = cglmMultMat4(cglmMultMat4(projection, view), model);
+    MVP = cglmMultMat4(cglmMultMat4(FED_ProjectionMatrix, FED_ViewMatrix), model);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -187,6 +186,8 @@ void fedGlInit()
 
 void fedGlUpdate()
 {
+    MVP = cglmMultMat4(cglmMultMat4(FED_ProjectionMatrix, FED_ViewMatrix), model);
+    
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

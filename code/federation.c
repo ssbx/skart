@@ -39,14 +39,19 @@ int main(
         }
     }
 
+    fedInputInit(0.005f);
     sndoInit(0.05);
-    GUN_SHOT = sndoLoad("data/sounds/shot.wav");
-
+    SND_Intro = sndoLoad("../tes.wav");
+    SND_GunShot = sndoLoad("data/sounds/shot.wav");
+    sndoPlay(SND_Intro);
+    
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
     fedGlInit();
+    
     glfwSetKeyCallback(fed_window, fedKeyCallback);
     glfwSetMouseButtonCallback(fed_window, fedMouseButtonCallback);
+    glfwSetCursorPosCallback(fed_window, fedCursorPosCallback);
 
     while (!glfwWindowShouldClose(fed_window))
     {
