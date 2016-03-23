@@ -117,14 +117,31 @@ void fedGlInit()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    fed_window = glfwCreateWindow(1024, 768, "Simple example", NULL, NULL);
-    if (!fed_window)
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+    
+    SCREEN_WIDTH = mode->width;
+    SCREEN_HEIGHT = mode->height;
+    SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+    
+    printf("hello %f %f %f\n", SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_RATIO);
+    
+    FED_Window = glfwCreateWindow(
+        mode->width, mode->height, "Federation", monitor, NULL);
+    
+    if (!FED_Window)
     {
         clogErrorMsg("fed_gl_init Failed to open GLFW window.\n");
         glfwTerminate();
         exit(0);
     }
-    glfwMakeContextCurrent(fed_window);
+   
+    
+    glfwMakeContextCurrent(FED_Window);
 
 
     if (glewInit() != GLEW_OK)
@@ -133,9 +150,12 @@ void fedGlInit()
         glfwTerminate();
         exit(1);
     }
-
+ 
+    // fix opengl error viewport on full screen
+    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
     glfwSwapInterval(1);
-    glfwSetInputMode(fed_window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetInputMode(FED_Window, GLFW_STICKY_KEYS, GL_TRUE);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -161,15 +181,15 @@ void fedGlInit()
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    FED_ProjectionMatrix = cglmPerspective(45, (GLfloat) 4/3, 0.1, 100.0);
+    FED_MATRIX_Projection = cglmPerspective(45, SCREEN_RATIO, 0.1, 100.0);
     //FED_ProjectionMatrix = cglmOrtho(-10,10,-10,10,0,100);
 
     CGLMvec3 eye    = {4,3,3};
     CGLMvec3 center = {0,0,0};
     CGLMvec3 up     = {0,1,0};
-    FED_ViewMatrix = cglmLookAt(eye, center, up);
+    FED_MATRIX_View = cglmLookAt(eye, center, up);
     model = cglmMat4(1);
-    MVP = cglmMultMat4(cglmMultMat4(FED_ProjectionMatrix, FED_ViewMatrix), model);
+    MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -186,7 +206,7 @@ void fedGlInit()
 
 void fedGlUpdate()
 {
-    MVP = cglmMultMat4(cglmMultMat4(FED_ProjectionMatrix, FED_ViewMatrix), model);
+    MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
     
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -234,7 +254,7 @@ void fedGlUpdate()
     glDisableVertexAttribArray(IN_colorVertex);
 
     // Swap buffers
-    glfwSwapBuffers(fed_window);
+    glfwSwapBuffers(FED_Window);
     glfwPollEvents();
 }
 
@@ -242,7 +262,7 @@ void fedGlCleanup()
 {
 
     clogDebugMsg("fedGlCleanup");
-    glfwDestroyWindow(fed_window);
+    glfwDestroyWindow(FED_Window);
     glfwTerminate();
 
 }

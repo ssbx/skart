@@ -3,27 +3,6 @@
 #include <cglm.h>
 #include <math.h>
 
-double INPUT_lastTime;
-double INPUT_currentTime;
-float INPUT_mouseSpeed;
-float INPUT_deltaTime;
-float INPUT_horizontalAngle;
-float INPUT_verticalAngle;
-float INPUT_fieldOfView;
-CGLMvec3 INPUT_position;
-
-void fedInputInit(float mouseSpeed)
-{
-    
-    INPUT_lastTime = glfwGetTime();
-    INPUT_mouseSpeed = 0.0015;
-    INPUT_horizontalAngle = 3.14;
-    INPUT_verticalAngle = 0.0;
-    INPUT_fieldOfView = 45.0;
-    INPUT_position = (CGLMvec3) {4,4,3};
-
-}
-
 void fedKeyCallback(
     GLFWwindow* window,
     int         key,
@@ -34,11 +13,14 @@ void fedKeyCallback(
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
         return;
+    } else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        glfwIconifyWindow(FED_Window);
+        return;
     }
 }
 
 void fedScrollCallback(
-    GLFWcharfun* window,
+    GLFWwindow* window,
     double xoffset,
     double yoffset)
 {
@@ -53,10 +35,10 @@ void fedCursorPosCallback(
     INPUT_currentTime = glfwGetTime();
     INPUT_deltaTime   = INPUT_currentTime - INPUT_lastTime;
     
-    glfwSetCursorPos(window, 1024/2, 768/2);
+    glfwSetCursorPos(window, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
     
-    INPUT_horizontalAngle += INPUT_mouseSpeed * (float) (1024.0/2.0 - xpos) ;
-    INPUT_verticalAngle   += INPUT_mouseSpeed * (float) (768.0/2.0 - ypos);
+    INPUT_horizontalAngle += INPUT_mouseSpeed * (SCREEN_WIDTH/2.0f - xpos) ;
+    INPUT_verticalAngle   += INPUT_mouseSpeed * (SCREEN_HEIGHT/2.0f - ypos);
     
     CGLMvec3 direction = {
         cos(INPUT_verticalAngle) * sin(INPUT_horizontalAngle), 
@@ -73,8 +55,8 @@ void fedCursorPosCallback(
     CGLMvec3 up = cglmCross(right, direction);
     
     float fov = INPUT_fieldOfView;
-    FED_ProjectionMatrix = cglmPerspective(fov, (float) 4/3, 0.1, 100.0);
-    FED_ViewMatrix = cglmLookAt(
+    FED_MATRIX_Projection = cglmPerspective(fov, SCREEN_RATIO, 0.1, 100.0);
+    FED_MATRIX_View = cglmLookAt(
         INPUT_position,
         cglmAddVec3(INPUT_position, direction),
         up
@@ -95,22 +77,22 @@ void fedMouseButtonCallback(
         switch(button)
         {
             case GLFW_MOUSE_BUTTON_LEFT:
-                sndoPlay(SND_GunShot);
+                sndoPlay(FED_SOUND_GunShot);
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
-                sndoPlay(SND_GunShot);
+                sndoPlay(FED_SOUND_GunShot);
                 if (INPUT_fieldOfView == 45.0) {
                     INPUT_fieldOfView = 360.0;
-                    FED_ProjectionMatrix = cglmPerspective(
-                                    INPUT_fieldOfView, (float) 4/3, 0.1, 100.0);
+                    FED_MATRIX_Projection = cglmPerspective(
+                                    INPUT_fieldOfView, SCREEN_RATIO, 0.1, 100.0);
                 } else {
                     INPUT_fieldOfView = 45.0;
-                    FED_ProjectionMatrix = cglmPerspective(
-                                    INPUT_fieldOfView, (float) 4/3, 0.1, 100.0);
+                    FED_MATRIX_Projection = cglmPerspective(
+                                    INPUT_fieldOfView, SCREEN_RATIO, 0.1, 100.0);
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:
-                sndoPlay(SND_GunShot);
+                sndoPlay(FED_SOUND_GunShot);
                 break;
         }
     }

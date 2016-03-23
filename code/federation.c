@@ -39,22 +39,32 @@ int main(
         }
     }
 
-    fedInputInit(0.01f);
+    // init sounds
     sndoInit(0.05);
-    SND_Intro = sndoLoad("../tes.wav");
-    SND_GunShot = sndoLoad("data/sounds/shot.wav");
-    sndoPlay(SND_Intro);
+    FED_SOUND_Intro   = sndoLoad("../tes.wav");
+    FED_SOUND_GunShot = sndoLoad("data/sounds/shot.wav");
+        
+    // initial input variables
+    INPUT_lastTime        = glfwGetTime();
+    INPUT_mouseSpeed      = 0.0015;
+    INPUT_horizontalAngle = 3.14;
+    INPUT_verticalAngle   = 0.0;
+    INPUT_fieldOfView     = 45.0;
+    INPUT_position = (CGLMvec3) {4,4,3};
+    
+    sndoPlay(FED_SOUND_Intro);
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
     fedGlInit();
     
-    glfwSetKeyCallback(fed_window, fedKeyCallback);
-    glfwSetMouseButtonCallback(fed_window, fedMouseButtonCallback);
-    glfwSetCursorPosCallback(fed_window, fedCursorPosCallback);
-    glfwSetScrollCallback(fed_window, fedScrollCallback);
+    glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetKeyCallback(FED_Window, fedKeyCallback);
+    glfwSetMouseButtonCallback(FED_Window, fedMouseButtonCallback);
+    glfwSetCursorPosCallback(FED_Window, fedCursorPosCallback);
+    glfwSetScrollCallback(FED_Window, fedScrollCallback);
 
-    while (!glfwWindowShouldClose(fed_window))
+    while (!glfwWindowShouldClose(FED_Window))
     {
         fedGlUpdate();
     }
