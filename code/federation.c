@@ -41,7 +41,6 @@ int main(
 
     // init sounds
     shakeInit(0.05);
-    FED_SOUND_Intro   = shakeLoad("../tes.wav");
     FED_SOUND_GunShot = shakeLoad("data/sounds/shot.wav");
         
     // initial input variables
@@ -51,8 +50,6 @@ int main(
     INPUT_verticalAngle   = 0.0;
     INPUT_fieldOfView     = 45.0;
     INPUT_position = (CGLMvec3) {4,4,3};
-    
-    shakePlay(FED_SOUND_Intro);
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
