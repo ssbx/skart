@@ -1,5 +1,5 @@
 #include "fed_input.h"
-#include "sndo.h"
+#include "shake.h"
 #include <cglm.h>
 #include <math.h>
 
@@ -77,10 +77,10 @@ void fedMouseButtonCallback(
         switch(button)
         {
             case GLFW_MOUSE_BUTTON_LEFT:
-                sndoPlay(FED_SOUND_GunShot);
+                shakePlay(FED_SOUND_GunShot);
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
-                sndoPlay(FED_SOUND_GunShot);
+                shakePlay(FED_SOUND_GunShot);
                 if (INPUT_fieldOfView == 45.0) {
                     INPUT_fieldOfView = 360.0;
                     FED_MATRIX_Projection = cglmPerspective(
@@ -92,7 +92,7 @@ void fedMouseButtonCallback(
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:
-                sndoPlay(FED_SOUND_GunShot);
+                shakePlay(FED_SOUND_GunShot);
                 break;
         }
     }

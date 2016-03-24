@@ -29,7 +29,7 @@ include_directories (
   deps/glew/include/
   deps/cglm/
   deps/clog/
-  deps/sndo/
+  deps/shake/
   code/)
 
 
@@ -46,9 +46,9 @@ add_executable (federation
   code/fed_shader.c
   code/fed_shader.h)
 
-add_dependencies (federation glfw glew clog cglm sndo)
+add_dependencies (federation glfw glew clog cglm shake)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew sndo)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake)
 
 
 #

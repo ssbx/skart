@@ -37,5 +37,5 @@ add_subdirectory(cglm)
 add_subdirectory(clog)
 
 
-# SNDO
-add_subdirectory(sndo)
+# shake
+add_subdirectory(shake)

@@ -12,7 +12,7 @@
 #include "fed_input.h"
 #include <clog.h>
 
-#include <sndo.h>
+#include <shake.h>
 
 #include <string.h>
 
@@ -40,9 +40,9 @@ int main(
     }
 
     // init sounds
-    sndoInit(0.05);
-    FED_SOUND_Intro   = sndoLoad("../tes.wav");
-    FED_SOUND_GunShot = sndoLoad("data/sounds/shot.wav");
+    shakeInit(0.05);
+    FED_SOUND_Intro   = shakeLoad("../tes.wav");
+    FED_SOUND_GunShot = shakeLoad("data/sounds/shot.wav");
         
     // initial input variables
     INPUT_lastTime        = glfwGetTime();
@@ -52,7 +52,7 @@ int main(
     INPUT_fieldOfView     = 45.0;
     INPUT_position = (CGLMvec3) {4,4,3};
     
-    sndoPlay(FED_SOUND_Intro);
+    shakePlay(FED_SOUND_Intro);
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
@@ -70,7 +70,7 @@ int main(
     }
 
     fedGlCleanup();
-    sndoTerminate();
+    shakeTerminate();
 
     return 0;
 
