@@ -104,7 +104,7 @@ static GLuint IN_sinVar;
 static CGLMmat4 model;
 static CGLMmat4 MVP;
 
-void fedGlInit()
+void fedGlInit(int startFullScreen)
 {
 
     clogDebugMsg("fedGlIit");
@@ -117,21 +117,34 @@ void fedGlInit()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-    
-    SCREEN_WIDTH = mode->width;
-    SCREEN_HEIGHT = mode->height;
-    SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
-    
-    printf("hello %f %f %f\n", SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_RATIO);
-    
-    FED_Window = glfwCreateWindow(
-        mode->width, mode->height, "Federation", monitor, NULL);
+    if (startFullScreen == 1) {
+        
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        
+        SCREEN_WIDTH = mode->width;
+        SCREEN_HEIGHT = mode->height;
+        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+        
+        printf("hello %f %f %f\n", SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_RATIO);
+        
+        FED_Window = glfwCreateWindow(
+            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", monitor, NULL);
+        
+    } else {
+        
+        SCREEN_WIDTH = 1024;
+        SCREEN_HEIGHT = 768;
+        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+        
+        FED_Window = glfwCreateWindow(
+            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", NULL, NULL);
+        
+    }
     
     if (!FED_Window)
     {

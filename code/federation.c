@@ -28,14 +28,18 @@ int main(
 {
 
 
+    int fullScreen = 0;
 
     if (argc > 1) {
         if (strcmp(argv[1], "basic_test") == 0) {
             clogInfoMsg("Start in test mode\n");
-            fedGlInit();
+            fedGlInit(fullScreen);
             fedGlUpdate();
             fedGlCleanup();
             return 0;
+        }
+        if (strcmp(argv[1], "fs") == 0) {
+            fullScreen = 1;
         }
     }
 
@@ -53,7 +57,7 @@ int main(
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
 
-    fedGlInit();
+    fedGlInit(fullScreen);
     
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetKeyCallback(FED_Window, fedKeyCallback);
