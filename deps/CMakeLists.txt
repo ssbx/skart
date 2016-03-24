@@ -38,4 +38,4 @@ add_subdirectory(clog)
 
 
 # shake
-add_subdirectory(shake)
+add_subdirectory(libshake)

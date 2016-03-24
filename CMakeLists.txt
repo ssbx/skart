@@ -29,7 +29,7 @@ include_directories (
   deps/glew/include/
   deps/cglm/
   deps/clog/
-  deps/shake/
+  deps/libshake/
   code/)
 
 

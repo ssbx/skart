@@ -10,6 +10,6 @@
 [submodule "deps/glew"]
 	path = deps/glew
 	url = https://github.com/ssbx/glew.git
-[submodule "deps/shake"]
-	path = deps/shake
-	url = https://github.com/ssbx/shake.git
+[submodule "deps/libshake"]
+	path = deps/libshake
+	url = https://github.com/ssbx/libshake.git
