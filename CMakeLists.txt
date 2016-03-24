@@ -48,7 +48,7 @@ add_executable (federation
 
 add_dependencies (federation glfw glew clog cglm shake)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake portaudio)
 
 
 #
@@ -66,13 +66,22 @@ add_custom_target (update_data)
 
 add_custom_command (TARGET create_data_dirs POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory
-                        ${CMAKE_CURRENT_BINARY_DIR}/data/shaders)
+                        ${CMAKE_CURRENT_BINARY_DIR}/data/shaders
+    COMMAND ${CMAKE_COMMAND} -E make_directory
+                        ${CMAKE_CURRENT_BINARY_DIR}/data/sounds)
 
 file (GLOB shaders ${CMAKE_SOURCE_DIR}/data/shaders/*)
+file (GLOB sounds ${CMAKE_SOURCE_DIR}/data/sounds/*)
 foreach(shader ${shaders})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${shader}
         ${CMAKE_CURRENT_BINARY_DIR}/data/shaders
+  )
+endforeach()
+foreach(sound ${sounds})
+  add_custom_command(TARGET update_data PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${sound}
+        ${CMAKE_CURRENT_BINARY_DIR}/data/sounds
   )
 endforeach()
 
