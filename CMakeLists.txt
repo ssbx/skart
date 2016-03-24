@@ -48,7 +48,7 @@ add_executable (federation
 
 add_dependencies (federation glfw glew clog cglm shake)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake portaudio)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake)
 
 
 #
