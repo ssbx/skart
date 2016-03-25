@@ -64,8 +64,13 @@ int main(
     glfwSetErrorCallback(clogGLFWErrorCallback);
     
     fedGlInit(startWindowed);
+    double cx, cy;
+    glfwGetCursorPos(FED_Window, &cx, &cy);
     
-    glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    INPUT_cursorLastXPos = cx;
+    INPUT_cursorLastYPos = cy;
+    
+    glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetKeyCallback(FED_Window, fedKeyCallback);
     glfwSetMouseButtonCallback(FED_Window, fedMouseButtonCallback);
     glfwSetCursorPosCallback(FED_Window, fedCursorPosCallback);

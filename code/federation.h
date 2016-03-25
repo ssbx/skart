@@ -14,6 +14,8 @@ int FED_SOUND_GunShot;
 CGLMmat4 FED_MATRIX_Projection;
 CGLMmat4 FED_MATRIX_View;
 
+double   INPUT_cursorLastXPos;
+double   INPUT_cursorLastYPos;
 double   INPUT_lastTime;
 double   INPUT_currentTime;
 float    INPUT_mouseSpeed;

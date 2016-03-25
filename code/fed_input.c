@@ -35,10 +35,8 @@ void fedCursorPosCallback(
     INPUT_currentTime = glfwGetTime();
     INPUT_deltaTime   = INPUT_currentTime - INPUT_lastTime;
     
-    glfwSetCursorPos(window, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    
-    INPUT_horizontalAngle += INPUT_mouseSpeed * (SCREEN_WIDTH/2.0f - xpos) ;
-    INPUT_verticalAngle   += INPUT_mouseSpeed * (SCREEN_HEIGHT/2.0f - ypos);
+    INPUT_horizontalAngle += INPUT_mouseSpeed * (INPUT_cursorLastXPos - xpos);
+    INPUT_verticalAngle   += INPUT_mouseSpeed * (INPUT_cursorLastYPos - ypos);
     
     CGLMvec3 direction = {
         cos(INPUT_verticalAngle) * sin(INPUT_horizontalAngle), 
@@ -63,6 +61,8 @@ void fedCursorPosCallback(
     );
     
     INPUT_lastTime = INPUT_currentTime;
+    INPUT_cursorLastXPos = xpos;
+    INPUT_cursorLastYPos = ypos;
 }
 
 
