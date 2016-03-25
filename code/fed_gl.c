@@ -104,7 +104,7 @@ static GLuint IN_sinVar;
 static CGLMmat4 model;
 static CGLMmat4 MVP;
 
-void fedGlInit(int startFullScreen)
+void fedGlInit(int startWindowed)
 {
 
     clogDebugMsg("fedGlIit");
@@ -117,8 +117,17 @@ void fedGlInit(int startFullScreen)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    if (startFullScreen == 1) {
+    if (startWindowed == 1) {
+                
+        SCREEN_WIDTH = 1024;
+        SCREEN_HEIGHT = 768;
+        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
         
+        FED_Window = glfwCreateWindow(
+            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", NULL, NULL);
+        
+    } else {
+ 
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwWindowHint(GLFW_RED_BITS, mode->redBits);
@@ -134,15 +143,6 @@ void fedGlInit(int startFullScreen)
         
         FED_Window = glfwCreateWindow(
             SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", monitor, NULL);
-        
-    } else {
-        
-        SCREEN_WIDTH = 1024;
-        SCREEN_HEIGHT = 768;
-        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
-        
-        FED_Window = glfwCreateWindow(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", NULL, NULL);
         
     }
     

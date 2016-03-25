@@ -10,9 +10,10 @@
 #include "federation.h"
 #include "fed_gl.h"
 #include "fed_input.h"
-#include <clog.h>
 
+#include <clog.h>
 #include <shake.h>
+#include <cargo.h>
 
 #include <string.h>
 
@@ -27,22 +28,27 @@ int main(
     char* argv[])
 {
 
-
-    int fullScreen = 0;
-
-    if (argc > 1) {
-        if (strcmp(argv[1], "basic_test") == 0) {
-            clogInfoMsg("Start in test mode\n");
-            fedGlInit(fullScreen);
-            fedGlUpdate();
-            fedGlCleanup();
-            return 0;
-        }
-        if (strcmp(argv[1], "fs") == 0) {
-            fullScreen = 1;
-        }
+ 
+    char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
+    int startWindowed;
+    if (strcmp(windowed, "TRUE") == 0) {
+        startWindowed = 1;
+    } else {
+        startWindowed = 0;
+    }    
+    
+    
+    char* testing = cargoFlag("basic_test", "FALSE", argc, argv); 
+    if (strcmp(testing, "TRUE") == 0) {
+        
+        clogInfoMsg("Start in test mode\n");
+        fedGlInit(startWindowed);
+        fedGlUpdate();
+        fedGlCleanup();
+        return 0;
+        
     }
-
+    
     // init sounds
     shakeInit(0.05);
     FED_SOUND_GunShot = shakeLoad("data/sounds/shot.wav");
@@ -56,8 +62,8 @@ int main(
     INPUT_position = (CGLMvec3) {4,4,3};
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
-
-    fedGlInit(fullScreen);
+    
+    fedGlInit(startWindowed);
     
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetKeyCallback(FED_Window, fedKeyCallback);

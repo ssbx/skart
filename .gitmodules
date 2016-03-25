@@ -13,3 +13,6 @@
 [submodule "deps/libshake"]
 	path = deps/libshake
 	url = https://github.com/ssbx/libshake.git
+[submodule "deps/cargo"]
+	path = deps/cargo
+	url = https://github.com/ssbx/cargo.git
