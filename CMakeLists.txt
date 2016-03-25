@@ -56,7 +56,7 @@ target_link_libraries (federation
 # "federation" executable simple test
 #
 enable_testing()
-add_test (NAME federation_init_cleanup COMMAND federation basic_test)
+add_test (NAME federation_init_cleanup COMMAND federation --testing)
 
 
 #

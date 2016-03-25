@@ -38,7 +38,7 @@ int main(
     }    
     
     
-    char* testing = cargoFlag("basic_test", "FALSE", argc, argv); 
+    char* testing = cargoFlag("testing", "FALSE", argc, argv); 
     if (strcmp(testing, "TRUE") == 0) {
         
         clogInfoMsg("Start in test mode\n");
