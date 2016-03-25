@@ -5,8 +5,8 @@ os: Visual Studio 2015
 platform: x64
 configuration: Release
 
-install:
-    ps: $screen_resolution = '1280x800'; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
+#install:
+#   ps: $screen_resolution = '1280x800'; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
 
 before_build:
     - cd c:\projects\federation
@@ -17,5 +17,5 @@ before_build:
 build:
     project: ALL_BUILD.vcxproj
 
-test_script:
-    ctest --output-on-failure -C Release
+#test_script:
+#   ctest --output-on-failure -C Release
