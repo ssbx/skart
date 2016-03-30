@@ -1,10 +1,9 @@
 #!/bin/sh
 
 # easy makefile
-echo '
-.PHONY: all clean_all
+echo -n '.PHONY: default clean_all
 
-all:
+default:
 	make -C build all
 
 clean_all:
