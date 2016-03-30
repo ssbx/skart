@@ -1,18 +1,18 @@
 [submodule "deps/glfw"]
 	path = deps/glfw
 	url = http://github.com/glfw/glfw.git
-[submodule "deps/cglm"]
-	path = deps/cglm
-	url = https://github.com/ssbx/cglm.git
-[submodule "deps/clog"]
-	path = deps/clog
-	url = https://github.com/ssbx/clog.git
-[submodule "deps/glew"]
-	path = deps/glew
-	url = https://github.com/ssbx/glew.git
 [submodule "deps/libshake"]
 	path = deps/libshake
-	url = https://github.com/ssbx/libshake.git
+	url = https://github.com/libgame/libshake.git
 [submodule "deps/cargo"]
 	path = deps/cargo
-	url = https://github.com/ssbx/cargo.git
+	url = https://github.com/libgame/cargo.git
+[submodule "deps/cglm"]
+	path = deps/cglm
+	url = https://github.com/libgame/cglm.git
+[submodule "deps/clog"]
+	path = deps/clog
+	url = https://github.com/libgame/clog.git
+[submodule "deps/glew"]
+	path = deps/glew
+	url = https://github.com/libgame/glew.git
