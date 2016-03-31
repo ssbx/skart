@@ -1,10 +1,10 @@
-#include "fed_shader.h"
+#include <fedShader.h>
 
 #include <clog.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-GLuint fedLoadShaders(
+GLuint fedShader_Load(
     const char * vertex_file_path,
     const char * fragment_file_path)
 {
@@ -17,13 +17,13 @@ GLuint fedLoadShaders(
 
 
     // read vertex file
-    char* vertex_code = fedDumpFile(vertex_file_path);
+    char* vertex_code = fedShader_DumpFile(vertex_file_path);
     if (!vertex_code)
         return -1;
 
 
     // read fragment file
-    char* fragment_code = fedDumpFile(fragment_file_path);
+    char* fragment_code = fedShader_DumpFile(fragment_file_path);
     if (!fragment_code)
         return -1;
 
@@ -116,7 +116,7 @@ GLuint fedLoadShaders(
     return program_id;
 }
 
-char* fedDumpFile(const char* file_path)
+char* fedShader_DumpFile(const char* file_path)
 {
     char* file_content;
     FILE* file_ptr = NULL;

@@ -31,21 +31,21 @@ include_directories (
   deps/clog/
   deps/libshake/
   deps/cargo/
-  code/)
+  .)
 
 
 #
 # "federation" executable
 #
 add_executable (federation
-  code/federation.c
-  code/federation.h
-  code/fed_gl.c
-  code/fed_gl.h
-  code/fed_input.c
-  code/fed_input.h
-  code/fed_shader.c
-  code/fed_shader.h)
+  main.c
+  fedCommon.h
+  fedGl.c
+  fedGl.h
+  fedInput.c
+  fedInput.h
+  fedShader.c
+  fedShader.h)
 
 add_dependencies (federation glfw glew clog cglm shake cargo)
 target_link_libraries (federation

@@ -7,15 +7,16 @@
  * rendering.
  *
  */
-#include "federation.h"
-#include "fed_gl.h"
-#include "fed_input.h"
 
+#include <fedCommon.h>
+#include <fedGl.h>
+#include <fedInput.h>
+
+#include <string.h>
 #include <clog.h>
 #include <shake.h>
 #include <cargo.h>
 
-#include <string.h>
 
 /**
  * @fn int main(int argc, char* argv[])
@@ -42,9 +43,9 @@ int main(
     if (strcmp(testing, "TRUE") == 0) {
         
         clogInfoMsg("Start in test mode\n");
-        fedGlInit(startWindowed);
-        fedGlUpdate();
-        fedGlCleanup();
+        fedGl_Init(startWindowed);
+        fedGl_Update();
+        fedGl_Cleanup();
         return 0;
         
     }
@@ -54,29 +55,29 @@ int main(
     FED_SOUND_GunShot = shakeLoad("data/sounds/shot.wav");
         
     // initial input variables
-    INPUT_lastTime        = glfwGetTime();
-    INPUT_mouseSpeed      = 0.0015;
-    INPUT_horizontalAngle = 3.14;
-    INPUT_verticalAngle   = 0.0;
-    INPUT_fieldOfView     = 45.0;
-    INPUT_position = (CGLMvec3) {4,4,3};
+    FED_INPUT_lastTime        = glfwGetTime();
+    FED_INPUT_mouseSpeed      = 0.0015;
+    FED_INPUT_horizontalAngle = 3.14;
+    FED_INPUT_verticalAngle   = 0.0;
+    FED_INPUT_fieldOfView     = 45.0;
+    FED_INPUT_position = (CGLMvec3) {4,4,3};
     
     glfwSetErrorCallback(clogGLFWErrorCallback);
     
-    fedGlInit(startWindowed);
+    fedGl_Init(startWindowed);
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwGetCursorPos(FED_Window, &INPUT_cursorLastXPos, &INPUT_cursorLastYPos);
-    glfwSetKeyCallback(FED_Window, fedKeyCallback);
-    glfwSetMouseButtonCallback(FED_Window, fedMouseButtonCallback);
-    glfwSetCursorPosCallback(FED_Window, fedCursorPosCallback);
-    glfwSetScrollCallback(FED_Window, fedScrollCallback);
+    glfwGetCursorPos(FED_Window, &FED_INPUT_cursorLastXPos, &FED_INPUT_cursorLastYPos);
+    glfwSetKeyCallback(FED_Window, fedInput_KeyCallback);
+    glfwSetMouseButtonCallback(FED_Window, fedInput_MouseButtonCallback);
+    glfwSetCursorPosCallback(FED_Window, fedInput_CursorPosCallback);
+    glfwSetScrollCallback(FED_Window, fedInput_ScrollCallback);
 
     while (!glfwWindowShouldClose(FED_Window))
     {
-        fedGlUpdate();
+        fedGl_Update();
     }
 
-    fedGlCleanup();
+    fedGl_Cleanup();
     shakeTerminate();
 
     return 0;

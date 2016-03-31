@@ -1,9 +1,9 @@
-#ifndef FED_INPUT_H
-#define FED_INPUT_H
+#ifndef FEDINPUT_H
+#define FEDINPUT_H
 
-#include "federation.h"
+#include <fedCommon.h>
 
-void fedKeyCallback(
+void fedInput_KeyCallback(
     GLFWwindow* window,
     int         key,
     int         scancode,
@@ -11,18 +11,18 @@ void fedKeyCallback(
     int         mods);
 
 
-void fedCursorPosCallback(
+void fedInput_CursorPosCallback(
     GLFWwindow* window,
     double      xpos,  
     double      ypos);
 
-void fedMouseButtonCallback(
+void fedInput_MouseButtonCallback(
     GLFWwindow* window,
     int         button,
     int         action,
     int         mods);
 
-void fedScrollCallback(
+void fedInput_ScrollCallback(
     GLFWwindow* window,
     double xoffset,
     double yoffset);

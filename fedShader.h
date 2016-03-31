@@ -1,9 +1,9 @@
-#ifndef FED_SHADER_H
-#define FED_SHADER_H
+#ifndef FEDSHADER_H
+#define FEDSHADER_H
 
-#include "federation.h"
+#include <fedCommon.h>
 
-GLuint fedLoadShaders(
+GLuint fedShader_Load(
     const char * vertex_file_path,
     const char * fragment_file_path);
 
@@ -22,6 +22,6 @@ typedef struct FileDump {
  * @fn fedDumpFile(const char* file_path)
  * @return char*
  */
-char* fedDumpFile(const char* file_path);
+char* fedShader_DumpFile(const char* file_path);
 
 #endif

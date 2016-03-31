@@ -1,10 +1,11 @@
-#include "federation.h"
-#include "fed_gl.h"
-#include "fed_shader.h"
-#include <cglm.h>
-#include <clog.h>
+#include <fedCommon.h>
+#include <fedGl.h>
+#include <fedShader.h>
+
 #include <stdio.h>
 #include <math.h>
+#include <cglm.h>
+#include <clog.h>
 
 // local
 #include <stdlib.h>
@@ -104,7 +105,7 @@ static GLuint IN_sinVar;
 static CGLMmat4 model;
 static CGLMmat4 MVP;
 
-void fedGlInit(int startWindowed)
+void fedGl_Init(int startWindowed)
 {
 
     clogDebugMsg("fedGlIit");
@@ -119,12 +120,12 @@ void fedGlInit(int startWindowed)
 
     if (startWindowed == 1) {
                 
-        SCREEN_WIDTH = 1024;
-        SCREEN_HEIGHT = 768;
-        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+        FED_SCREEN_WIDTH = 1024;
+        FED_SCREEN_HEIGHT = 768;
+        FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
         
         FED_Window = glfwCreateWindow(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", NULL, NULL);
+            FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", NULL, NULL);
         
     } else {
  
@@ -135,14 +136,14 @@ void fedGlInit(int startWindowed)
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         
-        SCREEN_WIDTH = mode->width;
-        SCREEN_HEIGHT = mode->height;
-        SCREEN_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+        FED_SCREEN_WIDTH = mode->width;
+        FED_SCREEN_HEIGHT = mode->height;
+        FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
         
-        printf("hello %f %f %f\n", SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_RATIO);
+        printf("hello %f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
         
         FED_Window = glfwCreateWindow(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "Federation", monitor, NULL);
+            FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", monitor, NULL);
         
     }
     
@@ -164,8 +165,7 @@ void fedGlInit(int startWindowed)
         exit(1);
     }
  
-    // fix opengl error viewport on full screen
-    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    glViewport(0, 0, FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT);
     
     glfwSwapInterval(1);
     glfwSetInputMode(FED_Window, GLFW_STICKY_KEYS, GL_TRUE);
@@ -176,7 +176,7 @@ void fedGlInit(int startWindowed)
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
     // configure begin
-    program_id = fedLoadShaders(
+    program_id = fedShader_Load(
         "data/shaders/fedVertexShader.glsl",
         "data/shaders/fedFragmentShader.glsl"
     );
@@ -194,7 +194,7 @@ void fedGlInit(int startWindowed)
         glGetAttribLocation(program_id, "vertexColor");
 
 
-    FED_MATRIX_Projection = cglmPerspective(45, SCREEN_RATIO, 0.1, 100.0);
+    FED_MATRIX_Projection = cglmPerspective(45, FED_SCREEN_RATIO, 0.1, 100.0);
     //FED_ProjectionMatrix = cglmOrtho(-10,10,-10,10,0,100);
 
     CGLMvec3 eye    = {4,3,3};
@@ -217,7 +217,7 @@ void fedGlInit(int startWindowed)
 
 }
 
-void fedGlUpdate()
+void fedGl_Update()
 {
     MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
     
@@ -271,7 +271,7 @@ void fedGlUpdate()
     glfwPollEvents();
 }
 
-void fedGlCleanup()
+void fedGl_Cleanup()
 {
 
     clogDebugMsg("fedGlCleanup");
