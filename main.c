@@ -52,7 +52,7 @@ int main(
     
     // init sounds
     shakeInit(0.05);
-    FED_SOUND_GunShot = shakeLoad("data/sounds/shot.wav");
+    FED_SOUND_GunShot = shakeLoad("shot.wav");
         
     // initial input variables
     FED_INPUT_lastTime        = glfwGetTime();

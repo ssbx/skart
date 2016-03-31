@@ -177,8 +177,8 @@ void fedGl_Init(int startWindowed)
 
     // configure begin
     program_id = fedShader_Load(
-        "data/shaders/fedVertexShader.glsl",
-        "data/shaders/fedFragmentShader.glsl"
+        "shaderVertex.glsl",
+        "shaderFragment.glsl"
     );
 
     IN_modelViewProjection =
