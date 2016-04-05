@@ -43,3 +43,7 @@ add_subdirectory(libshake)
 
 # CARGO
 add_subdirectory(cargo)
+
+# OBJ
+add_subdirectory(libobj)
+

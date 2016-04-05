@@ -31,6 +31,7 @@ include_directories (
   deps/clog/
   deps/libshake/
   deps/cargo/
+  deps/libobj/
   .)
 
 
@@ -47,9 +48,9 @@ add_executable (federation
   fedShader.c
   fedShader.h)
 
-add_dependencies (federation glfw glew clog cglm shake cargo)
+add_dependencies (federation glfw glew clog cglm shake cargo obj)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake cargo)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog cglm glfw glew shake cargo obj)
 
 
 #
