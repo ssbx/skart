@@ -25,6 +25,7 @@ find_package(OpenGL REQUIRED)
 #
 add_subdirectory (deps)
 include_directories (
+  code/
   deps/glfw/include/
   deps/glew/include/
   deps/cglm/
@@ -32,22 +33,21 @@ include_directories (
   deps/libshake/
   deps/cargo/
   deps/libobj/
-  deps/soil/code/
-  .)
+  deps/soil/code/)
 
 
 #
 # "federation" executable
 #
 add_executable (federation
-  main.c
-  fedCommon.h
-  fedGl.c
-  fedGl.h
-  fedInput.c
-  fedInput.h
-  fedShader.c
-  fedShader.h)
+  code/main.c
+  code/fedCommon.h
+  code/fedGl.c
+  code/fedGl.h
+  code/fedInput.c
+  code/fedInput.h
+  code/fedShader.c
+  code/fedShader.h)
 
 add_dependencies (federation glfw glew clog cglm shake cargo obj soil)
 target_link_libraries (federation
