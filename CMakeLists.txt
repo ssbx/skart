@@ -69,7 +69,7 @@ add_custom_target (update_data)
 file (GLOB shaders ${CMAKE_SOURCE_DIR}/*.glsl)
 foreach(shader ${shaders})
   add_custom_command(TARGET update_data PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${shader}
+    COMMAND ${CMAKE_COMMAND} -E copy ${shader}
         ${CMAKE_CURRENT_BINARY_DIR}
   )
 endforeach()
@@ -77,7 +77,15 @@ endforeach()
 file (GLOB sounds ${CMAKE_SOURCE_DIR}/*.wav)
 foreach(sound ${sounds})
   add_custom_command(TARGET update_data PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${sound}
+    COMMAND ${CMAKE_COMMAND} -E copy ${sound}
+        ${CMAKE_CURRENT_BINARY_DIR}
+  )
+endforeach()
+
+file (GLOB textures ${CMAKE_SOURCE_DIR}/*.tga)
+foreach(texture ${textures})
+  add_custom_command(TARGET update_data PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${texture}
         ${CMAKE_CURRENT_BINARY_DIR}
   )
 endforeach()
