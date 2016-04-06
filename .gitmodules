@@ -19,3 +19,6 @@
 [submodule "deps/libobj"]
 	path = deps/libobj
 	url = https://github.com/libgame/libobj.git
+[submodule "deps/soil"]
+	path = deps/soil
+	url = https://github.com/libgame/soil.git

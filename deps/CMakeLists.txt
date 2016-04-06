@@ -47,3 +47,5 @@ add_subdirectory(cargo)
 # OBJ
 add_subdirectory(libobj)
 
+# SOIL
+add_subdirectory(soil)
