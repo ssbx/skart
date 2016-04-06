@@ -6,11 +6,12 @@
 #include <math.h>
 #include <cglm.h>
 #include <clog.h>
+#include <soil.h>
 
 // local
 #include <stdlib.h>
 
-static GLuint program_id;
+static GLuint programID;
 static const GLfloat g_vertex_buffer_data[] = {
     -1.0f,-1.0f,-1.0f, // triangle 1 : begin
     -1.0f,-1.0f, 1.0f,
@@ -50,70 +51,65 @@ static const GLfloat g_vertex_buffer_data[] = {
      1.0f,-1.0f, 1.0f
 };
 
-
-#define COL1 1.0f, 0.0f, 0.0f,
-#define COL2 1.0f, 0.2f, 0.0f,
-#define COL3 1.0f, 0.4f, 0.0f,
-#define COLEND 1.0f, 0.2f, 0.0f
-
-static const GLfloat g_color_buffer_data[] = {
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COL3
-    COL1
-    COL2
-    COLEND
+static const GLfloat g_uv_buffer_data[] = { 
+    0.000059f, 1.0f-0.000004f, 
+    0.000103f, 1.0f-0.336048f, 
+    0.335973f, 1.0f-0.335903f, 
+    1.000023f, 1.0f-0.000013f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.999958f, 1.0f-0.336064f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.336024f, 1.0f-0.671877f, 
+    0.667969f, 1.0f-0.671889f, 
+    1.000023f, 1.0f-0.000013f, 
+    0.668104f, 1.0f-0.000013f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.000059f, 1.0f-0.000004f, 
+    0.335973f, 1.0f-0.335903f, 
+    0.336098f, 1.0f-0.000071f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.335973f, 1.0f-0.335903f, 
+    0.336024f, 1.0f-0.671877f, 
+    1.000004f, 1.0f-0.671847f, 
+    0.999958f, 1.0f-0.336064f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.668104f, 1.0f-0.000013f, 
+    0.335973f, 1.0f-0.335903f, 
+    0.667979f, 1.0f-0.335851f, 
+    0.335973f, 1.0f-0.335903f, 
+    0.668104f, 1.0f-0.000013f, 
+    0.336098f, 1.0f-0.000071f, 
+    0.000103f, 1.0f-0.336048f, 
+    0.000004f, 1.0f-0.671870f, 
+    0.336024f, 1.0f-0.671877f, 
+    0.000103f, 1.0f-0.336048f, 
+    0.336024f, 1.0f-0.671877f, 
+    0.335973f, 1.0f-0.335903f, 
+    0.667969f, 1.0f-0.671889f, 
+    1.000004f, 1.0f-0.671847f, 
+    0.667979f, 1.0f-0.335851f
 };
-
 static GLuint vertexbuffer;
-static GLuint colorbuffer;
-static GLuint IN_modelVertex;
-static GLuint IN_colorVertex;
-static GLuint IN_modelViewProjection;
-static GLuint IN_sinVar;
+static GLuint uvbuffer;
+
+static GLuint VertexUVID;
+static GLuint MatrixID;
+static GLuint vertexPosition_modelspaceID;
+static GLuint Texture;
+static GLuint TextureID;
 
 static CGLMmat4 model;
 static CGLMmat4 MVP;
 
 void fedGl_Init(int startWindowed)
 {
-
+    
     clogDebugMsg("fedGlIit");
-
+    
     if (!glfwInit()) {
         exit(1);
     }
-
+    
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -176,23 +172,14 @@ void fedGl_Init(int startWindowed)
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
     // configure begin
-    program_id = fedShader_Load(
-        "shaderVertex.glsl",
-        "shaderFragment.glsl"
+    programID = fedShader_Load(
+        "TransformVertexShader.glsl",
+        "TextureFragmentShader.glsl"
     );
-
-    IN_modelViewProjection =
-        glGetUniformLocation(program_id, "modelViewProjection");
-
-    IN_sinVar =
-        glGetUniformLocation(program_id, "sinVar");
-
-    IN_modelVertex =
-        glGetAttribLocation(program_id, "modelVertex");
-
-    IN_colorVertex =
-        glGetAttribLocation(program_id, "vertexColor");
-
+    
+    MatrixID = glGetUniformLocation(programID, "MVP");
+    vertexPosition_modelspaceID = glGetAttribLocation(programID, "vertexPosition_modelspace");
+    VertexUVID = glGetAttribLocation(programID, "vertexUV");
 
     FED_MATRIX_Projection = cglmPerspective(45, FED_SCREEN_RATIO, 0.1, 100.0);
     //FED_ProjectionMatrix = cglmOrtho(-10,10,-10,10,0,100);
@@ -204,15 +191,39 @@ void fedGl_Init(int startWindowed)
     model = cglmMat4(1);
     MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
 
+    Texture = SOIL_load_OGL_texture(
+        "uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+          SOIL_FLAG_COMPRESS_TO_DXT
+        | SOIL_FLAG_INVERT_Y
+        | SOIL_FLAG_NTSC_SAFE_RGB
+        | SOIL_FLAG_MIPMAPS
+    );
+    
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    /*
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); 
+    */
+    
+    if (Texture == 0)
+    {
+        printf( "SOIL loading error: '%s'\n", SOIL_last_result() );
+    }
+    
+    TextureID = glGetUniformLocation(programID, "myTextureSampler");
+    
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
                  g_vertex_buffer_data, GL_STATIC_DRAW);
 
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data),
-                 g_color_buffer_data, GL_STATIC_DRAW);
+    glGenBuffers(1, &uvbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data),
+                 g_uv_buffer_data, GL_STATIC_DRAW);
 
 
 }
@@ -225,20 +236,19 @@ void fedGl_Update()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use our shader
-    glUseProgram(program_id);
+    glUseProgram(programID);
 
-    float tsin = (float) sin(glfwGetTime());
-    if (tsin < 0) {
-        tsin = -tsin;
-    }
-    glUniform1f(IN_sinVar, tsin);
-    glUniformMatrix4fv(IN_modelViewProjection, 1, GL_FALSE, &(MVP.a0));
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(MVP.a0));
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture);
+    glUniform1i(TextureID, 0);
+    
     // 1rst attribute buffer : vertices
-    glEnableVertexAttribArray(IN_modelVertex);
+    glEnableVertexAttribArray(vertexPosition_modelspaceID);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glVertexAttribPointer(
-        IN_modelVertex,     // The attribute we want to configure
+        vertexPosition_modelspaceID,     // The attribute we want to configure
         3,                  // size
         GL_FLOAT,           // type
         GL_FALSE,           // normalized?
@@ -246,12 +256,12 @@ void fedGl_Update()
         (void*)0            // array buffer offset
     );
 
-    // 2nd attribute buffer : colors
-    glEnableVertexAttribArray(IN_colorVertex);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+    // 2nd attribute buffer : UVs
+    glEnableVertexAttribArray(VertexUVID);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
     glVertexAttribPointer(
-        IN_colorVertex,               // The attribute we want to configure
-        3,                           // size
+        VertexUVID,               // The attribute we want to configure
+        2,                           // size
         GL_FLOAT,                    // type
         GL_FALSE,                    // normalized?
         0,                           // stride
@@ -263,8 +273,8 @@ void fedGl_Update()
     // Draw the triangle !
     glDrawArrays(GL_TRIANGLES, 0, 12*3); // 3 indices starting at 0 -> 1 triangle
 
-    glDisableVertexAttribArray(IN_modelVertex);
-    glDisableVertexAttribArray(IN_colorVertex);
+    glDisableVertexAttribArray(vertexPosition_modelspaceID);
+    glDisableVertexAttribArray(VertexUVID);
 
     // Swap buffers
     glfwSwapBuffers(FED_Window);
