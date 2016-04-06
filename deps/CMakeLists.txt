@@ -29,8 +29,7 @@ add_library(glew STATIC glew/src/glew.c)
 target_link_libraries(glew ${OPENGL_LIBRARY})
 
 
-# CGLM
-add_subdirectory(cglm)
+# CGLM is header only
 
 
 # CLOG
