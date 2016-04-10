@@ -49,9 +49,9 @@ add_executable (federation
   code/fedShader.c
   code/fedShader.h)
 
-add_dependencies (federation glfw glew clog shake cargo obj soil)
+add_dependencies (federation glfw glew clog shake obj soil)
 target_link_libraries (federation
-  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog glfw glew shake cargo obj soil)
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} clog glfw glew shake obj soil)
 
 
 #

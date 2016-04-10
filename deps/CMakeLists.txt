@@ -31,17 +31,15 @@ target_link_libraries(glew ${OPENGL_LIBRARY})
 
 # CGLM is header only
 
+# CARGO is header only
 
 # CLOG
 add_subdirectory(clog)
-
 
 # SHAKE
 add_subdirectory(libshake)
 
 
-# CARGO
-add_subdirectory(cargo)
 
 # OBJ
 add_subdirectory(libobj)
