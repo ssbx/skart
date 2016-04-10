@@ -33,8 +33,7 @@ target_link_libraries(glew ${OPENGL_LIBRARY})
 
 # CARGO is header only
 
-# CLOG
-add_subdirectory(clog)
+# CLOG is header only
 
 # SHAKE
 add_subdirectory(libshake)
