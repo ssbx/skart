@@ -22,7 +22,7 @@
 void glfwErrors(int error, const char* description)
 {
     
-    clogErrorMsg("GLFW error n %d: %s", error, description);
+    clogError("GLFW error n %d: %s", error, description);
     
 }
 

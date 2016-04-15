@@ -134,7 +134,7 @@ void fedGl_Init(int startWindowed)
         FED_SCREEN_HEIGHT = mode->height;
         FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
         
-        clogInfoMsg("%f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
+        clogInfo("%f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
         
         FED_Window = glfwCreateWindow(
             FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", monitor, NULL);
@@ -143,7 +143,7 @@ void fedGl_Init(int startWindowed)
     
     if (!FED_Window)
     {
-        clogErrorMsg("fed_gl_init Failed to open GLFW window.");
+        clogError("fed_gl_init Failed to open GLFW window.", NULL);
         glfwTerminate();
         exit(0);
     }
@@ -154,7 +154,7 @@ void fedGl_Init(int startWindowed)
 
     if (glewInit() != GLEW_OK)
     {
-        clogErrorMsg("fed_gl_init Failed to initialize GLEW.");
+        clogError("fed_gl_init Failed to initialize GLEW.", NULL);
         glfwTerminate();
         exit(1);
     }
@@ -198,7 +198,7 @@ void fedGl_Init(int startWindowed)
     
     if (Texture == 0)
     {
-        clogErrorMsg( "SOIL loading error: '%s'\n", SOIL_last_result() );
+        clogError( "SOIL loading error: '%s'\n", SOIL_last_result() );
     }
     
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
