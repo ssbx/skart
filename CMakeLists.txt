@@ -25,7 +25,8 @@ find_package(OpenGL REQUIRED)
 #
 add_subdirectory (deps)
 include_directories (
-  code/
+  code/client/
+  code/server/
   deps/glfw/include/
   deps/glew/include/
   deps/cglm/
@@ -40,14 +41,15 @@ include_directories (
 # "federation" executable
 #
 add_executable (federation
-  code/main.c
-  code/fedCommon.h
-  code/fedGl.c
-  code/fedGl.h
-  code/fedInput.c
-  code/fedInput.h
-  code/fedShader.c
-  code/fedShader.h)
+  code/client/main.c
+  code/client/fedCommon.h
+  code/client/fedGl.c
+  code/client/fedGl.h
+  code/client/fedInput.c
+  code/client/fedInput.h
+  code/client/fedShader.c
+  code/client/fedShader.h)
+
 
 add_dependencies (federation glfw glew shake obj soil)
 target_link_libraries (federation
@@ -62,11 +64,17 @@ add_test (NAME federation_init_cleanup COMMAND federation --testing)
 
 
 #
+# "fsrv" executable
+#
+add_executable (fsrv code/server/fsrv.c)
+
+
+#
 # copy data to build dir target
 #
 add_custom_target (update_data)
 
-file (GLOB shaders ${CMAKE_SOURCE_DIR}/shaders/*.glsl)
+file (GLOB shaders ${CMAKE_SOURCE_DIR}/material/shaders/*.glsl)
 foreach(shader ${shaders})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${shader}
@@ -74,7 +82,7 @@ foreach(shader ${shaders})
   )
 endforeach()
 
-file (GLOB sounds ${CMAKE_SOURCE_DIR}/sounds/*.wav)
+file (GLOB sounds ${CMAKE_SOURCE_DIR}/material/sounds/*.wav)
 foreach(sound ${sounds})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${sound}
@@ -82,7 +90,7 @@ foreach(sound ${sounds})
   )
 endforeach()
 
-file (GLOB textures ${CMAKE_SOURCE_DIR}/material/*.tga)
+file (GLOB textures ${CMAKE_SOURCE_DIR}/material/textures/*.tga)
 foreach(texture ${textures})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${texture}

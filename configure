@@ -4,20 +4,20 @@
 echo -n '.PHONY: default clean_all
 
 default:
-	make -C build all
+	make -C _BUILD all
 
 clean_all:
-	rm -rf build; rm Makefile
+	rm -rf _BUILD; rm Makefile
 
 %: 
-	make -C build $@
+	make -C _BUILD $@
 ' > Makefile
 
 git submodule init
 git submodule update --init --recursive
 
-# cleanup build dir if exist
-rm -rf build
+# cleanup _BUILD dir if exist
+rm -rf _BUILD
 
 # create Unix Makefiles project
-mkdir build && cd build && cmake ..
+mkdir _BUILD && cd _BUILD && cmake ..
