@@ -3,6 +3,63 @@
 #include <shake.h>
 #include <cglm.h>
 #include <math.h>
+#include <stdio.h>
+
+static double cursorLastXPos;
+static double cursorLastYPos;
+static float mouseSpeed;
+static float horizontalAngle;
+static float verticalAngle;
+static float fieldOfView;
+static float fieldOfView;
+static double mouseLastMove;
+static double keyLastMove;
+CGLMvec3 position;
+CGLMvec3 direction;
+CGLMmat4 proj;
+CGLMmat4 view;
+CGLMmat4 model;
+CGLMvec3 up;
+
+
+void fedInput_init(
+    float mouseSpeed_v,
+    float horizontalAngle_v,
+    float verticalAngle_v,
+    float fieldOfView_v,
+    CGLMvec3 position_v,
+    CGLMvec3 direction_v)
+{
+
+    mouseSpeed = mouseSpeed_v;
+    horizontalAngle = horizontalAngle_v;
+    verticalAngle = verticalAngle_v;
+    fieldOfView = fieldOfView_v;
+    position = position_v;
+    direction = direction_v;
+    mouseLastMove = keyLastMove = glfwGetTime();
+    
+    model = (CGLMmat4) cglmMat4(1);
+    up    = (CGLMvec3) {0,1,0};
+    proj  = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+    view  = cglmLookAt(position, direction, up);
+    
+    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+    
+}
+
+void fedInput_UserInputs()
+{
+
+    if (glfwGetKey(FED_Window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
+        position.z -= 1;
+        view    = cglmLookAt(position, direction, up);
+        FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+    }
+    
+}
+
 
 void fedInput_KeyCallback(
     GLFWwindow* window,
@@ -14,10 +71,16 @@ void fedInput_KeyCallback(
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
         return;
-    } else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        glfwIconifyWindow(FED_Window);
-        return;
     }
+    
+    /*
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        glfwIconifyWindow(FED_Window);
+    }
+    */
+    
+
+    
 }
 
 void fedInput_ScrollCallback(
@@ -33,37 +96,39 @@ void fedInput_CursorPosCallback(
     double      ypos)
 {
     
-    FED_INPUT_currentTime = glfwGetTime();
-    FED_INPUT_deltaTime   = FED_INPUT_currentTime - FED_INPUT_lastTime;
+    double now = glfwGetTime();
+    double deltaTime = now - mouseLastMove;
+    horizontalAngle += mouseSpeed * (cursorLastXPos - xpos);
+    verticalAngle   += mouseSpeed * (cursorLastYPos - ypos);
     
-    FED_INPUT_horizontalAngle += FED_INPUT_mouseSpeed * (FED_INPUT_cursorLastXPos - xpos);
-    FED_INPUT_verticalAngle   += FED_INPUT_mouseSpeed * (FED_INPUT_cursorLastYPos - ypos);
-    
-    CGLMvec3 direction = {
-        cos(FED_INPUT_verticalAngle) * sin(FED_INPUT_horizontalAngle), 
-        sin(FED_INPUT_verticalAngle),
-        cos(FED_INPUT_verticalAngle) * cos(FED_INPUT_horizontalAngle)
+    direction = (CGLMvec3) {
+        cos(verticalAngle) * sin(horizontalAngle), 
+        sin(verticalAngle),
+        cos(verticalAngle) * cos(horizontalAngle)
     };
     
     CGLMvec3 right = {
-        sin(FED_INPUT_horizontalAngle - 3.14f/2.0f),
+        sin(horizontalAngle - 3.14f/2.0f),
         0,
-        cos(FED_INPUT_horizontalAngle - 3.14f/2.0f)
+        cos(horizontalAngle - 3.14f/2.0f)
     };
     
-    CGLMvec3 up = cglmCross(right, direction);
+    up = cglmCross(right, direction);
     
-    float fov = FED_INPUT_fieldOfView;
-    FED_MATRIX_Projection = cglmPerspective(fov, FED_SCREEN_RATIO, 0.1, 100.0);
-    FED_MATRIX_View = cglmLookAt(
-        FED_INPUT_position,
-        cglmAddVec3(FED_INPUT_position, direction),
+    
+    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+    view = cglmLookAt(
+        position,
+        cglmAddVec3(position, direction),
         up
     );
     
-    FED_INPUT_lastTime = FED_INPUT_currentTime;
-    FED_INPUT_cursorLastXPos = xpos;
-    FED_INPUT_cursorLastYPos = ypos;
+    mouseLastMove  = now;
+    cursorLastXPos = xpos;
+    cursorLastYPos = ypos;
+    
+    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+    
 }
 
 
@@ -82,14 +147,14 @@ void fedInput_MouseButtonCallback(
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
                 shakePlay(FED_SOUND_GunShot);
-                if (FED_INPUT_fieldOfView == 45.0) {
-                    FED_INPUT_fieldOfView = 360.0;
-                    FED_MATRIX_Projection = cglmPerspective(
-                                    FED_INPUT_fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+                if (fieldOfView == 45.0) {
+                    fieldOfView = 360.0;
+                    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+                    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
                 } else {
-                    FED_INPUT_fieldOfView = 45.0;
-                    FED_MATRIX_Projection = cglmPerspective(
-                                    FED_INPUT_fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+                    fieldOfView = 45.0;
+                    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+                    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:

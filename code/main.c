@@ -16,7 +16,15 @@
 #include <clog.h>
 #include <shake.h>
 #include <cargo.h>
+#include <stdio.h>
 
+
+void glfwErrors(int error, const char* description)
+{
+    
+    clogErrorMsg("GLFW error n %d: %s", error, description);
+    
+}
 
 /**
  * @fn int main(int argc, char* argv[])
@@ -42,7 +50,6 @@ int main(
     char* testing = cargoFlag("testing", "FALSE", argc, argv); 
     if (strcmp(testing, "TRUE") == 0) {
         
-        clogInfoMsg("Start in test mode\n");
         fedGl_Init(startWindowed);
         fedGl_Update();
         fedGl_Cleanup();
@@ -55,18 +62,22 @@ int main(
     FED_SOUND_GunShot = shakeLoad("shot.wav");
         
     // initial input variables
-    FED_INPUT_lastTime        = glfwGetTime();
-    FED_INPUT_mouseSpeed      = 0.0015;
-    FED_INPUT_horizontalAngle = 3.14;
-    FED_INPUT_verticalAngle   = 0.0;
-    FED_INPUT_fieldOfView     = 45.0;
-    FED_INPUT_position = (CGLMvec3) {4,4,3};
+
+   
     
-    glfwSetErrorCallback(clogGLFWErrorCallback);
+    glfwSetErrorCallback(glfwErrors);
     
     fedGl_Init(startWindowed);
+    fedInput_init(
+        0.0015,         // mouseSpeed
+        180.0,          // horizontalAngle
+        0.0,            // verticalAngle
+        45.0,           // fieldOfView
+        (CGLMvec3) {3,0,10},    // position
+        (CGLMvec3) {0,0,0}      // direction
+    );
+    
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwGetCursorPos(FED_Window, &FED_INPUT_cursorLastXPos, &FED_INPUT_cursorLastYPos);
     glfwSetKeyCallback(FED_Window, fedInput_KeyCallback);
     glfwSetMouseButtonCallback(FED_Window, fedInput_MouseButtonCallback);
     glfwSetCursorPosCallback(FED_Window, fedInput_CursorPosCallback);
@@ -74,9 +85,10 @@ int main(
 
     while (!glfwWindowShouldClose(FED_Window))
     {
+        fedInput_UserInputs();
         fedGl_Update();
     }
-
+    
     fedGl_Cleanup();
     shakeTerminate();
 

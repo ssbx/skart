@@ -3,6 +3,14 @@
 
 #include <fedCommon.h>
 
+void fedInput_init(
+    float       mouseSpeed,
+    float       horizontalAngle,
+    float       verticalAngle,
+    float       fieldOfView,
+    CGLMvec3    position,
+    CGLMvec3    direction);
+
 void fedInput_KeyCallback(
     GLFWwindow* window,
     int         key,
@@ -27,5 +35,6 @@ void fedInput_ScrollCallback(
     double xoffset,
     double yoffset);
 
+void fedInput_UserInputs();
 
 #endif

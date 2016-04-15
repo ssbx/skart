@@ -99,12 +99,10 @@ static GLuint Texture;
 static GLuint TextureID;
 
 static CGLMmat4 model;
-static CGLMmat4 MVP;
 
 void fedGl_Init(int startWindowed)
 {
     
-    clogDebugMsg("fedGlIit");
     
     if (!glfwInit()) {
         exit(1);
@@ -136,7 +134,7 @@ void fedGl_Init(int startWindowed)
         FED_SCREEN_HEIGHT = mode->height;
         FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
         
-        printf("hello %f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
+        clogInfoMsg("%f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
         
         FED_Window = glfwCreateWindow(
             FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", monitor, NULL);
@@ -145,7 +143,7 @@ void fedGl_Init(int startWindowed)
     
     if (!FED_Window)
     {
-        clogErrorMsg("fed_gl_init Failed to open GLFW window.\n");
+        clogErrorMsg("fed_gl_init Failed to open GLFW window.");
         glfwTerminate();
         exit(0);
     }
@@ -156,7 +154,7 @@ void fedGl_Init(int startWindowed)
 
     if (glewInit() != GLEW_OK)
     {
-        clogErrorMsg("fed_gl_init Failed to initialize GLEW\n");
+        clogErrorMsg("fed_gl_init Failed to initialize GLEW.");
         glfwTerminate();
         exit(1);
     }
@@ -181,16 +179,6 @@ void fedGl_Init(int startWindowed)
     vertexPosition_modelspaceID = glGetAttribLocation(programID, "vertexPosition_modelspace");
     VertexUVID = glGetAttribLocation(programID, "vertexUV");
 
-    FED_MATRIX_Projection = cglmPerspective(45, FED_SCREEN_RATIO, 0.1, 100.0);
-    //FED_ProjectionMatrix = cglmOrtho(-10,10,-10,10,0,100);
-
-    CGLMvec3 eye    = {4,3,3};
-    CGLMvec3 center = {0,0,0};
-    CGLMvec3 up     = {0,1,0};
-    FED_MATRIX_View = cglmLookAt(eye, center, up);
-    model = cglmMat4(1);
-    MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
-
     Texture = SOIL_load_OGL_texture(
         "uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
           SOIL_FLAG_COMPRESS_TO_DXT
@@ -210,7 +198,7 @@ void fedGl_Init(int startWindowed)
     
     if (Texture == 0)
     {
-        printf( "SOIL loading error: '%s'\n", SOIL_last_result() );
+        clogErrorMsg( "SOIL loading error: '%s'\n", SOIL_last_result() );
     }
     
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
@@ -230,7 +218,6 @@ void fedGl_Init(int startWindowed)
 
 void fedGl_Update()
 {
-    MVP = cglmMultMat4(cglmMultMat4(FED_MATRIX_Projection, FED_MATRIX_View), model);
     
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -238,7 +225,7 @@ void fedGl_Update()
     // Use our shader
     glUseProgram(programID);
 
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(MVP.a0));
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(FED_MVP.a0));
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, Texture);
@@ -284,7 +271,6 @@ void fedGl_Update()
 void fedGl_Cleanup()
 {
 
-    clogDebugMsg("fedGlCleanup");
     glfwDestroyWindow(FED_Window);
     glfwTerminate();
 

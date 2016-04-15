@@ -9,7 +9,6 @@ GLuint fedShader_Load(
     const char * fragment_file_path)
 {
 
-    clogDebugMsg("FShader_load");
 
     // Create the shaders
     GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
@@ -28,8 +27,6 @@ GLuint fedShader_Load(
         return -1;
 
 
-    clogDebugMsg(vertex_code);
-    clogDebugMsg(fragment_code);
 
     GLint result = GL_FALSE;
     int   info_log_length;
@@ -46,13 +43,11 @@ GLuint fedShader_Load(
 
     if (result == GL_FALSE)
         clogErrorMsg("Error compiling vertex code");
-    else
-        clogDebugMsg("Compiling vertex success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(VertexShaderID, info_log_length, NULL, info_log);
-        clogInfoMsg((char*) info_log);
+        //clogInfoMsg((char*) info_log);
         free(info_log);
     }
 
@@ -70,13 +65,11 @@ GLuint fedShader_Load(
 
     if (result == GL_FALSE)
         clogErrorMsg("Error compiling fragment code");
-    else
-        clogDebugMsg("Compiling fragment success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetShaderInfoLog(FragmentShaderID, info_log_length, NULL, info_log);
-        clogInfoMsg((char*) info_log);
+        //clogWarningMsg((char*) info_log);
         free(info_log);
     }
 
@@ -94,13 +87,11 @@ GLuint fedShader_Load(
 
     if (result == GL_FALSE)
         clogErrorMsg("Error linking program");
-    else
-        clogDebugMsg("Linking program success");
 
     if (info_log_length > 0) {
         GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
         glGetProgramInfoLog(program_id, info_log_length, NULL, info_log);
-        clogInfoMsg(info_log);
+        //clogWarningMsg(info_log);
         free(info_log);
     }
 
