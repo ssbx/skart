@@ -37,7 +37,6 @@ int main(
     char* argv[])
 {
 
-    clogConfigure("/tmp/fed.log");
     char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
     int startWindowed;
     if (strcmp(windowed, "TRUE") == 0) {

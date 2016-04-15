@@ -66,7 +66,7 @@ add_test (NAME federation_init_cleanup COMMAND federation --testing)
 #
 add_custom_target (update_data)
 
-file (GLOB shaders ${CMAKE_SOURCE_DIR}/*.glsl)
+file (GLOB shaders ${CMAKE_SOURCE_DIR}/shaders/*.glsl)
 foreach(shader ${shaders})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${shader}
@@ -74,7 +74,7 @@ foreach(shader ${shaders})
   )
 endforeach()
 
-file (GLOB sounds ${CMAKE_SOURCE_DIR}/*.wav)
+file (GLOB sounds ${CMAKE_SOURCE_DIR}/sounds/*.wav)
 foreach(sound ${sounds})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${sound}
@@ -82,7 +82,7 @@ foreach(sound ${sounds})
   )
 endforeach()
 
-file (GLOB textures ${CMAKE_SOURCE_DIR}/*.tga)
+file (GLOB textures ${CMAKE_SOURCE_DIR}/material/*.tga)
 foreach(texture ${textures})
   add_custom_command(TARGET update_data PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${texture}
