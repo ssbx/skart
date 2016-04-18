@@ -42,7 +42,7 @@ include_directories (
 #
 add_executable (federation
   code/client/main.c
-  code/client/fedCommon.h
+  code/client/f_common.h
   code/client/f_gl.h
   code/client/f_input.h
   code/client/f_shader.h)
