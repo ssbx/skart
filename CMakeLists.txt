@@ -43,12 +43,9 @@ include_directories (
 add_executable (federation
   code/client/main.c
   code/client/fedCommon.h
-  code/client/fedGl.c
-  code/client/fedGl.h
-  code/client/fedInput.c
-  code/client/fedInput.h
-  code/client/fedShader.c
-  code/client/fedShader.h)
+  code/client/f_gl.h
+  code/client/f_input.h
+  code/client/f_shader.h)
 
 
 add_dependencies (federation glfw glew shake obj soil)

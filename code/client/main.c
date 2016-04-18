@@ -8,15 +8,16 @@
  *
  */
 
-#include <fedCommon.h>
-#include <fedGl.h>
-#include <fedInput.h>
+#include "f_common.h"
+#include "f_gl.h"
+#include "f_input.h"
 
-#include <string.h>
 #include <clog.h>
 #include <shake.h>
 #include <cargo.h>
+
 #include <stdio.h>
+#include <string.h>
 
 
 void glfwErrors(int error, const char* description)

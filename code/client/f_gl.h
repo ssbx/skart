@@ -1,14 +1,15 @@
-#include <fedCommon.h>
-#include <fedGl.h>
-#include <fedShader.h>
+#ifndef FGL_H
+#define FGL_H
 
-#include <stdio.h>
-#include <math.h>
+
+#include "f_common.h"
+#include "f_shader.h"
+
 #include <cglm.h>
 #include <clog.h>
 #include <soil.h>
 
-// local
+#include <stdio.h>
 #include <stdlib.h>
 
 static GLuint programID;
@@ -98,7 +99,6 @@ static GLuint vertexPosition_modelspaceID;
 static GLuint Texture;
 static GLuint TextureID;
 
-static CGLMmat4 model;
 
 void fedGl_Init(int startWindowed)
 {
@@ -275,3 +275,5 @@ void fedGl_Cleanup()
     glfwTerminate();
 
 }
+
+#endif // FGL_H

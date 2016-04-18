@@ -1,9 +1,61 @@
-#include <fedShader.h>
+#ifndef FSHADER_H
+#define FSHADER_H
+
+#include "f_common.h"
 
 #include <clog.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/**
+ * @struct FileDump
+ * @brief File dump structure.
+ * Contain the size of dump and the file dump.
+ * t_FileDump.dump must be free().
+ */
+typedef struct FileDump {
+    int   size;
+    char* dump;
+} FileDump;
+
+
+/**
+ * @fn fedDumpFile(const char* file_path)
+ * @return char*
+ */
+char* fedShader_DumpFile(const char* file_path)
+{
+    char* file_content;
+    FILE* file_ptr = NULL;
+    long int file_size;
+
+    file_ptr = fopen(file_path, "rb");
+
+    if (!file_ptr) {
+        clogError("File not found!", NULL);
+        return NULL;
+    }
+
+    fseek(file_ptr, 0, SEEK_END);
+    file_size = ftell(file_ptr);
+    rewind(file_ptr);
+
+    file_content = malloc((file_size + 1) * (sizeof(char)));
+
+    fread(file_content, sizeof(char), file_size, file_ptr);
+    file_content[file_size] = '\0';
+
+    fclose(file_ptr);
+
+    return file_content;
+}
+
+
+/**
+ * @brief Load shader
+ */
 GLuint fedShader_Load(
     const char * vertex_file_path,
     const char * fragment_file_path)
@@ -107,29 +159,6 @@ GLuint fedShader_Load(
     return program_id;
 }
 
-char* fedShader_DumpFile(const char* file_path)
-{
-    char* file_content;
-    FILE* file_ptr = NULL;
-    long int file_size;
 
-    file_ptr = fopen(file_path, "rb");
+#endif
 
-    if (!file_ptr) {
-        clogError("File not found!", NULL);
-        return NULL;
-    }
-
-    fseek(file_ptr, 0, SEEK_END);
-    file_size = ftell(file_ptr);
-    rewind(file_ptr);
-
-    file_content = malloc((file_size + 1) * (sizeof(char)));
-
-    fread(file_content, sizeof(char), file_size, file_ptr);
-    file_content[file_size] = '\0';
-
-    fclose(file_ptr);
-
-    return file_content;
-}

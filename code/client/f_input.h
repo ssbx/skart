@@ -1,8 +1,11 @@
-#include <fedInput.h>
+#ifndef FINPUT_H
+#define FINPUT_H
+
+#include "f_common.h"
 
 #include <shake.h>
 #include <cglm.h>
-#include <math.h>
+
 #include <stdio.h>
 
 static double cursorLastXPos;
@@ -163,3 +166,5 @@ void fedInput_MouseButtonCallback(
         }
     }
 }
+
+#endif
