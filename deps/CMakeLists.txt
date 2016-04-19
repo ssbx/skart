@@ -38,8 +38,7 @@ target_link_libraries(glew ${OPENGL_LIBRARY})
 # SHAKE
 add_subdirectory(libshake)
 
-# OBJ
-add_subdirectory(libobj)
+# OBJ is header only
 
 # SOIL
 add_subdirectory(soil)

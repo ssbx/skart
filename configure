@@ -17,6 +17,8 @@ run: all
 	make -C build $@
 ' > Makefile
 
+git submodule init
+git submodule update --recursive --remote
 # cleanup build dir if exist
 rm -rf build
 

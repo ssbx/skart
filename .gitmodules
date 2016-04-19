@@ -1,24 +1,32 @@
 [submodule "deps/glfw"]
 	path = deps/glfw
 	url = http://github.com/glfw/glfw.git
+    branch = master
 [submodule "deps/libshake"]
 	path = deps/libshake
 	url = https://github.com/libgame/libshake.git
+    branch = master
 [submodule "deps/cargo"]
 	path = deps/cargo
 	url = https://github.com/libgame/cargo.git
+    branch = master
 [submodule "deps/cglm"]
 	path = deps/cglm
 	url = https://github.com/libgame/cglm.git
+    branch = master
 [submodule "deps/clog"]
 	path = deps/clog
 	url = https://github.com/libgame/clog.git
+    branch = master
 [submodule "deps/glew"]
 	path = deps/glew
 	url = https://github.com/libgame/glew.git
+    branch = master
 [submodule "deps/libobj"]
 	path = deps/libobj
 	url = https://github.com/libgame/libobj.git
+    branch = master
 [submodule "deps/soil"]
 	path = deps/soil
 	url = https://github.com/libgame/soil.git
+    branch = master
