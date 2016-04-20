@@ -5,6 +5,7 @@
 
 #include <shake.h>
 #include <cglm.h>
+#include <clog.h>
 
 #include <stdio.h>
 
@@ -34,33 +35,42 @@ void FInput_Init(
     CGLMvec3 direction_v)
 {
 
-    mouseSpeed = mouseSpeed_v;
+    mouseSpeed      = mouseSpeed_v;
     horizontalAngle = horizontalAngle_v;
-    verticalAngle = verticalAngle_v;
-    fieldOfView = fieldOfView_v;
-    position = position_v;
-    direction = direction_v;
-    mouseLastMove = keyLastMove = glfwGetTime();
-    
+    verticalAngle   = verticalAngle_v;
+    fieldOfView     = fieldOfView_v;
+    position        = position_v;
+    direction       = direction_v;
+    mouseLastMove  = keyLastMove = glfwGetTime();
+    glfwGetCursorPos(FED_Window, &cursorLastXPos, &cursorLastYPos);
+   
     model = (CGLMmat4) cglmMat4(1);
-    up    = (CGLMvec3) {0,1,0};
+    up = (CGLMvec3) {0,1,0};
+    
     proj  = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
     view  = cglmLookAt(position, direction, up);
     
     FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
-    
+   
 }
 
-void FInput_GetUserInputs()
+void FInput_GetImmediateKeyInputs()
 {
 
-    if (glfwGetKey(FED_Window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    if (glfwGetKey(FED_Window, GLFW_KEY_W) == GLFW_PRESS)
     {
         position.z -= 1;
         view    = cglmLookAt(position, direction, up);
         FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+        return;
     }
     
+    if (glfwGetKey(FED_Window, GLFW_KEY_S) == GLFW_PRESS) {
+        position.z += 1;
+        view    = cglmLookAt(position, direction, up);
+        FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+        return;
+    }
 }
 
 
@@ -99,8 +109,11 @@ void FInput_CursorPosCallback(
     double      ypos)
 {
     
-    double now = glfwGetTime();
+    double now       = glfwGetTime();
     double deltaTime = now - mouseLastMove;
+    clogInfo("Delta %f\n", deltaTime);
+    
+    clogInfo("pos %f %f \n", cursorLastXPos, cursorLastYPos);
     horizontalAngle += mouseSpeed * (cursorLastXPos - xpos);
     verticalAngle   += mouseSpeed * (cursorLastYPos - ypos);
     

@@ -81,7 +81,7 @@ int main(
     // begin to loop
     while (!glfwWindowShouldClose(FED_Window))
     {
-        FInput_GetUserInputs();
+        FInput_GetImmediateKeyInputs();
         FGl_UpdateScreen();
     }
     
