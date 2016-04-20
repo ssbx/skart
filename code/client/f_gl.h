@@ -100,7 +100,7 @@ static GLuint Texture;
 static GLuint TextureID;
 
 
-void f_InitScreen(int startWindowed)
+void FGl_InitScreen(int startWindowed)
 {
     
     
@@ -216,7 +216,7 @@ void f_InitScreen(int startWindowed)
 
 }
 
-void f_UpdateScreen()
+void FGl_UpdateScreen()
 {
     
     // Clear the screen
@@ -268,7 +268,7 @@ void f_UpdateScreen()
     glfwPollEvents();
 }
 
-void f_CleanupScreen()
+void FGl_CleanupScreen()
 {
 
     glfwDestroyWindow(FED_Window);

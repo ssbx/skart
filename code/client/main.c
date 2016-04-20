@@ -51,9 +51,9 @@ int main(
     char* testing = cargoFlag("testing", "FALSE", argc, argv); 
     if (strcmp(testing, "TRUE") == 0) {
         
-        f_InitScreen(startWindowed);
-        f_UpdateScreen();
-        f_CleanupScreen();
+        FGl_InitScreen(startWindowed);
+        FGl_UpdateScreen();
+        FGl_CleanupScreen();
         return 0;
         
     }
@@ -64,9 +64,9 @@ int main(
     FED_SOUND_GunShot = shakeLoad("shot.wav");
         
     glfwSetErrorCallback(glfwErrors);
-    f_InitScreen(startWindowed);
+    FGl_InitScreen(startWindowed);
 
-    f_InitInput(
+    FInput_Init(
         0.0015,         // mouseSpeed
         180.0,          // horizontalAngle
         0.0,            // verticalAngle
@@ -76,18 +76,18 @@ int main(
     );
     
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetKeyCallback(FED_Window, f_KeyInputCallback);
-    glfwSetMouseButtonCallback(FED_Window, f_MouseButtonInputCallback);
-    glfwSetCursorPosCallback(FED_Window, f_CursorPosInputCallback);
-    glfwSetScrollCallback(FED_Window, f_ScrollInputCallback);
+    glfwSetKeyCallback(FED_Window, FInput_KeyCallback);
+    glfwSetMouseButtonCallback(FED_Window, FInput_MouseButtonCallback);
+    glfwSetCursorPosCallback(FED_Window, FInput_CursorPosCallback);
+    glfwSetScrollCallback(FED_Window, FInput_ScrollCallback);
 
     while (!glfwWindowShouldClose(FED_Window))
     {
-        f_GetUserInputs();
-        f_UpdateScreen();
+        FInput_GetUserInputs();
+        FGl_UpdateScreen();
     }
     
-    f_CleanupScreen();
+    FGl_CleanupScreen();
     shakeTerminate();
 
     return 0;
