@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # easy makefile
 echo '
 .PHONY: all clean_all
@@ -17,7 +19,15 @@ run: all
 	make -C build $@
 ' > Makefile
 
-git submodule update --init --recursive --remote
+git submodule update --init deps/cargo
+git submodule update --init deps/cglm
+git submodule update --init deps/clog
+git submodule update --init deps/glew
+git submodule update --init deps/libobj
+git submodule update --init deps/soil
+git submodule update --init --recursive --remote deps/libshake
+git submodule update --init --recursive deps/glfw
+
 # cleanup build dir if exist
 rm -rf build
 

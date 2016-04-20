@@ -25,7 +25,7 @@ CGLMmat4 model;
 CGLMvec3 up;
 
 
-void fedInput_init(
+void f_InitInput(
     float mouseSpeed_v,
     float horizontalAngle_v,
     float verticalAngle_v,
@@ -51,7 +51,7 @@ void fedInput_init(
     
 }
 
-void fedInput_UserInputs()
+void f_GetUserInputs()
 {
 
     if (glfwGetKey(FED_Window, GLFW_KEY_SPACE) == GLFW_PRESS)
@@ -64,7 +64,7 @@ void fedInput_UserInputs()
 }
 
 
-void fedInput_KeyCallback(
+void f_KeyInputCallback(
     GLFWwindow* window,
     int         key,
     int         scancode,
@@ -86,14 +86,14 @@ void fedInput_KeyCallback(
     
 }
 
-void fedInput_ScrollCallback(
+void f_ScrollInputCallback(
     GLFWwindow* window,
     double xoffset,
     double yoffset)
 {
 }
 
-void fedInput_CursorPosCallback(
+void f_CursorPosInputCallback(
     GLFWwindow* window,
     double      xpos,  
     double      ypos)
@@ -135,7 +135,7 @@ void fedInput_CursorPosCallback(
 }
 
 
-void fedInput_MouseButtonCallback(
+void f_MouseButtonInputCallback(
     GLFWwindow* window,
     int         button,
     int         action,

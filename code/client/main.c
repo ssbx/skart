@@ -39,6 +39,7 @@ int main(
 {
 
     char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
+
     int startWindowed;
     if (strcmp(windowed, "TRUE") == 0) {
         startWindowed = 1;
@@ -50,25 +51,22 @@ int main(
     char* testing = cargoFlag("testing", "FALSE", argc, argv); 
     if (strcmp(testing, "TRUE") == 0) {
         
-        fedGl_Init(startWindowed);
-        fedGl_Update();
-        fedGl_Cleanup();
+        f_InitScreen(startWindowed);
+        f_UpdateScreen();
+        f_CleanupScreen();
         return 0;
         
     }
     
+
     // init sounds
     shakeInit(0.05);
     FED_SOUND_GunShot = shakeLoad("shot.wav");
         
-    // initial input variables
-
-   
-    
     glfwSetErrorCallback(glfwErrors);
-    
-    fedGl_Init(startWindowed);
-    fedInput_init(
+    f_InitScreen(startWindowed);
+
+    f_InitInput(
         0.0015,         // mouseSpeed
         180.0,          // horizontalAngle
         0.0,            // verticalAngle
@@ -78,18 +76,18 @@ int main(
     );
     
     glfwSetInputMode(FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetKeyCallback(FED_Window, fedInput_KeyCallback);
-    glfwSetMouseButtonCallback(FED_Window, fedInput_MouseButtonCallback);
-    glfwSetCursorPosCallback(FED_Window, fedInput_CursorPosCallback);
-    glfwSetScrollCallback(FED_Window, fedInput_ScrollCallback);
+    glfwSetKeyCallback(FED_Window, f_KeyInputCallback);
+    glfwSetMouseButtonCallback(FED_Window, f_MouseButtonInputCallback);
+    glfwSetCursorPosCallback(FED_Window, f_CursorPosInputCallback);
+    glfwSetScrollCallback(FED_Window, f_ScrollInputCallback);
 
     while (!glfwWindowShouldClose(FED_Window))
     {
-        fedInput_UserInputs();
-        fedGl_Update();
+        f_GetUserInputs();
+        f_UpdateScreen();
     }
     
-    fedGl_Cleanup();
+    f_CleanupScreen();
     shakeTerminate();
 
     return 0;
