@@ -1,41 +1,22 @@
-/**
- * @file federation.c
- * @brief Federation FPS
- * @version 0.1
- *
- * Simple FPS game created for learning various C/C++ tools and real time
- * rendering.
- *
- */
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-#include "f_common.h"
 #include "f_gl.h"
 #include "f_input.h"
+#include "f_sounds.h"
 
 #include <clog.h>
-#include <shake.h>
 #include <cargo.h>
 
 #include <stdio.h>
 #include <string.h>
 
-
 void glfwErrors(int error, const char* description)
-{
-    
     clogError("GLFW error n %d: %s", error, description);
-    
-}
 
-/**
- * @fn int main(int argc, char* argv[])
- * @brief Federation main loop.
- *
- * @return 0
- */
-int main(
-    int   argc,
-    char* argv[])
+
+
+int main(int argc, char* argv[])
 {
  
     // maybe start windowed
@@ -48,18 +29,15 @@ int main(
         startWindowed = 0;
     
 
-    // init sounds
-    shakeInit(0.05);
-    FED_SOUND_GunShot = shakeLoad("shot.wav");
-        
-
     // configure glfw errors
     glfwSetErrorCallback(glfwErrors);
 
 
     // init glfw/glew/opengl
-    FGl_InitScreen(startWindowed);
+    GLFWwindow* win = FGl_InitScreen(startWindowed);
 
+    // init sounds
+    FSounds_Init();
 
     // configure inputs
     FInput_Init(
@@ -71,15 +49,15 @@ int main(
         (CGLMvec3) {0,0,0}      // direction
     );
     
-    glfwSetInputMode          (FED_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetKeyCallback        (FED_Window, FInput_KeyCallback);
-    glfwSetMouseButtonCallback(FED_Window, FInput_MouseButtonCallback);
-    glfwSetCursorPosCallback  (FED_Window, FInput_CursorPosCallback);
-    glfwSetScrollCallback     (FED_Window, FInput_ScrollCallback);
+    glfwSetInputMode          (win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetKeyCallback        (win, FInput_KeyCallback);
+    glfwSetMouseButtonCallback(win, FInput_MouseButtonCallback);
+    glfwSetCursorPosCallback  (win, FInput_CursorPosCallback);
+    glfwSetScrollCallback     (win, FInput_ScrollCallback);
 
 
     // begin to loop
-    while (!glfwWindowShouldClose(FED_Window))
+    while (!glfwWindowShouldClose(win))
     {
         FInput_GetImmediateKeyInputs();
         FGl_UpdateScreen();

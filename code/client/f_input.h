@@ -1,12 +1,13 @@
 #ifndef FINPUT_H
 #define FINPUT_H
 
-#include "f_common.h"
+#include "f_sounds.h"
 
-#include <shake.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <cglm.h>
 #include <clog.h>
-
 #include <stdio.h>
 
 static double cursorLastXPos;
@@ -24,7 +25,10 @@ CGLMmat4 proj;
 CGLMmat4 view;
 CGLMmat4 model;
 CGLMvec3 up;
+CGLMmat4 FED_MVP;
 
+extern float FED_SCREEN_RATIO;
+extern GLFWwindow* FED_WINDOW;
 
 void FInput_Init(
     float mouseSpeed_v,
@@ -42,7 +46,7 @@ void FInput_Init(
     position        = position_v;
     direction       = direction_v;
     mouseLastMove  = keyLastMove = glfwGetTime();
-    glfwGetCursorPos(FED_Window, &cursorLastXPos, &cursorLastYPos);
+    glfwGetCursorPos(FED_WINDOW, &cursorLastXPos, &cursorLastYPos);
    
     model = (CGLMmat4) cglmMat4(1);
     up = (CGLMvec3) {0,1,0};
@@ -57,7 +61,7 @@ void FInput_Init(
 void FInput_GetImmediateKeyInputs()
 {
 
-    if (glfwGetKey(FED_Window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(FED_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
     {
         position.z -= 1;
         view    = cglmLookAt(position, direction, up);
@@ -65,7 +69,7 @@ void FInput_GetImmediateKeyInputs()
         return;
     }
     
-    if (glfwGetKey(FED_Window, GLFW_KEY_S) == GLFW_PRESS) {
+    if (glfwGetKey(FED_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
         position.z += 1;
         view    = cglmLookAt(position, direction, up);
         FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
@@ -88,7 +92,7 @@ void FInput_KeyCallback(
     
     /*
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        glfwIconifyWindow(FED_Window);
+        glfwIconifyWindow(FED_WINDOW);
     }
     */
     
@@ -159,10 +163,10 @@ void FInput_MouseButtonCallback(
         switch(button)
         {
             case GLFW_MOUSE_BUTTON_LEFT:
-                shakePlay(FED_SOUND_GunShot);
+                FSounds_Play(FED_SOUND_GunShot);
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
-                shakePlay(FED_SOUND_GunShot);
+                FSounds_Play(FED_SOUND_GunShot);
                 if (fieldOfView == 45.0) {
                     fieldOfView = 360.0;
                     proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
@@ -174,7 +178,7 @@ void FInput_MouseButtonCallback(
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:
-                shakePlay(FED_SOUND_GunShot);
+                FSounds_Play(FED_SOUND_GunShot);
                 break;
         }
     }

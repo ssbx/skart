@@ -41,11 +41,10 @@ include_directories (
 # "federation" executable
 #
 add_executable (federation
-  code/client/main.c
-  code/client/f_common.h
+  code/client/f_main.c
   code/client/f_gl.h
   code/client/f_input.h
-  code/client/f_shader.h)
+  code/client/f_sounds.h)
 
 
 add_dependencies (federation glfw glew shake soil)
