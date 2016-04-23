@@ -36,6 +36,10 @@ include_directories (
   deps/libobj/
   deps/soil/code/)
 
+#
+# "fsrv" executable
+#
+add_executable (fsrv code/server/fsrv.c)
 
 #
 # "federation" executable
@@ -59,10 +63,6 @@ enable_testing()
 add_test (NAME federation_init_cleanup COMMAND federation --testing)
 
 
-#
-# "fsrv" executable
-#
-add_executable (fsrv code/server/fsrv.c)
 
 
 #

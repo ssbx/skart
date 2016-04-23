@@ -10,25 +10,34 @@
 #include <clog.h>
 #include <stdio.h>
 
-static double cursorLastXPos;
-static double cursorLastYPos;
-static float mouseSpeed;
+typedef struct {
+    
+    double x;     // x position
+    double y;     // y position
+    double last;  // last move
+    float  speed; // mouse speed
+    float  xAngle; // horizontal angle
+    float  yAngle; // vertical angle
+    
+} FINPUTcursor;
+
+static FINPUTcursor cursor;
+
 static float horizontalAngle;
 static float verticalAngle;
 static float fieldOfView;
-static float fieldOfView;
-static double mouseLastMove;
 static double keyLastMove;
-CGLMvec3 position;
-CGLMvec3 direction;
-CGLMmat4 proj;
-CGLMmat4 view;
-CGLMmat4 model;
-CGLMvec3 up;
-CGLMmat4 FED_MVP;
+static CGLMvec3 position;
+static CGLMvec3 direction;
+static CGLMmat4 proj;
+static CGLMmat4 view;
+static CGLMmat4 model;
+static CGLMvec3 up;
 
-extern float FED_SCREEN_RATIO;
-extern GLFWwindow* FED_WINDOW;
+// from f_gl.h
+extern float       FED_screenRatio;
+extern GLFWwindow* FED_window;
+extern CGLMmat4    FED_mvp;
 
 void FInput_Init(
     float mouseSpeed_v,
@@ -39,40 +48,41 @@ void FInput_Init(
     CGLMvec3 direction_v)
 {
 
-    mouseSpeed      = mouseSpeed_v;
     horizontalAngle = horizontalAngle_v;
     verticalAngle   = verticalAngle_v;
     fieldOfView     = fieldOfView_v;
     position        = position_v;
     direction       = direction_v;
-    mouseLastMove  = keyLastMove = glfwGetTime();
-    glfwGetCursorPos(FED_WINDOW, &cursorLastXPos, &cursorLastYPos);
+    cursor.speed    = mouseSpeed_v;
+    cursor.last = glfwGetTime();
+    glfwGetCursorPos(FED_window, &(cursor.x), &(cursor.y));
+    //glfwGetCursorPos(FED_window, &cursorLastXPos, &cursorLastYPos);
    
     model = (CGLMmat4) cglmMat4(1);
     up = (CGLMvec3) {0,1,0};
     
-    proj  = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+    proj  = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
     view  = cglmLookAt(position, direction, up);
     
-    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
    
 }
 
 void FInput_GetImmediateKeyInputs()
 {
 
-    if (glfwGetKey(FED_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(FED_window, GLFW_KEY_W) == GLFW_PRESS)
     {
         position.z -= 1;
         view    = cglmLookAt(position, direction, up);
-        FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
         return;
     }
     
-    if (glfwGetKey(FED_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
+    if (glfwGetKey(FED_window, GLFW_KEY_S) == GLFW_PRESS) {
         position.z += 1;
         view    = cglmLookAt(position, direction, up);
-        FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
         return;
     }
 }
@@ -92,7 +102,7 @@ void FInput_KeyCallback(
     
     /*
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        glfwIconifyWindow(FED_WINDOW);
+        glfwIconifyWindow(FED_window);
     }
     */
     
@@ -114,12 +124,12 @@ void FInput_CursorPosCallback(
 {
     
     double now       = glfwGetTime();
-    double deltaTime = now - mouseLastMove;
+    double deltaTime = now - cursor.last;
     clogInfo("Delta %f\n", deltaTime);
     
-    clogInfo("pos %f %f \n", cursorLastXPos, cursorLastYPos);
-    horizontalAngle += mouseSpeed * (cursorLastXPos - xpos);
-    verticalAngle   += mouseSpeed * (cursorLastYPos - ypos);
+    clogInfo("pos %f %f \n", cursor.x, cursor.y);
+    horizontalAngle += cursor.speed * (cursor.x - xpos);
+    verticalAngle   += cursor.speed * (cursor.y - ypos);
     
     direction = (CGLMvec3) {
         cos(verticalAngle) * sin(horizontalAngle), 
@@ -136,18 +146,18 @@ void FInput_CursorPosCallback(
     up = cglmCross(right, direction);
     
     
-    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
+    proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
     view = cglmLookAt(
         position,
         cglmAddVec3(position, direction),
         up
     );
     
-    mouseLastMove  = now;
-    cursorLastXPos = xpos;
-    cursorLastYPos = ypos;
+    cursor.last = now;
+    cursor.x = xpos;
+    cursor.y = ypos;
     
-    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
     
 }
 
@@ -169,12 +179,12 @@ void FInput_MouseButtonCallback(
                 FSounds_Play(FED_SOUND_GunShot);
                 if (fieldOfView == 45.0) {
                     fieldOfView = 360.0;
-                    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
-                    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+                    proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
+                    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
                 } else {
                     fieldOfView = 45.0;
-                    proj = cglmPerspective(fieldOfView, FED_SCREEN_RATIO, 0.1, 100.0);
-                    FED_MVP = cglmMultMat4(cglmMultMat4(proj, view), model);
+                    proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
+                    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:

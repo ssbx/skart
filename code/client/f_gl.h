@@ -101,11 +101,12 @@ static GLuint vertexPosition_modelspaceID;
 static GLuint Texture;
 static GLuint TextureID;
 
-float FED_SCREEN_HEIGHT;
-float FED_SCREEN_WIDTH;
-float FED_SCREEN_RATIO;
+float screenHeight;
+float screenWidth;
 
-GLFWwindow *FED_WINDOW; //< Federation main window
+float       FED_screenRatio;
+GLFWwindow* FED_window; //< Federation main window
+CGLMmat4    FED_mvp;
 
 /*=============================================================================
  * SHADER UTILS
@@ -267,12 +268,12 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
 
     if (startWindowed == 1) {
                 
-        FED_SCREEN_WIDTH = 1024;
-        FED_SCREEN_HEIGHT = 768;
-        FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
+        screenWidth = 1024;
+        screenHeight = 768;
+        FED_screenRatio = screenWidth / screenHeight;
         
-        FED_WINDOW = glfwCreateWindow(
-            FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", NULL, NULL);
+        FED_window = glfwCreateWindow(
+            screenWidth, screenHeight, "Federation", NULL, NULL);
         
     } else {
  
@@ -283,18 +284,18 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         
-        FED_SCREEN_WIDTH = mode->width;
-        FED_SCREEN_HEIGHT = mode->height;
-        FED_SCREEN_RATIO = FED_SCREEN_WIDTH / FED_SCREEN_HEIGHT;
+        screenWidth = mode->width;
+        screenHeight = mode->height;
+        FED_screenRatio = screenWidth / screenHeight;
         
-        clogInfo("%f %f %f\n", FED_SCREEN_HEIGHT, FED_SCREEN_WIDTH, FED_SCREEN_RATIO);
+        clogInfo("%f %f %f\n", screenHeight, screenWidth, FED_screenRatio);
         
-        FED_WINDOW = glfwCreateWindow(
-            FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT, "Federation", monitor, NULL);
+        FED_window = glfwCreateWindow(
+            screenWidth, screenHeight, "Federation", monitor, NULL);
         
     }
     
-    if (!FED_WINDOW)
+    if (!FED_window)
     {
         clogError("fed_gl_init Failed to open GLFW window.", NULL);
         glfwTerminate();
@@ -302,7 +303,7 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
     }
    
     
-    glfwMakeContextCurrent(FED_WINDOW);
+    glfwMakeContextCurrent(FED_window);
 
 
     if (glewInit() != GLEW_OK)
@@ -312,10 +313,10 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
         exit(1);
     }
  
-    glViewport(0, 0, FED_SCREEN_WIDTH, FED_SCREEN_HEIGHT);
+    glViewport(0, 0, screenWidth, screenHeight);
     
     glfwSwapInterval(1);
-    glfwSetInputMode(FED_WINDOW, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetInputMode(FED_window, GLFW_STICKY_KEYS, GL_TRUE);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -367,7 +368,7 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
                  g_uv_buffer_data, GL_STATIC_DRAW);
 
 
-    return FED_WINDOW;
+    return FED_window;
 }
 
 void FGl_UpdateScreen()
@@ -379,7 +380,7 @@ void FGl_UpdateScreen()
     // Use our shader
     glUseProgram(programID);
 
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(FED_MVP.a0));
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(FED_mvp.a0));
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, Texture);
@@ -418,14 +419,14 @@ void FGl_UpdateScreen()
     glDisableVertexAttribArray(VertexUVID);
 
     // Swap buffers
-    glfwSwapBuffers(FED_WINDOW);
+    glfwSwapBuffers(FED_window);
     glfwPollEvents();
 }
 
 void FGl_CleanupScreen()
 {
 
-    glfwDestroyWindow(FED_WINDOW);
+    glfwDestroyWindow(FED_window);
     glfwTerminate();
 
 }

@@ -25,8 +25,8 @@ git submodule update --init deps/clog
 git submodule update --init deps/glew
 git submodule update --init deps/libobj
 git submodule update --init deps/soil
+git submodule update --init deps/glfw
 git submodule update --init --recursive --remote deps/libshake
-git submodule update --init --recursive deps/glfw
 
 # cleanup build dir if exist
 rm -rf build
