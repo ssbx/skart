@@ -12,7 +12,9 @@
 #include <string.h>
 
 void glfwErrors(int error, const char* description)
+{
     clogError("GLFW error n %d: %s", error, description);
+}
 
 
 

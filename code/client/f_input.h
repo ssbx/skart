@@ -10,6 +10,7 @@
 #include <clog.h>
 #include <stdio.h>
 
+
 typedef struct {
     
     double x;     // x position
@@ -22,6 +23,7 @@ typedef struct {
 } FINPUTcursor;
 
 static FINPUTcursor cursor;
+
 
 static float horizontalAngle;
 static float verticalAngle;
@@ -38,6 +40,12 @@ static CGLMvec3 up;
 extern float       FED_screenRatio;
 extern GLFWwindow* FED_window;
 extern CGLMmat4    FED_mvp;
+
+void FINPUT_debug()
+{
+    clogInfo("up is %f %f %f\n", up.x, up.y, up.z);
+    clogInfo("cursor is %f %f \n", cursor.x, cursor.y);
+}
 
 void FInput_Init(
     float mouseSpeed_v,
@@ -66,6 +74,7 @@ void FInput_Init(
     
     FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
    
+    FINPUT_debug();
 }
 
 void FInput_GetImmediateKeyInputs()
@@ -143,7 +152,7 @@ void FInput_CursorPosCallback(
         cos(horizontalAngle - 3.14f/2.0f)
     };
     
-    up = cglmCross(right, direction);
+    //up = cglmCross(right, direction);
     
     
     proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
@@ -158,6 +167,8 @@ void FInput_CursorPosCallback(
     cursor.y = ypos;
     
     FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+    
+    FINPUT_debug();
     
 }
 

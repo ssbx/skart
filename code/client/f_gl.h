@@ -259,6 +259,7 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
     
     
     if (!glfwInit()) {
+        clogError("GLFW init failure\n", NULL);
         exit(1);
     }
     
