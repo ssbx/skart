@@ -25,8 +25,7 @@ find_package(OpenGL REQUIRED)
 #
 add_subdirectory (deps)
 include_directories (
-  code/client/
-  code/server/
+  .
   deps/glfw/include/
   deps/glew/include/
   deps/cglm/
@@ -39,16 +38,16 @@ include_directories (
 #
 # "fsrv" executable
 #
-add_executable (fsrv code/server/fsrv.c)
+add_executable (fsrv fsrv.c)
 
 #
 # "federation" executable
 #
 add_executable (federation
-  code/client/f_main.c
-  code/client/f_gl.h
-  code/client/f_input.h
-  code/client/f_sounds.h)
+  f_main.c
+  f_gl.h
+  f_input.h
+  f_sounds.h)
 
 
 add_dependencies (federation glfw glew shake soil)

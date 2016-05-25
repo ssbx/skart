@@ -1,9 +1,4 @@
 /_BUILD
 /build
 /doc
-*.swp
-*.swo
-.kdev4
-federation.kdev4
 /Makefile
-*blend1
