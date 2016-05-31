@@ -11,9 +11,7 @@ compiler:
     - clang
 
 before_install:
-    - sudo add-apt-repository ppa:kubuntu-ppa/backports -y
-    - sudo apt-get update -q
-    - sudo apt-get install cmake -y
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; thensudo add-apt-repository ppa:kubuntu-ppa/backports -y; sudo apt-get update -q; sudo apt-get install cmake -y; fi
 
 script: 
     - ./configure
