@@ -6,8 +6,8 @@ platform: x64
 configuration: Release
 
 before_build:
-    - echo Running cmake...
     - cd c:\projects\federation
+    - git submodule --init --recursive --remote
     - cmake -G "Visual Studio 14 2015 Win64"
 
 build:
