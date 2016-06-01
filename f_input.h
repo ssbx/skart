@@ -66,7 +66,7 @@ void FInput_Init(
     glfwGetCursorPos(FED_window, &(cursor.x), &(cursor.y));
     //glfwGetCursorPos(FED_window, &cursorLastXPos, &cursorLastYPos);
    
-    model = (CGLMmat4) cglmMat4(1);
+    model = cglmMat4(1);
     up = (CGLMvec3) {0,1,0};
     
     proj  = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
