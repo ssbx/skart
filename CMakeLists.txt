@@ -59,7 +59,9 @@ target_link_libraries (federation
 # "federation" executable simple test
 #
 enable_testing()
-add_test (NAME federation_init_cleanup COMMAND federation --testing)
+set (CTEST_OUTPUT_ON_FAILURE ON)
+add_test (NAME MemCheck  COMMAND valgrind --error-exitcode=1 --tool=memcheck --leak-check=full --track-origins=yes -v ./federation)
+
 
 
 
