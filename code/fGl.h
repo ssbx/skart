@@ -2,7 +2,7 @@
 #define FGL_H
 
 
-#include "f_input.h"
+#include "fInput.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

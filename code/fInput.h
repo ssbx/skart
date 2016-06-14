@@ -1,7 +1,7 @@
 #ifndef FINPUT_H
 #define FINPUT_H
 
-#include "f_sounds.h"
+#include "fSounds.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -36,7 +36,7 @@ static CGLMmat4 view;
 static CGLMmat4 model;
 static CGLMvec3 up;
 
-// from f_gl.h
+// from fGl.h
 extern float       FED_screenRatio;
 extern GLFWwindow* FED_window;
 extern CGLMmat4    FED_mvp;

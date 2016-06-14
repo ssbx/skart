@@ -38,16 +38,16 @@ include_directories (
 #
 # "fsrv" executable
 #
-add_executable (fsrv fsrv.c)
+add_executable (fsrv code/fSrv.c)
 
 #
 # "federation" executable
 #
 add_executable (federation
-  f_main.c
-  f_gl.h
-  f_input.h
-  f_sounds.h)
+  code/main.c
+  code/fGl.h
+  code/fInput.h
+  code/fSounds.h)
 
 
 add_dependencies (federation glfw glew shake soil)

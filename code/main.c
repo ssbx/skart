@@ -1,9 +1,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "f_gl.h"
-#include "f_input.h"
-#include "f_sounds.h"
+#include "fGl.h"
+#include "fInput.h"
+#include "fSounds.h"
 
 #include <clog.h>
 #include <cargo.h>
