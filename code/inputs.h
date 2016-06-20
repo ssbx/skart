@@ -1,7 +1,7 @@
 #ifndef FINPUT_H
 #define FINPUT_H
 
-#include "fSounds.h"
+#include "sounds.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -38,16 +38,16 @@ static CGLMvec3 up;
 
 // from fGl.h
 extern float       FED_screenRatio;
-extern GLFWwindow* FED_window;
+extern GLFWwindow* MAIN_WINDOW;
 extern CGLMmat4    FED_mvp;
 
-void FINPUT_debug()
+void print_debug_input()
 {
     clogInfo("up is %f %f %f\n", up.x, up.y, up.z);
     clogInfo("cursor is %f %f \n", cursor.x, cursor.y);
 }
 
-void FInput_Init(
+void init_inputs(
     float mouseSpeed_v,
     float horizontalAngle_v,
     float verticalAngle_v,
@@ -63,7 +63,7 @@ void FInput_Init(
     direction       = direction_v;
     cursor.speed    = mouseSpeed_v;
     cursor.last = glfwGetTime();
-    glfwGetCursorPos(FED_window, &(cursor.x), &(cursor.y));
+    glfwGetCursorPos(MAIN_WINDOW, &(cursor.x), &(cursor.y));
     //glfwGetCursorPos(FED_window, &cursorLastXPos, &cursorLastYPos);
    
     model = cglmMat4(1);
@@ -74,13 +74,13 @@ void FInput_Init(
     
     FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
    
-    FINPUT_debug();
+    print_debug_input();
 }
 
-void FInput_GetImmediateKeyInputs()
+void handle_real_time_key_inputs()
 {
 
-    if (glfwGetKey(FED_window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
     {
         position.z -= 1;
         view    = cglmLookAt(position, direction, up);
@@ -88,7 +88,7 @@ void FInput_GetImmediateKeyInputs()
         return;
     }
     
-    if (glfwGetKey(FED_window, GLFW_KEY_S) == GLFW_PRESS) {
+    if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
         position.z += 1;
         view    = cglmLookAt(position, direction, up);
         FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
@@ -97,7 +97,7 @@ void FInput_GetImmediateKeyInputs()
 }
 
 
-void FInput_KeyCallback(
+void handle_keyboard_inputs_callback(
     GLFWwindow* window,
     int         key,
     int         scancode,
@@ -119,14 +119,14 @@ void FInput_KeyCallback(
     
 }
 
-void FInput_ScrollCallback(
+void handlle_scroll_inputs_callback(
     GLFWwindow* window,
     double xoffset,
     double yoffset)
 {
 }
 
-void FInput_CursorPosCallback(
+void handle_cursor_position_callback(
     GLFWwindow* window,
     double      xpos,  
     double      ypos)
@@ -168,12 +168,12 @@ void FInput_CursorPosCallback(
     
     FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
     
-    FINPUT_debug();
+    print_debug_input();
     
 }
 
 
-void FInput_MouseButtonCallback(
+void handle_mouse_button_inputs_callback(
     GLFWwindow* window,
     int         button,
     int         action,
@@ -184,10 +184,10 @@ void FInput_MouseButtonCallback(
         switch(button)
         {
             case GLFW_MOUSE_BUTTON_LEFT:
-                FSounds_Play(FED_SOUND_GunShot);
+                play_sound(FED_SOUND_GunShot);
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
-                FSounds_Play(FED_SOUND_GunShot);
+                play_sound(FED_SOUND_GunShot);
                 if (fieldOfView == 45.0) {
                     fieldOfView = 360.0;
                     proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
@@ -199,7 +199,7 @@ void FInput_MouseButtonCallback(
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:
-                FSounds_Play(FED_SOUND_GunShot);
+                play_sound(FED_SOUND_GunShot);
                 break;
         }
     }

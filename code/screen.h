@@ -2,7 +2,8 @@
 #define FGL_H
 
 
-#include "fInput.h"
+#include "inputs.h"
+#include "shaders.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -105,156 +106,15 @@ float screenHeight;
 float screenWidth;
 
 float       FED_screenRatio;
-GLFWwindow* FED_window; //< Federation main window
+GLFWwindow* MAIN_WINDOW; //< Federation main window
 CGLMmat4    FED_mvp;
 
-/*=============================================================================
- * SHADER UTILS
- *============================================================================*/
-typedef struct FileDump {
-    int   size;
-    char* dump;
-} FileDump;
-
-char* FGl_DumpShaderFile(const char* file_path)
-{
-    char* file_content;
-    FILE* file_ptr = NULL;
-    long int file_size;
-
-    file_ptr = fopen(file_path, "rb");
-
-    if (!file_ptr) {
-        clogError("File not found!", NULL);
-        return NULL;
-    }
-
-    fseek(file_ptr, 0, SEEK_END);
-    file_size = ftell(file_ptr);
-    rewind(file_ptr);
-
-    file_content = malloc((file_size + 1) * (sizeof(char)));
-
-    fread(file_content, sizeof(char), file_size, file_ptr);
-    file_content[file_size] = '\0';
-
-    fclose(file_ptr);
-
-    return file_content;
-}
-
-
-/**
- * @brief Load shader
- */
-GLuint FGl_LoadShader(
-    const char * vertex_file_path,
-    const char * fragment_file_path)
-{
-
-
-    // Create the shaders
-    GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
-    GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-
-    // read vertex file
-    char* vertex_code = FGl_DumpShaderFile(vertex_file_path);
-    if (!vertex_code)
-        return -1;
-
-
-    // read fragment file
-    char* fragment_code = FGl_DumpShaderFile(fragment_file_path);
-    if (!fragment_code)
-        return -1;
-
-
-
-    GLint result = GL_FALSE;
-    int   info_log_length;
-
-
-    // Compiling vertex shader
-    const GLchar* vertex_code_ptr = vertex_code;
-    glShaderSource(VertexShaderID, 1, &vertex_code_ptr, NULL);
-    glCompileShader(VertexShaderID);
-
-    // verify
-    glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &result);
-    glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
-
-    if (result == GL_FALSE)
-        clogError("Error compiling vertex code", NULL);
-
-    if (info_log_length > 1) { // one char is the \0
-        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
-        glGetShaderInfoLog(VertexShaderID, info_log_length, NULL, info_log);
-        clogInfo(info_log, NULL);
-        free(info_log);
-    }
-
-
-
-
-    // Compiling fragment shader
-    const GLchar* fragment_code_ptr = fragment_code;
-    glShaderSource(FragmentShaderID, 1, &fragment_code_ptr, NULL);
-    glCompileShader(FragmentShaderID);
-
-    // verify
-    glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &result);
-    glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &info_log_length);
-
-    if (result == GL_FALSE)
-        clogError("Error compiling fragment code", NULL);
-
-    if (info_log_length > 1) {
-        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
-        glGetShaderInfoLog(FragmentShaderID, info_log_length, NULL, info_log);
-        clogWarning(info_log, NULL);
-        free(info_log);
-    }
-
-
-
-    // linking program
-    GLuint program_id = glCreateProgram();
-    glAttachShader(program_id, VertexShaderID);
-    glAttachShader(program_id, FragmentShaderID);
-    glLinkProgram(program_id);
-
-    // verify
-    glGetProgramiv(program_id, GL_LINK_STATUS, &result);
-    glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &info_log_length);
-
-    if (result == GL_FALSE)
-        clogError("Error linking program", NULL);
-
-    if (info_log_length > 1) {
-        GLchar* info_log = malloc((info_log_length + 1) * sizeof(GLchar));
-        glGetProgramInfoLog(program_id, info_log_length, NULL, info_log);
-        clogWarning(info_log, NULL);
-        free(info_log);
-    }
-
-    glDetachShader(program_id, VertexShaderID);
-    glDetachShader(program_id, FragmentShaderID);
-
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
-
-    free(vertex_code);
-    free(fragment_code);
-
-    return program_id;
-}
 
 
 /*=============================================================================
  * OPENGL
  *============================================================================*/
-GLFWwindow* FGl_InitScreen(int startWindowed)
+GLFWwindow* init_screen(int startWindowed)
 {
     
     
@@ -273,7 +133,7 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
         screenHeight = 768;
         FED_screenRatio = screenWidth / screenHeight;
         
-        FED_window = glfwCreateWindow(
+        MAIN_WINDOW = glfwCreateWindow(
             screenWidth, screenHeight, "Federation", NULL, NULL);
         
     } else {
@@ -291,12 +151,12 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
         
         clogInfo("%f %f %f\n", screenHeight, screenWidth, FED_screenRatio);
         
-        FED_window = glfwCreateWindow(
+        MAIN_WINDOW = glfwCreateWindow(
             screenWidth, screenHeight, "Federation", monitor, NULL);
         
     }
     
-    if (!FED_window)
+    if (!MAIN_WINDOW)
     {
         clogError("fed_gl_init Failed to open GLFW window.", NULL);
         glfwTerminate();
@@ -304,7 +164,7 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
     }
    
     
-    glfwMakeContextCurrent(FED_window);
+    glfwMakeContextCurrent(MAIN_WINDOW);
 
 
     if (glewInit() != GLEW_OK)
@@ -317,15 +177,15 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
     glViewport(0, 0, screenWidth, screenHeight);
     
     glfwSwapInterval(1);
-    glfwSetInputMode(FED_window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetInputMode(MAIN_WINDOW, GLFW_STICKY_KEYS, GL_TRUE);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // configure begin
-    programID = FGl_LoadShader(
+    programID = load_shader(
         "TransformVertexShader.glsl",
         "TextureFragmentShader.glsl"
     );
@@ -369,10 +229,10 @@ GLFWwindow* FGl_InitScreen(int startWindowed)
                  g_uv_buffer_data, GL_STATIC_DRAW);
 
 
-    return FED_window;
+    return MAIN_WINDOW;
 }
 
-void FGl_UpdateScreen()
+void update_screen()
 {
     
     // Clear the screen
@@ -420,14 +280,14 @@ void FGl_UpdateScreen()
     glDisableVertexAttribArray(VertexUVID);
 
     // Swap buffers
-    glfwSwapBuffers(FED_window);
+    glfwSwapBuffers(MAIN_WINDOW);
     glfwPollEvents();
 }
 
-void FGl_CleanupScreen()
+void cleanup_screen()
 {
 
-    glfwDestroyWindow(FED_window);
+    glfwDestroyWindow(MAIN_WINDOW);
     glfwTerminate();
 
 }

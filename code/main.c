@@ -1,9 +1,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "fGl.h"
-#include "fInput.h"
-#include "fSounds.h"
+#include "screen.h"
+#include "inputs.h"
+#include "sounds.h"
 
 #include <clog.h>
 #include <cargo.h>
@@ -17,10 +17,9 @@ void glfwErrors(int error, const char* description)
 }
 
 
-
 int main(int argc, char* argv[])
 {
- 
+
     // maybe start windowed
     char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
 
@@ -31,18 +30,19 @@ int main(int argc, char* argv[])
         startWindowed = 0;
     
 
+
     // configure glfw errors
     glfwSetErrorCallback(glfwErrors);
 
 
     // init glfw/glew/opengl
-    GLFWwindow* win = FGl_InitScreen(startWindowed);
+    GLFWwindow* win = init_screen(startWindowed);
 
     // init sounds
-    FSounds_Init();
+    init_sounds();
 
     // configure inputs
-    FInput_Init(
+    init_inputs(
         0.0015,         // mouseSpeed
         180.0,          // horizontalAngle
         0.0,            // verticalAngle
@@ -52,22 +52,21 @@ int main(int argc, char* argv[])
     );
     
     glfwSetInputMode          (win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetKeyCallback        (win, FInput_KeyCallback);
-    glfwSetMouseButtonCallback(win, FInput_MouseButtonCallback);
-    glfwSetCursorPosCallback  (win, FInput_CursorPosCallback);
-    glfwSetScrollCallback     (win, FInput_ScrollCallback);
-
+    glfwSetKeyCallback        (win, handle_keyboard_inputs_callback);
+    glfwSetMouseButtonCallback(win, handle_mouse_button_inputs_callback);
+    glfwSetCursorPosCallback  (win, handle_cursor_position_callback);
+    glfwSetScrollCallback     (win, handlle_scroll_inputs_callback);
 
     // begin to loop
     while (!glfwWindowShouldClose(win))
     {
-        FInput_GetImmediateKeyInputs();
-        FGl_UpdateScreen();
+        handle_real_time_key_inputs();
+        update_screen();
     }
     
 
     // cleanup
-    FGl_CleanupScreen();
+    cleanup_screen();
     shakeTerminate();
 
 
