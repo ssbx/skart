@@ -64,46 +64,11 @@ set (CTEST_OUTPUT_ON_FAILURE ON)
 add_test (NAME MemCheck  COMMAND valgrind --error-exitcode=1 --tool=memcheck --leak-check=full --track-origins=yes -v ./federation)
 
 
-
-
-
-#
-# copy data to build dir target
-#
-add_custom_target (update_data)
-
-file (GLOB shaders ${CMAKE_SOURCE_DIR}/material/shaders/*.glsl)
-foreach(shader ${shaders})
-  add_custom_command(TARGET update_data PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${shader}
-        ${CMAKE_CURRENT_BINARY_DIR}
-  )
-endforeach()
-
-file (GLOB sounds ${CMAKE_SOURCE_DIR}/material/sounds/*.wav)
-foreach(sound ${sounds})
-  add_custom_command(TARGET update_data PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${sound}
-        ${CMAKE_CURRENT_BINARY_DIR}
-  )
-endforeach()
-
-file (GLOB textures ${CMAKE_SOURCE_DIR}/material/textures/*.tga)
-foreach(texture ${textures})
-  add_custom_command(TARGET update_data PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${texture}
-        ${CMAKE_CURRENT_BINARY_DIR}
-  )
-endforeach()
-
-add_dependencies(federation update_data)
-
-
 #
 # "make run" custom target
 #
 add_custom_target (run
   COMMAND federation
   DEPENDS federation
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
