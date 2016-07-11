@@ -19,8 +19,8 @@ char* dump_shader_file(const char* file_path)
     file_ptr = fopen(file_path, "rb");
 
     if (!file_ptr) {
-        clogError("File not found!", NULL);
-        return NULL;
+        clogError("File \"%s\" not found!", file_path);
+        exit(1);
     }
 
     fseek(file_ptr, 0, SEEK_END);

@@ -12,9 +12,6 @@ all:
 clean_all:
 	rm -rf build; rm Makefile
 
-run: all
-	cd build && ./federation
-
 %: 
 	make -C build $@
 ' > Makefile

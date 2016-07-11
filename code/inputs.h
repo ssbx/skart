@@ -119,7 +119,7 @@ void handle_keyboard_inputs_callback(
     
 }
 
-void handlle_scroll_inputs_callback(
+void handle_scroll_inputs_callback(
     GLFWwindow* window,
     double xoffset,
     double yoffset)
@@ -206,3 +206,5 @@ void handle_mouse_button_inputs_callback(
 }
 
 #endif
+
+

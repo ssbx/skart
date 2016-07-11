@@ -8,11 +8,13 @@ int main(
     char* argv[])
 {
 
-    char* portStr = cargoFlag("port", "9876", argc, argv);
+    char* portStr = cargoFlag("port", "0", argc, argv);
     int   port    = atoi(portStr);
 
     if (0 == portStr) port = DEFAULT_PORT;
 
     printf("will listen on port %d (UDP)\n", port);
 
+    return 0;
+ 
 }

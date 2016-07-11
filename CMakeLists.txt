@@ -70,5 +70,6 @@ add_test (NAME MemCheck  COMMAND valgrind --error-exitcode=1 --tool=memcheck --l
 add_custom_target (run
   COMMAND federation
   DEPENDS federation
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  COMMENT "Will start federation executable...")
 

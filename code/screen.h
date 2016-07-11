@@ -186,8 +186,8 @@ GLFWwindow* init_screen(int startWindowed)
 
     // configure begin
     programID = load_shader(
-        "TransformVertexShader.glsl",
-        "TextureFragmentShader.glsl"
+        "material/shaders/TransformVertexShader.glsl",
+        "material/shaders/TextureFragmentShader.glsl"
     );
     
     MatrixID = glGetUniformLocation(programID, "MVP");
@@ -195,7 +195,7 @@ GLFWwindow* init_screen(int startWindowed)
     VertexUVID = glGetAttribLocation(programID, "vertexUV");
 
     Texture = SOIL_load_OGL_texture(
-        "uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+        "material/textures/uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
           SOIL_FLAG_COMPRESS_TO_DXT
         | SOIL_FLAG_INVERT_Y
         | SOIL_FLAG_NTSC_SAFE_RGB
@@ -214,6 +214,7 @@ GLFWwindow* init_screen(int startWindowed)
     if (Texture == 0)
     {
         clogError( "SOIL loading error: '%s'\n", SOIL_last_result() );
+        exit(1);
     }
     
     TextureID = glGetUniformLocation(programID, "myTextureSampler");

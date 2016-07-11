@@ -7,8 +7,8 @@ int FED_SOUND_Intro;
 int FED_SOUND_GunShot;
 
 void init_sounds() {
-    shakeInit(0.05);
-    FED_SOUND_GunShot = shakeLoad("shot.wav");
+    shakeInit(0.20);
+    FED_SOUND_GunShot = shakeLoad("material/sounds/shot.wav");
 }
 
 void cleanup_sounds() {

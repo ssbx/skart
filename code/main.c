@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     glfwSetKeyCallback        (win, handle_keyboard_inputs_callback);
     glfwSetMouseButtonCallback(win, handle_mouse_button_inputs_callback);
     glfwSetCursorPosCallback  (win, handle_cursor_position_callback);
-    glfwSetScrollCallback     (win, handlle_scroll_inputs_callback);
+    glfwSetScrollCallback     (win, handle_scroll_inputs_callback);
 
     // begin to loop
     while (!glfwWindowShouldClose(win))
