@@ -12,18 +12,11 @@ all:
 clean_all:
 	rm -rf build; rm Makefile
 
-%: 
+%:
 	make -C build $@
 ' > Makefile
 
-git submodule update --init deps/cargo
-git submodule update --init deps/cglm
-git submodule update --init deps/clog
-git submodule update --init deps/glew
-git submodule update --init deps/libobj
-git submodule update --init deps/soil
-git submodule update --init deps/glfw
-git submodule update --init --recursive --remote deps/libshake
+git submodule update --init --recursive
 
 # cleanup build dir if exist
 rm -rf build
