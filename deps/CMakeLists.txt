@@ -1,4 +1,6 @@
+#
 # GLFW
+#
 set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "No examples")
 set (GLFW_BUILD_TESTS    OFF CACHE BOOL "No tests")
 add_subdirectory (glfw)
@@ -23,22 +25,36 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-
+#
 # GLEW
+#
 add_library(glew STATIC glew/src/glew.c)
 target_link_libraries(glew ${OPENGL_LIBRARY})
 
-
+#
 # CGLM is header only
+#
 
+#
 # CARGO is header only
+#
 
+#
 # CLOG is header only
+#
 
+#
 # SHAKE
+#
 add_subdirectory(libshake)
 
+#
 # OBJ is header only
+#
 
+#
 # SOIL
+#
 add_subdirectory(soil)
+
+

@@ -6,16 +6,22 @@
 int FED_SOUND_Intro;
 int FED_SOUND_GunShot;
 
-void init_sounds() {
+void
+init_sounds()
+{
     shakeInit(0.20);
     FED_SOUND_GunShot = shakeLoad("material/sounds/shot.wav");
 }
 
-void cleanup_sounds() {
+void
+cleanup_sounds()
+{
     shakeTerminate();
 }
 
-void play_sound(int soundId) {
+void
+play_sound(int soundId)
+{
     shakePlay(soundId);
 }
 

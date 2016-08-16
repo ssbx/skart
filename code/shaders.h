@@ -10,7 +10,8 @@ typedef struct FileDump {
     char* dump;
 } FileDump;
 
-char* dump_shader_file(const char* file_path)
+char*
+dump_shader_file(const char* file_path)
 {
     char* file_content;
     FILE* file_ptr = NULL;
@@ -37,37 +38,30 @@ char* dump_shader_file(const char* file_path)
     return file_content;
 }
 
-
 /**
  * @brief Load shader
  */
-GLuint load_shader(
-    const char * vertex_file_path,
-    const char * fragment_file_path)
+GLuint
+load_shader(
+        const char * vertex_file_path,
+        const char * fragment_file_path)
 {
-
-
     // Create the shaders
     GLuint VertexShaderID   = glCreateShader(GL_VERTEX_SHADER);
     GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
 
     // read vertex file
     char* vertex_code = dump_shader_file(vertex_file_path);
     if (!vertex_code)
         return -1;
 
-
     // read fragment file
     char* fragment_code = dump_shader_file(fragment_file_path);
     if (!fragment_code)
         return -1;
 
-
-
     GLint result = GL_FALSE;
     int   info_log_length;
-
 
     // Compiling vertex shader
     const GLchar* vertex_code_ptr = vertex_code;
@@ -88,9 +82,6 @@ GLuint load_shader(
         free(info_log);
     }
 
-
-
-
     // Compiling fragment shader
     const GLchar* fragment_code_ptr = fragment_code;
     glShaderSource(FragmentShaderID, 1, &fragment_code_ptr, NULL);
@@ -109,8 +100,6 @@ GLuint load_shader(
         clogWarning(info_log, NULL);
         free(info_log);
     }
-
-
 
     // linking program
     GLuint program_id = glCreateProgram();

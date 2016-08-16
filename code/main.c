@@ -11,15 +11,17 @@
 #include <stdio.h>
 #include <string.h>
 
-void glfwErrors(int error, const char* description)
+void
+glfwErrors(
+        int error,
+        const char* description)
 {
     clogError("GLFW error n %d: %s", error, description);
 }
 
-
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
-
     // maybe start windowed
     char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
 
@@ -28,12 +30,9 @@ int main(int argc, char* argv[])
         startWindowed = 1;
     else
         startWindowed = 0;
-    
-
 
     // configure glfw errors
     glfwSetErrorCallback(glfwErrors);
-
 
     // init glfw/glew/opengl
     GLFWwindow* win = init_screen(startWindowed);
@@ -50,7 +49,7 @@ int main(int argc, char* argv[])
         (CGLMvec3) {3,0,10},    // position
         (CGLMvec3) {0,0,0}      // direction
     );
-    
+
     glfwSetInputMode          (win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetKeyCallback        (win, handle_keyboard_inputs_callback);
     glfwSetMouseButtonCallback(win, handle_mouse_button_inputs_callback);
@@ -63,13 +62,10 @@ int main(int argc, char* argv[])
         handle_real_time_key_inputs();
         update_screen();
     }
-    
 
     // cleanup
     cleanup_screen();
     shakeTerminate();
 
-
     return 0;
-
 }

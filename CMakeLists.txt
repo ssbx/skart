@@ -35,10 +35,12 @@ include_directories (
   deps/libobj/
   deps/soil/code/)
 
+
 #
 # "fsrv" executable
 #
 add_executable (fsrv code/server.c)
+
 
 #
 # "federation" executable
@@ -50,7 +52,6 @@ add_executable (federation
   code/inputs.h
   code/sounds.h)
 
-
 add_dependencies (federation glfw glew shake soil)
 target_link_libraries (federation
   ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw glew shake soil)
@@ -61,7 +62,10 @@ target_link_libraries (federation
 #
 enable_testing()
 set (CTEST_OUTPUT_ON_FAILURE ON)
-add_test (NAME MemCheck  COMMAND valgrind --error-exitcode=1 --tool=memcheck --leak-check=full --track-origins=yes -v ./federation)
+add_test (
+    NAME MemCheck
+    COMMAND valgrind --error-exitcode=1 --tool=memcheck \
+                     --leak-check=full --track-origins=yes -v ./federation)
 
 
 #
@@ -71,5 +75,5 @@ add_custom_target (run
   COMMAND federation
   DEPENDS federation
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "Will start federation executable...")
+  COMMENT "Execute the target...")
 
