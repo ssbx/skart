@@ -64,7 +64,7 @@ enable_testing()
 set (CTEST_OUTPUT_ON_FAILURE ON)
 add_test (
     NAME MemCheck
-    COMMAND valgrind --error-exitcode=1 --tool=memcheck \
+    COMMAND valgrind --error-exitcode=1 --tool=memcheck
                      --leak-check=full --track-origins=yes -v ./federation)
 
 
