@@ -13,6 +13,6 @@ compiler:
 before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo add-apt-repository ppa:kubuntu-ppa/backports -y; sudo apt-get update -q; sudo apt-get install cmake libjack-dev libasound2-dev -y; fi
 
-script: 
+script:
     - ./configure
-    - cd build && make
+    - cd build && make || cat /Users/travis/build/ssbx/federation/build/portaudio/src/ext_portaudio-stamp/ext_portaudio-configure-*.log
