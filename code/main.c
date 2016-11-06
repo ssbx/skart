@@ -13,7 +13,7 @@
 
 void
 glfwErrors(
-        int error,
+        int         error,
         const char* description)
 {
     clogError("GLFW error n %d: %s", error, description);

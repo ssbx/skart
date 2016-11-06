@@ -40,16 +40,16 @@ extern CGLMmat4    FED_mvp;
 void
 print_debug_input()
 {
-    clogDebug("up is %f %f %f\n", up.x, up.y, up.z);
-    clogDebug("cursor is %f %f \n", cursor.x, cursor.y);
+    //clogDebug("up is %f %f %f\n", up.x, up.y, up.z);
+    //clogDebug("cursor is %f %f \n", cursor.x, cursor.y);
 }
 
 void
 init_inputs(
-        float mouseSpeed_v,
-        float horizontalAngle_v,
-        float verticalAngle_v,
-        float fieldOfView_v,
+        float    mouseSpeed_v,
+        float    horizontalAngle_v,
+        float    verticalAngle_v,
+        float    fieldOfView_v,
         CGLMvec3 position_v,
         CGLMvec3 direction_v)
 {
@@ -128,9 +128,9 @@ handle_cursor_position_callback(
 {
     double now       = glfwGetTime();
     double deltaTime = now - cursor.last;
-    clogDebug("Delta %f\n", deltaTime);
+    //clogDebug("Delta %f\n", deltaTime);
 
-    clogDebug("pos %f %f \n", cursor.x, cursor.y);
+    //clogDebug("pos %f %f \n", cursor.x, cursor.y);
     horizontalAngle += cursor.speed * (cursor.x - xpos);
     verticalAngle   += cursor.speed * (cursor.y - ypos);
 
