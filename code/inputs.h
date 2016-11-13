@@ -1,5 +1,5 @@
-#ifndef FINPUT_H
-#define FINPUT_H
+#ifndef INPUTS_H
+#define INPUTS_H
 
 #include "sounds.h"
 
@@ -8,7 +8,6 @@
 #include <cglm.h>
 
 #include <clog.h>
-#include <stdio.h>
 
 typedef struct {
     double x;     // x position
@@ -32,10 +31,34 @@ static CGLMmat4 view;
 static CGLMmat4 model;
 static CGLMvec3 up;
 
-// from fGl.h
 extern float       FED_screenRatio;
 extern GLFWwindow* MAIN_WINDOW;
 extern CGLMmat4    FED_mvp;
+
+
+void move_forward()
+{
+}
+
+void move_backward()
+{
+}
+
+void move_left()
+{
+}
+
+void move_right()
+{
+}
+
+void move_up()
+{
+}
+
+void move_down()
+{
+}
 
 void
 print_debug_input()
@@ -77,18 +100,25 @@ init_inputs(
 void
 handle_real_time_key_inputs()
 {
+    double now       = glfwGetTime();
+    double deltaTime = now - cursor.last;
+
     if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_W) == GLFW_PRESS) {
         position.z -= 1;
         view    = cglmLookAt(position, direction, up);
         FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
-        return;
-    }
-
-    if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
+    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
         position.z += 1;
         view    = cglmLookAt(position, direction, up);
         FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
-        return;
+    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_H) == GLFW_PRESS) {
+        position.y += 1;
+        view    = cglmLookAt(position, direction, up);
+        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_L) == GLFW_PRESS) {
+        position.y += 1;
+        view    = cglmLookAt(position, direction, up);
+        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
     }
 }
 
@@ -196,6 +226,6 @@ handle_mouse_button_inputs_callback(
         }
 }
 
-#endif
+#endif // INPUTS_H
 
 

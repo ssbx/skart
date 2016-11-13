@@ -1,5 +1,5 @@
-#ifndef FGL_H
-#define FGL_H
+#ifndef SCREEN_H
+#define SCREEN_H
 
 
 #include "inputs.h"
@@ -209,4 +209,4 @@ cleanup_screen()
     objRelease(scene);
 }
 
-#endif // FGL_H
+#endif // SCREEN_H

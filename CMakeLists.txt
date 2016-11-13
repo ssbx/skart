@@ -38,12 +38,6 @@ include_directories (
 
 
 #
-# "fsrv" executable
-#
-add_executable (fsrv code/server.c)
-
-
-#
 # "federation" executable
 #
 add_executable (federation
