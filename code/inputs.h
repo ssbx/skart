@@ -16,6 +16,7 @@ static CGLMvec3 VIEW_DIRECTION;
 static CGLMmat4 VIEW_PROJECTION;
 static CGLMmat4 VIEW_MODEL;
 static CGLMvec3 VIEW_UP;
+static CGLMvec3 VIEW_RIGHT;
 
 // for computing TIME_DELTA
 static double TIME_LAST;
@@ -82,21 +83,58 @@ void
 handle_real_time_key_inputs()
 {
     double move_step;
-    move_step = MOVE_SPEED * TIME_DELTA;
-    if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_W) == GLFW_PRESS) {
+    int forward, backward, strafe_right, strafe_left = GLFW_RELEASE;
+    move_step = MOVE_SPEED * TIME_DELTA * 10000;
+
+    forward = glfwGetKey(MAIN_WINDOW, GLFW_KEY_W);
+    if (forward == GLFW_RELEASE)
+        forward = glfwGetKey(MAIN_WINDOW, GLFW_KEY_UP);
+
+    backward = glfwGetKey(MAIN_WINDOW, GLFW_KEY_S);
+    if (backward == GLFW_RELEASE)
+        backward = glfwGetKey(MAIN_WINDOW, GLFW_KEY_DOWN);
+
+    strafe_left = glfwGetKey(MAIN_WINDOW, GLFW_KEY_A);
+    if (strafe_left == GLFW_RELEASE)
+        strafe_left = glfwGetKey(MAIN_WINDOW, GLFW_KEY_LEFT);
+
+    strafe_right = glfwGetKey(MAIN_WINDOW, GLFW_KEY_D);
+    if (strafe_right == GLFW_RELEASE)
+        strafe_right = glfwGetKey(MAIN_WINDOW, GLFW_KEY_RIGHT);
+
+    if (forward == GLFW_PRESS || backward == GLFW_PRESS) {
+        if (strafe_left == GLFW_PRESS || strafe_right == GLFW_PRESS) {
+            // TODO more correct strafe speed calculation
+            move_step = move_step / 2;
+        }
+    }
+
+    if (forward == GLFW_PRESS) {
         VIEW_POSITION = cglmAddVec3(
                 VIEW_POSITION,
-                cglmAddVec3(VIEW_DIRECTION, (CGLMvec3) {move_step,0,0})
+                cglmScalarMultVec3(VIEW_DIRECTION, move_step)
                 );
-    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
+    }
+
+    if (backward == GLFW_PRESS) {
         VIEW_POSITION = cglmSubsVec3(
                 VIEW_POSITION,
-                cglmAddVec3(VIEW_DIRECTION, (CGLMvec3) {move_step,0,0})
+                cglmScalarMultVec3(VIEW_DIRECTION, move_step)
                 );
-    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_H) == GLFW_PRESS) {
-        VIEW_POSITION.x -= move_step * 1000;
-    } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_L) == GLFW_PRESS) {
-        VIEW_POSITION.x += move_step * 1000;
+    }
+
+    if (strafe_right == GLFW_PRESS) {
+        VIEW_POSITION = cglmAddVec3(
+                VIEW_POSITION,
+                cglmScalarMultVec3(VIEW_RIGHT, move_step)
+                );
+    }
+
+    if (strafe_left == GLFW_PRESS) {
+        VIEW_POSITION = cglmSubsVec3(
+                VIEW_POSITION,
+                cglmScalarMultVec3(VIEW_RIGHT, move_step)
+                );
     }
 }
 
@@ -152,7 +190,7 @@ handle_cursor_position_callback(
         cos(ANGLE_VERTICAL) * cos(ANGLE_HORIZONTAL)
     };
 
-    VIEW_PROJECTION = cglmPerspective(FIELD_OF_VIEW, FED_screenRatio, 0.1, 100.0);
+    //VIEW_PROJECTION = cglmPerspective(FIELD_OF_VIEW, FED_screenRatio, 0.1, 100.0);
 
     CURSOR_X = xpos;
     CURSOR_Y = ypos;
@@ -199,27 +237,29 @@ void
 poll_events_input()
 {
     double time_now;
-    CGLMvec3 right;
 
     // Set TIME_DELTA value
     time_now = glfwGetTime();
     TIME_DELTA = (float) time_now - (float) TIME_LAST;
     TIME_LAST  = (float) time_now;
 
-    // handle real_time_key user inputs
-    handle_real_time_key_inputs();
 
     // Mouse position/buttons and normal key inputsare handled by glfw callbacks
     glfwPollEvents();
 
-    // recalculate new MVP
-    right = (CGLMvec3) {
+    // recalculate "right" after mouse pos input
+    VIEW_RIGHT = (CGLMvec3) {
         sin(ANGLE_HORIZONTAL - 3.14f/2.0f),
         0,
         cos(ANGLE_HORIZONTAL - 3.14f/2.0f)
     };
 
-    VIEW_UP = cglmCross(right, VIEW_DIRECTION);
+    // handle real_time_key user inputs
+    handle_real_time_key_inputs();
+
+    // recalculate new MVP
+
+    VIEW_UP = cglmCross(VIEW_RIGHT, VIEW_DIRECTION);
     VIEW    = cglmLookAt(
             VIEW_POSITION,
             cglmAddVec3(VIEW_DIRECTION, VIEW_POSITION),
