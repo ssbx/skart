@@ -2,8 +2,8 @@
 #include <GLFW/glfw3.h>
 
 #include "screen.h"
-#include "inputs.h"
 #include "sounds.h"
+#include "inputs.h"
 
 #include <clog.h>
 #include <cargo.h>
@@ -42,12 +42,13 @@ main(int argc, char* argv[])
 
     // configure inputs
     init_inputs(
-        0.0015,         // mouseSpeed
-        180.0,          // horizontalAngle
-        0.0,            // verticalAngle
-        45.0,           // fieldOfView
-        (CGLMvec3) {3,0,10},    // position
-        (CGLMvec3) {0,0,0}      // direction
+        0.0005f,                        // mouse_speed
+        20.0f,                          // move_speed
+        180.0f,                         // horizontal_angle
+        0.0f,                           // vertical_angle
+        45.0f,                          // field_of_view
+        (CGLMvec3) {3.0f,0.0f,10.0f},   // position
+        (CGLMvec3) {0.0f,0.0f,0.0f}     // direction
     );
 
     glfwSetInputMode          (win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -59,7 +60,6 @@ main(int argc, char* argv[])
     // begin to loop
     while (!glfwWindowShouldClose(win))
     {
-        handle_real_time_key_inputs();
         update_screen();
     }
 

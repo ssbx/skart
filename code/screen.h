@@ -63,14 +63,14 @@ init_screen(int startWindowed)
         MAIN_WINDOW = glfwCreateWindow(
             screenWidth, screenHeight, "Federation", NULL, NULL);
     } else {
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        GLFWmonitor*       monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_RED_BITS,     mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS,   mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS,    mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        screenWidth = mode->width;
+        screenWidth  = mode->width;
         screenHeight = mode->height;
         FED_screenRatio = screenWidth / screenHeight;
 
@@ -140,13 +140,17 @@ init_screen(int startWindowed)
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(OBJvec3) * scene.vertices_count,
-                 &scene.vertices[0], GL_STATIC_DRAW);
+    glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(OBJvec3) * scene.vertices_count,
+            &scene.vertices[0], GL_STATIC_DRAW);
 
     glGenBuffers(1, &uvbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(OBJvec2) * scene.vertices_count,
-                 &scene.uvs[0], GL_STATIC_DRAW);
+    glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(OBJvec2) * scene.vertices_count,
+            &scene.uvs[0], GL_STATIC_DRAW);
 
     return MAIN_WINDOW;
 }
@@ -198,7 +202,7 @@ update_screen()
 
     // Swap buffers
     glfwSwapBuffers(MAIN_WINDOW);
-    glfwPollEvents();
+    poll_events_input();
 }
 
 void

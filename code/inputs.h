@@ -9,119 +9,92 @@
 
 #include <clog.h>
 
-typedef struct {
-    double x;     // x position
-    double y;     // y position
-    double last;  // last move
-    float  speed; // mouse speed
-    float  xAngle; // horizontal angle
-    float  yAngle; // vertical angle
-} FINPUTcursor;
+// view
+static CGLMmat4 VIEW;
+static CGLMvec3 VIEW_POSITION;
+static CGLMvec3 VIEW_DIRECTION;
+static CGLMmat4 VIEW_PROJECTION;
+static CGLMmat4 VIEW_MODEL;
+static CGLMvec3 VIEW_UP;
 
-static FINPUTcursor cursor;
+// for computing TIME_DELTA
+static double TIME_LAST;
+static double TIME_DELTA;
 
-static float horizontalAngle;
-static float verticalAngle;
-static float fieldOfView;
-static double keyLastMove;
-static CGLMvec3 position;
-static CGLMvec3 direction;
-static CGLMmat4 proj;
-static CGLMmat4 view;
-static CGLMmat4 model;
-static CGLMvec3 up;
+// mouse controls things
+static double CURSOR_X;
+static double CURSOR_Y;
+static float  MOUSE_SPEED;
+static float  ANGLE_HORIZONTAL;
+static float  ANGLE_VERTICAL;
+static float  FIELD_OF_VIEW;
 
+// keyboard move speed
+static double MOVE_SPEED;
+
+// extern
 extern float       FED_screenRatio;
 extern GLFWwindow* MAIN_WINDOW;
 extern CGLMmat4    FED_mvp;
 
-
-void move_forward()
-{
-}
-
-void move_backward()
-{
-}
-
-void move_left()
-{
-}
-
-void move_right()
-{
-}
-
-void move_up()
-{
-}
-
-void move_down()
-{
-}
-
-void
-print_debug_input()
-{
-    //clogDebug("up is %f %f %f\n", up.x, up.y, up.z);
-    //clogDebug("cursor is %f %f \n", cursor.x, cursor.y);
-}
-
+/**
+ * Called at startup
+ */
 void
 init_inputs(
-        float    mouseSpeed_v,
-        float    horizontalAngle_v,
-        float    verticalAngle_v,
-        float    fieldOfView_v,
-        CGLMvec3 position_v,
-        CGLMvec3 direction_v)
+        float    mouse_speed,
+        float    move_speed,
+        float    angle_horizontal,
+        float    angle_vertical,
+        float    field_of_view,
+        CGLMvec3 position,
+        CGLMvec3 direction)
 {
-    horizontalAngle = horizontalAngle_v;
-    verticalAngle   = verticalAngle_v;
-    fieldOfView     = fieldOfView_v;
-    position        = position_v;
-    direction       = direction_v;
-    cursor.speed    = mouseSpeed_v;
-    cursor.last = glfwGetTime();
-    glfwGetCursorPos(MAIN_WINDOW, &(cursor.x), &(cursor.y));
-    //glfwGetCursorPos(FED_window, &cursorLastXPos, &cursorLastYPos);
+    ANGLE_HORIZONTAL = angle_horizontal;
+    ANGLE_VERTICAL   = angle_vertical;
+    FIELD_OF_VIEW    = field_of_view;
+    VIEW_POSITION    = position;
+    VIEW_DIRECTION   = direction;
+    MOUSE_SPEED      = mouse_speed;
+    MOVE_SPEED       = move_speed;
+    TIME_LAST        = glfwGetTime();
+    TIME_DELTA       = 0.0f;
 
-    model = cglmMat4(1);
-    up = (CGLMvec3) {0,1,0};
+    glfwGetCursorPos(MAIN_WINDOW, &CURSOR_X, &CURSOR_Y);
 
-    proj  = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
-    view  = cglmLookAt(position, direction, up);
+    VIEW_MODEL = cglmMat4(1);
+    VIEW_UP    = (CGLMvec3) {0,1,0};
 
-    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+    VIEW_PROJECTION  = cglmPerspective(
+            FIELD_OF_VIEW,
+            FED_screenRatio,
+            0.1,
+            100.0);
 
-    print_debug_input();
+    VIEW  = cglmLookAt(VIEW_POSITION, VIEW_DIRECTION, VIEW_UP);
 }
 
+/**
+ * Handle real time key inputs because GLFW handle
+ * simple key press/repeat/release
+ */
 void
 handle_real_time_key_inputs()
 {
-    double now       = glfwGetTime();
-    double deltaTime = now - cursor.last;
-
     if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_W) == GLFW_PRESS) {
-        position.z -= 1;
-        view    = cglmLookAt(position, direction, up);
-        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+        VIEW_POSITION.z -= MOVE_SPEED * TIME_DELTA;
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
-        position.z += 1;
-        view    = cglmLookAt(position, direction, up);
-        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+        VIEW_POSITION.z += MOVE_SPEED * TIME_DELTA;
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_H) == GLFW_PRESS) {
-        position.y += 1;
-        view    = cglmLookAt(position, direction, up);
-        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+        VIEW_POSITION.x -= MOVE_SPEED * TIME_DELTA;
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_L) == GLFW_PRESS) {
-        position.y += 1;
-        view    = cglmLookAt(position, direction, up);
-        FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+        VIEW_POSITION.x += MOVE_SPEED * TIME_DELTA;
     }
 }
 
+/**
+ * GLFW callback used by glfwSetKeyCallback()
+ */
 void
 handle_keyboard_inputs_callback(
         GLFWwindow* window,
@@ -142,6 +115,9 @@ handle_keyboard_inputs_callback(
     */
 }
 
+/**
+ * GLFW callback used by glfwSetScrollCallback()
+ */
 void
 handle_scroll_inputs_callback(
         GLFWwindow* window,
@@ -150,50 +126,34 @@ handle_scroll_inputs_callback(
 {
 }
 
+/**
+ * GLFW callback used by glfwSetCursorPosCallback()
+ */
 void
 handle_cursor_position_callback(
         GLFWwindow* window,
         double      xpos,
         double      ypos)
 {
-    double now       = glfwGetTime();
-    double deltaTime = now - cursor.last;
-    //clogDebug("Delta %f\n", deltaTime);
+    ANGLE_HORIZONTAL += MOUSE_SPEED * (CURSOR_X - xpos);
+    ANGLE_VERTICAL   += MOUSE_SPEED * (CURSOR_Y - ypos);
 
-    //clogDebug("pos %f %f \n", cursor.x, cursor.y);
-    horizontalAngle += cursor.speed * (cursor.x - xpos);
-    verticalAngle   += cursor.speed * (cursor.y - ypos);
-
-    direction = (CGLMvec3) {
-        cos(verticalAngle) * sin(horizontalAngle),
-        sin(verticalAngle),
-        cos(verticalAngle) * cos(horizontalAngle)
+    VIEW_DIRECTION = (CGLMvec3) {
+        cos(ANGLE_VERTICAL) * sin(ANGLE_HORIZONTAL),
+        sin(ANGLE_VERTICAL),
+        cos(ANGLE_VERTICAL) * cos(ANGLE_HORIZONTAL)
     };
 
-    CGLMvec3 right = {
-        sin(horizontalAngle - 3.14f/2.0f),
-        0,
-        cos(horizontalAngle - 3.14f/2.0f)
-    };
+    VIEW_PROJECTION = cglmPerspective(FIELD_OF_VIEW, FED_screenRatio, 0.1, 100.0);
 
-    //up = cglmCross(right, direction);
+    CURSOR_X = xpos;
+    CURSOR_Y = ypos;
 
-    proj = cglmPerspective(fieldOfView, FED_screenRatio, 0.1, 100.0);
-    view = cglmLookAt(
-        position,
-        cglmAddVec3(position, direction),
-        up
-    );
-
-    cursor.last = now;
-    cursor.x = xpos;
-    cursor.y = ypos;
-
-    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
-
-    print_debug_input();
 }
 
+/**
+ * GLFW callback used by glfwSetMouseButtonCallback()
+ */
 void
 handle_mouse_button_inputs_callback(
         GLFWwindow* window,
@@ -208,22 +168,57 @@ handle_mouse_button_inputs_callback(
                 break;
             case GLFW_MOUSE_BUTTON_RIGHT:
                 play_sound(FED_SOUND_GunShot);
-                if (fieldOfView == 45.0) {
-                    fieldOfView = 360.0;
-                    proj = cglmPerspective(
-                                    fieldOfView, FED_screenRatio, 0.1, 100.0);
-                    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+                if (FIELD_OF_VIEW == 45.0) {
+                    FIELD_OF_VIEW = 360.0;
+                    VIEW_PROJECTION = cglmPerspective(
+                                    FIELD_OF_VIEW, FED_screenRatio, 0.1, 100.0);
                 } else {
-                    fieldOfView = 45.0;
-                    proj = cglmPerspective(
-                                    fieldOfView, FED_screenRatio, 0.1, 100.0);
-                    FED_mvp = cglmMultMat4(cglmMultMat4(proj, view), model);
+                    FIELD_OF_VIEW = 45.0;
+                    VIEW_PROJECTION = cglmPerspective(
+                                    FIELD_OF_VIEW, FED_screenRatio, 0.1, 100.0);
                 }
                 break;
             case GLFW_MOUSE_BUTTON_MIDDLE:
                 play_sound(FED_SOUND_GunShot);
                 break;
         }
+}
+
+/**
+ * Used to process all user inputs. Used from screen.h after rendering.
+ */
+void
+poll_events_input()
+{
+    double time_now;
+    CGLMvec3 right;
+
+    // Set TIME_DELTA value
+    time_now = glfwGetTime();
+    TIME_DELTA = (float) time_now - (float) TIME_LAST;
+    TIME_LAST  = (float) time_now;
+
+    // handle real_time_key user inputs
+    handle_real_time_key_inputs();
+
+    // Mouse position/buttons and normal key inputsare handled by glfw callbacks
+    glfwPollEvents();
+
+    // recalculate new MVP
+    right = (CGLMvec3) {
+        sin(ANGLE_HORIZONTAL - 3.14f/2.0f),
+        0,
+        cos(ANGLE_HORIZONTAL - 3.14f/2.0f)
+    };
+
+    VIEW_UP = cglmCross(right, VIEW_DIRECTION);
+    VIEW    = cglmLookAt(
+            VIEW_POSITION,
+            cglmAddVec3(VIEW_DIRECTION, VIEW_POSITION),
+            VIEW_UP);
+    FED_mvp = cglmMultMat4(cglmMultMat4(VIEW_PROJECTION, VIEW), VIEW_MODEL);
+
+    return;
 }
 
 #endif // INPUTS_H
