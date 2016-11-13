@@ -43,7 +43,7 @@ main(int argc, char* argv[])
     // configure inputs
     init_inputs(
         0.0005f,                        // mouse_speed
-        20.0f,                          // move_speed
+        0.001f,                         // move_speed
         180.0f,                         // horizontal_angle
         0.0f,                           // vertical_angle
         45.0f,                          // field_of_view

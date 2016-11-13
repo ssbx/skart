@@ -81,14 +81,22 @@ init_inputs(
 void
 handle_real_time_key_inputs()
 {
+    double move_step;
+    move_step = MOVE_SPEED * TIME_DELTA;
     if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_W) == GLFW_PRESS) {
-        VIEW_POSITION.z -= MOVE_SPEED * TIME_DELTA;
+        VIEW_POSITION = cglmAddVec3(
+                VIEW_POSITION,
+                cglmAddVec3(VIEW_DIRECTION, (CGLMvec3) {move_step,0,0})
+                );
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_S) == GLFW_PRESS) {
-        VIEW_POSITION.z += MOVE_SPEED * TIME_DELTA;
+        VIEW_POSITION = cglmSubsVec3(
+                VIEW_POSITION,
+                cglmAddVec3(VIEW_DIRECTION, (CGLMvec3) {move_step,0,0})
+                );
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_H) == GLFW_PRESS) {
-        VIEW_POSITION.x -= MOVE_SPEED * TIME_DELTA;
+        VIEW_POSITION.x -= move_step * 1000;
     } else if (glfwGetKey(MAIN_WINDOW, GLFW_KEY_L) == GLFW_PRESS) {
-        VIEW_POSITION.x += MOVE_SPEED * TIME_DELTA;
+        VIEW_POSITION.x += move_step * 1000;
     }
 }
 
