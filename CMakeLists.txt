@@ -26,7 +26,7 @@ include_directories(${OPENGL_INCLUDE_DIR})
 #
 add_subdirectory (deps)
 include_directories (
-  .
+  code/
   deps/glfw/include/
   deps/glew/include/
   deps/cglm/
