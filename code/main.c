@@ -19,13 +19,32 @@ glfwErrors(
     clogError("GLFW error n %d: %s", error, description);
 }
 
+void
+countFPS(int* frame_count, double* last_time)
+{
+    double current_time;
+    *frame_count += 1;
+    current_time = glfwGetTime();
+    if (current_time - *last_time >= 1.0f) {
+        clogInfo("%i FPS", *frame_count);
+        clogInfo("%f ms/frame \n", 1000.0f/ (double) *frame_count);
+        *frame_count = 0;
+        *last_time += 1.0f;
+    }
+
+}
+
 int
 main(int argc, char* argv[])
 {
-    // maybe start windowed
-    char* windowed = cargoFlag("windowed", "FALSE", argc, argv);
+    char* windowed;
+    int startWindowed, frame_count;
+    double last_time, current_time;
+    GLFWwindow* win;
 
-    int startWindowed;
+    // maybe start windowed
+    windowed = cargoFlag("windowed", "FALSE", argc, argv);
+    startWindowed;
     if (strcmp(windowed, "TRUE") == 0)
         startWindowed = 1;
     else
@@ -35,7 +54,7 @@ main(int argc, char* argv[])
     glfwSetErrorCallback(glfwErrors);
 
     // init glfw/glew/opengl
-    GLFWwindow* win = init_screen(startWindowed);
+    win = init_screen(startWindowed);
 
     // init sounds
     init_sounds();
@@ -57,10 +76,14 @@ main(int argc, char* argv[])
     glfwSetCursorPosCallback  (win, handle_cursor_position_callback);
     glfwSetScrollCallback     (win, handle_scroll_inputs_callback);
 
+    frame_count = 0;
+    last_time = glfwGetTime();
+
     // begin to loop
     while (!glfwWindowShouldClose(win))
     {
         update_screen();
+        countFPS(&frame_count, &last_time);
     }
 
     // cleanup
