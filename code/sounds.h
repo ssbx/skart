@@ -10,7 +10,7 @@ void
 init_sounds()
 {
     shakeInit(0.20);
-    FED_SOUND_GunShot = shakeLoad("material/sounds/shot.wav");
+    FED_SOUND_GunShot = shakeLoad("sounds/shot.wav");
 }
 
 void

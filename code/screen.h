@@ -106,8 +106,8 @@ init_screen(int startWindowed)
 
     // configure begin
     programID = load_shader(
-        "material/shaders/TransformVertexShader.glsl",
-        "material/shaders/TextureFragmentShader.glsl"
+        "scenes/cube/TransformVertexShader.glsl",
+        "scenes/cube/TextureFragmentShader.glsl"
     );
 
     MatrixID = glGetUniformLocation(programID, "MVP");
@@ -116,7 +116,7 @@ init_screen(int startWindowed)
     VertexUVID = glGetAttribLocation(programID, "vertexUV");
 
     Texture = SOIL_load_OGL_texture(
-        "material/textures/uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+        "scenes/cube/uvtemplate.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
           SOIL_FLAG_COMPRESS_TO_DXT
         | SOIL_FLAG_INVERT_Y
         | SOIL_FLAG_NTSC_SAFE_RGB
@@ -130,7 +130,7 @@ init_screen(int startWindowed)
 
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
 
-    scene = objLoad("material/objects/cube.obj", &objLoad_status);
+    scene = objLoad("scenes/cube/cube.obj", &objLoad_status);
     if (objLoad_status == OBJ_FALSE) {
         clogError( "Obj load error\n", NULL);
         exit(1);
