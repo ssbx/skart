@@ -140,17 +140,13 @@ init_screen(int startWindowed)
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(
-            GL_ARRAY_BUFFER,
-            sizeof(OBJvec3) * scene.vertices_count,
-            &scene.vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(OBJvec3) * scene.vertices_count,
+                                            &scene.vertices[0], GL_STATIC_DRAW);
 
     glGenBuffers(1, &uvbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-    glBufferData(
-            GL_ARRAY_BUFFER,
-            sizeof(OBJvec2) * scene.vertices_count,
-            &scene.uvs[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(OBJvec2) * scene.vertices_count,
+                                                &scene.uvs[0], GL_STATIC_DRAW);
 
     return MAIN_WINDOW;
 }
@@ -195,7 +191,7 @@ update_screen()
     );
 
     // Draw the triangle !
-    glDrawArrays(GL_TRIANGLES, 0, 12*3); // 3 indices starting at 0->1 triangle
+    glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangle
 
     glDisableVertexAttribArray(vertexPosition_modelspaceID);
     glDisableVertexAttribArray(VertexUVID);
@@ -208,9 +204,13 @@ update_screen()
 void
 cleanup_screen()
 {
+    objRelease(scene);
+    glDeleteBuffers(1, &vertexbuffer);
+    glDeleteBuffers(1, &uvbuffer);
+    glDeleteProgram(programID);
+    glDeleteTextures(1, &TextureID);
     glfwDestroyWindow(MAIN_WINDOW);
     glfwTerminate();
-    objRelease(scene);
 }
 
 #endif // SCREEN_H
