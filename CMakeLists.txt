@@ -4,6 +4,12 @@
 cmake_minimum_required (VERSION 2.8)
 project (FEDERATION)
 
+#
+# Unix Makefile utility
+#
+if(UNIX)
+    configure_file(${CMAKE_SOURCE_DIR}/Makefile.in ${CMAKE_SOURCE_DIR}/Makefile)
+endif(UNIX)
 
 #
 # preprocessor definitions
