@@ -15,4 +15,4 @@ before_install:
 
 script:
     - ./configure
-    - cd build && make || cat /Users/travis/build/ssbx/federation/build/portaudio/src/ext_portaudio-stamp/ext_portaudio-configure-*.log
+    - cd _build && make || cat /Users/travis/build/ssbx/federation/_build/portaudio/src/ext_portaudio-stamp/ext_portaudio-configure-*.log
