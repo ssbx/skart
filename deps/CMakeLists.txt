@@ -32,25 +32,9 @@ add_library(glew STATIC glew/src/glew.c)
 target_link_libraries(glew ${OPENGL_LIBRARY})
 
 #
-# CGLM is header only
-#
-
-#
-# CARGO is header only
-#
-
-#
-# CLOG is header only
-#
-
-#
 # SHAKE
 #
 add_subdirectory(libshake)
-
-#
-# OBJ is header only
-#
 
 #
 # SOIL

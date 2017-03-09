@@ -22,3 +22,6 @@
 [submodule "deps/soil"]
 	path = deps/soil
 	url = https://github.com/funlibs/soil.git
+[submodule "deps/assimp"]
+	path = deps/assimp
+	url = https://github.com/ssbx/assimp.git
