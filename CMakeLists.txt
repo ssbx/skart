@@ -4,12 +4,6 @@
 cmake_minimum_required (VERSION 2.8)
 project (FEDERATION)
 
-#
-# Unix Makefile utility
-#
-if(UNIX)
-    configure_file(${CMAKE_SOURCE_DIR}/Makefile.in ${CMAKE_SOURCE_DIR}/Makefile)
-endif(UNIX)
 
 #
 # preprocessor definitions
@@ -39,8 +33,8 @@ include_directories (
   deps/clog/
   deps/libshake/
   deps/cargo/
-  deps/libobj/
-  deps/soil/code/)
+  deps/soil/code/
+  deps/objloader/)
 
 
 #
@@ -53,10 +47,19 @@ add_executable (federation
   code/inputs.h
   code/sounds.h)
 
+add_executable (viewer
+    deps/objloader/examples/viewer/trackball.c
+    deps/objloader/examples/viewer/trackball.h
+    deps/objloader/examples/viewer/viewer.c
+    deps/objloader/objloader.h)
+
 add_dependencies (federation glfw glew shake soil)
+add_dependencies (viewer glfw glew shake soil)
 target_link_libraries (federation
   ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw glew shake soil)
 
+target_link_libraries (viewer
+  ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw glew shake soil)
 
 #
 # "federation" executable simple test

@@ -13,15 +13,12 @@
 [submodule "deps/glew"]
 	path = deps/glew
 	url = https://github.com/funlibs/glew.git
-[submodule "deps/libobj"]
-	path = deps/libobj
-	url = https://github.com/funlibs/libobj.git
 [submodule "deps/libshake"]
 	path = deps/libshake
 	url = https://github.com/funlibs/libshake.git
 [submodule "deps/soil"]
 	path = deps/soil
 	url = https://github.com/funlibs/soil.git
-[submodule "deps/assimp"]
-	path = deps/assimp
-	url = https://github.com/ssbx/assimp.git
+[submodule "deps/objloader"]
+	path = deps/objloader
+	url = https://github.com/funlibs/objloader.git
