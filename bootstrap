@@ -1,14 +1,14 @@
 #!/bin/sh
 
+git submodule update --init --recursive
 
 # cleanup build dir if exist
 rm -rf _build
 
 # create Unix Makefiles project
-mkdir _build && cd _build && cmake ..
+cmake -B_build -H.
 
 # Create a helper makefile
-cd ..
 echo "
 .PHONY: all clean_all test
 
@@ -20,6 +20,9 @@ clean_all:
 
 test: all
 	make -C _build test
+
+run:
+	./_build/federation
 
 %:
 	make -C _build $@
