@@ -1,8 +1,8 @@
 #
-# CMakeList for project FEDERATION
+# CMakeList for project SKART
 #
 cmake_minimum_required (VERSION 2.8)
-project (FEDERATION)
+project (SKART)
 
 
 #
@@ -38,10 +38,10 @@ include_directories (
 
 
 #
-# "federation" executable
+# "skart" executable
 #
-add_executable (federation
-  code/main.c
+add_executable (skart
+  code/skart.c
   code/screen.h
   code/shaders.h
   code/inputs.h
@@ -53,31 +53,31 @@ add_executable (viewer
     deps/objloader/examples/viewer/viewer.c
     deps/objloader/objloader.h)
 
-add_dependencies (federation glfw glew shake soil)
+add_dependencies (skart glfw glew shake soil)
 add_dependencies (viewer glfw glew shake soil)
-target_link_libraries (federation
+target_link_libraries (skart
   ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw glew shake soil)
 
 target_link_libraries (viewer
   ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} glfw glew shake soil)
 
 #
-# "federation" executable simple test
+# "skart" executable simple test
 #
 enable_testing()
 set (CTEST_OUTPUT_ON_FAILURE ON)
 add_test (
     NAME MemCheck
     COMMAND valgrind --error-exitcode=1 --tool=memcheck
-                     --leak-check=full --track-origins=yes -v ./federation)
+                     --leak-check=full --track-origins=yes -v ./skart)
 
 
 #
 # "make run" custom target
 #
 add_custom_target (run
-  COMMAND federation
-  DEPENDS federation
+  COMMAND skart
+  DEPENDS skart
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   COMMENT "Execute the target...")
 

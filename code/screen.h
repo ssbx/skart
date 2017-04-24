@@ -81,7 +81,7 @@ init_screen(int startWindowed)
     }
 
     if (!MAIN_WINDOW) {
-        clogError("fed_gl_init Failed to open GLFW window.", NULL);
+        clogError("Failed to open GLFW window.", NULL);
         glfwTerminate();
         exit(0);
     }
@@ -89,7 +89,7 @@ init_screen(int startWindowed)
     glfwMakeContextCurrent(MAIN_WINDOW);
 
     if (glewInit() != GLEW_OK) {
-        clogError("fed_gl_init Failed to initialize GLEW.", NULL);
+        clogError("Failed to initialize GLEW.", NULL);
         glfwTerminate();
         exit(1);
     }

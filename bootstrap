@@ -22,7 +22,7 @@ test: all
 	make -C _build test
 
 run:
-	./_build/federation
+	./_build/skart
 
 %:
 	make -C _build \$@
